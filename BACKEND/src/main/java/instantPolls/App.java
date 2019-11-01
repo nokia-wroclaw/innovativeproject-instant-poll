@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import instantPolls.constants.Constants;
 
 @SpringBootApplication
-@CrossOrigin(origins = Constants.frontendServerUrl)
 public class App  {
     public static void main( String[] args ) {
     	SpringApplication.run(App.class, args);
