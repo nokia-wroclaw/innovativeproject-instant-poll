@@ -7,16 +7,12 @@ import { TestingConnectionServiceService } from '../app/testing-connection-servi
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
- 
-  title: String = "";
- 
-  constructor(private service: TestingConnectionServiceService) {
+
+  constructor() {
   }
 
   ngOnInit() {
-    this.service.testConnection().subscribe(data => {
-      this.title = data['response'];
-      console.log(data['response']);
-    });
+
   }
+
 }
