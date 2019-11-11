@@ -9,7 +9,7 @@ export class TestingConnectionServiceService {
   private usersUrl: string;
  
   constructor(private http: HttpClient) {
-    this.usersUrl = 'http://localhost:8080';
+    this.usersUrl = '/test';
   }
  
   public testConnection(): Observable<String> {
