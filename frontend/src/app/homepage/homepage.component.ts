@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {TestingConnectionServiceService} from "../testing-connection-service.service";
-
-import {BackendConnectionService} from "../backend-connection.service";
+import { TestingConnectionServiceService } from "../testing-connection-service.service";
+import { BackendConnectionService } from "../backend-connection.service";
 import { Observable } from 'rxjs/internal/Observable';
 import { Router } from '@angular/router';
 
@@ -22,12 +21,19 @@ export class HomepageComponent implements OnInit {
     this.service.testConnection().subscribe(data => {
       this.title = data['response'];
     });
-	if(localStorage.getItem("room_id") !== null) {
-		this.backendService.checkUserRoom(localStorage.getItem("room_id")).subscribe(response => {
-			if(response['exists']) {
-				this.router.navigate(['/pollroom']);
-			} 
-		});
-	}
+    if (localStorage.getItem("room_id") !== null) {
+      this.backendService.checkUserRoom(localStorage.getItem("room_id")).subscribe(response => {
+        if (response['exists']) {
+          this.router.navigate(['/pollroom']);
+        }
+      });
+    }
+  }
+
+  createRoom() {
+    this.backendService.createRoom().subscribe(response => {
+      localStorage.setItem("room_id", response['room_id']);
+      this.router.navigate(['/pollroom']);
+    });
   }
 }
