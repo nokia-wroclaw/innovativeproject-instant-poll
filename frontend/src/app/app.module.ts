@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TestingConnectionServiceService } from '../app/testing-connection-service.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {RouterModule} from "@angular/router";
+import { RouterModule } from "@angular/router";
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { PollroomComponent } from './pollroom/pollroom.component';
