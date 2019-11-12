@@ -10,6 +10,7 @@ import {RouterModule} from "@angular/router";
 import { NavbarComponent } from './navbar/navbar.component';
 import { NewpollComponent } from './newpoll/newpoll.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import { ChartsComponent } from './charts/charts.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { HomepageComponent } from './homepage/homepage.component';
     NavbarComponent,
     NewpollComponent,
     HomepageComponent,
+    ChartsComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,6 +27,7 @@ import { HomepageComponent } from './homepage/homepage.component';
     RouterModule.forRoot([
       { path: '', component: HomepageComponent },
       { path: 'newpoll', component: NewpollComponent },
+      { path: 'charts', component: ChartsComponent },
     ])
   ],
   providers: [TestingConnectionServiceService],
