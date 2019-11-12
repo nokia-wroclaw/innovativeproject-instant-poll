@@ -44,6 +44,7 @@ public class RestControllerImpl {
 		return response;
 	}
 	
+	@ResponseBody
 	@GetMapping(value = "/createRoom") 
 	public Map<String, String> createRoom() {
 		Map<String,String> response = new HashMap<>();

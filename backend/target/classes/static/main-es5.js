@@ -39,7 +39,7 @@
         /***/ (function (module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony default export */ __webpack_exports__["default"] = ("<div class=\"row\">\r\n\r\n  <div class=\"col-md-12\">\r\n\r\n    <div class=\"card bg-dark my-5 \">\r\n\r\n      <div class=\"card-body\">\r\n        <h2 class=\"card-title text-center text-white py-3\">{{ title }}</h2>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"card bg-light my-5 \">\r\n\r\n      <div class=\"card-body\">\r\n        <h2 class=\"card-title text-center text-dark py-3\">\r\n          <a [routerLink]=\"['/newpoll']\">Stwórz swojego polla</a>\r\n        </h2>\r\n      </div>\r\n    </div>\r\n\r\n\r\n    <router-outlet></router-outlet>\r\n  </div>\r\n</div>\r\n");
+            /* harmony default export */ __webpack_exports__["default"] = ("<div class=\"row\">\r\n\r\n  <div class=\"col-md-12\">\r\n\r\n    <div class=\"card bg-dark my-5 \">\r\n\r\n      <div class=\"card-body\">\r\n        <h2 class=\"card-title text-center text-white py-3\">{{ title }}</h2>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"card bg-light my-5 \">\r\n\r\n      <div class=\"card-body\">\r\n        <h2 class=\"card-title text-center text-dark py-3\">\r\n          <button (click)=\"createRoom()\" type=\"button\" class=\"btn btn-primary btn-lg btn-block\">Stwórz pokój</button>\r\n        </h2>\r\n      </div>\r\n    </div>\r\n\r\n\r\n    <router-outlet></router-outlet>\r\n  </div>\r\n</div>");
             /***/ 
         }),
         /***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/navbar/navbar.component.html": 
@@ -50,18 +50,18 @@
         /***/ (function (module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony default export */ __webpack_exports__["default"] = ("<nav class=\"navbar navbar-dark bg-primary navbar-expand-md\">\r\n\r\n    <a class=\"navbar-brand\" href=\"/\">Poll</a>\r\n\r\n    <button class=\"navbar-toggler\" type=\"button\" (click)=\"toggleNavbar()\">\r\n    <span class=\"navbar-toggler-icon\"></span>\r\n  </button>\r\n\r\n    <div class=\"collapse navbar-collapse\" \r\n\t\t[ngClass]=\"{ 'show': navbarOpen }\">\r\n        <ul class=\"navbar-nav mr-auto\">\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"#\">Item 1</a>\r\n            </li>\r\n\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"#\">Item 2</a>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n\r\n</nav>");
+            /* harmony default export */ __webpack_exports__["default"] = ("<nav class=\"navbar navbar-dark bg-primary navbar-expand-md\">\r\n\r\n\r\n  <a class=\"navbar-brand\" href=\"/\">Poll</a>\r\n\r\n  <button class=\"navbar-toggler\" type=\"button\" (click)=\"toggleNavbar()\">\r\n    <span class=\"navbar-toggler-icon\"></span>\r\n  </button>\r\n\r\n  <div class=\"collapse navbar-collapse\" [ngClass]=\"{ 'show': navbarOpen }\">\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"#\">Item 1</a>\r\n      </li>\r\n\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"#\">Item 2</a>\r\n      </li>\r\n    </ul>\r\n  </div>\r\n\r\n</nav>\r\n\r\n");
             /***/ 
         }),
-        /***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/newpoll/newpoll.component.html": 
-        /*!**************************************************************************************!*\
-          !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/newpoll/newpoll.component.html ***!
-          \**************************************************************************************/
+        /***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/pollroom/pollroom.component.html": 
+        /*!****************************************************************************************!*\
+          !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/pollroom/pollroom.component.html ***!
+          \****************************************************************************************/
         /*! exports provided: default */
         /***/ (function (module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony default export */ __webpack_exports__["default"] = ("<div class=\"row\">\r\n\r\n  <div class=\"col-md-12\">\r\n\r\n    <div class=\"card bg-dark my-5 \">\r\n\r\n      <div class=\"card-body\">\r\n        <h2 class=\"card-title text-center text-white py-3\">Stwórz przykładowego Polla</h2>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"input-group input-group-lg my-5\">\r\n      <div class=\"input-group-prepend\">\r\n        <span class=\"input-group-text\" id=\"inputGroup-sizing-lg\">Pytanie</span>\r\n      </div>\r\n      <input type=\"text\" class=\"form-control\" aria-label=\"Sizing example input\" aria-describedby=\"inputGroup-sizing-lg\">\r\n    </div>\r\n\r\n    <div *ngFor=\"let i of Arr(num).keys()\">\r\n      <div class=\"input-group mb-3\">\r\n        <div class=\"input-group-prepend\">\r\n          <span class=\"input-group-text\" id=\"inputGroup-sizing-default\">Odpowiedź {{i}}</span>\r\n        </div>\r\n        <input type=\"text\" class=\"form-control\" aria-label=\"Sizing example input\" aria-describedby=\"inputGroup-sizing-default\">\r\n      </div>\r\n    </div>\r\n\r\n    <button class=\"btn btn-primary mr-3\" (click)=\"add_answer_input() \">Plus</button>\r\n    <button class=\"btn btn-primary\" (click)=\"remove_answer_input() \">Minus</button>\r\n\r\n\r\n\r\n    <router-outlet></router-outlet>\r\n  </div>\r\n</div>\r\n");
+            /* harmony default export */ __webpack_exports__["default"] = ("<div class=\"row\">\r\n\r\n  <div class=\"col-md-12\">\r\n\r\n    <div class=\"card bg-dark my-5 \">\r\n\r\n      <div class=\"card-body\">\r\n        <h2 class=\"card-title text-center text-white py-3\">Twój pokój</h2>\r\n      </div>\r\n    </div>\r\n    <router-outlet></router-outlet>\r\n  </div>\r\n</div>");
             /***/ 
         }),
         /***/ "./node_modules/tslib/tslib.es6.js": 
@@ -446,7 +446,7 @@
             /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
             /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
             /* harmony import */ var _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./navbar/navbar.component */ "./src/app/navbar/navbar.component.ts");
-            /* harmony import */ var _newpoll_newpoll_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./newpoll/newpoll.component */ "./src/app/newpoll/newpoll.component.ts");
+            /* harmony import */ var _pollroom_pollroom_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pollroom/pollroom.component */ "./src/app/pollroom/pollroom.component.ts");
             /* harmony import */ var _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./homepage/homepage.component */ "./src/app/homepage/homepage.component.ts");
             var AppModule = /** @class */ (function () {
                 function AppModule() {
@@ -458,7 +458,7 @@
                     declarations: [
                         _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
                         _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_8__["NavbarComponent"],
-                        _newpoll_newpoll_component__WEBPACK_IMPORTED_MODULE_9__["NewpollComponent"],
+                        _pollroom_pollroom_component__WEBPACK_IMPORTED_MODULE_9__["PollroomComponent"],
                         _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_10__["HomepageComponent"],
                     ],
                     imports: [
@@ -467,13 +467,55 @@
                         _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
                         _angular_router__WEBPACK_IMPORTED_MODULE_7__["RouterModule"].forRoot([
                             { path: '', component: _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_10__["HomepageComponent"] },
-                            { path: 'newpoll', component: _newpoll_newpoll_component__WEBPACK_IMPORTED_MODULE_9__["NewpollComponent"] },
+                            { path: 'pollroom', component: _pollroom_pollroom_component__WEBPACK_IMPORTED_MODULE_9__["PollroomComponent"] },
                         ])
                     ],
                     providers: [_app_testing_connection_service_service__WEBPACK_IMPORTED_MODULE_4__["TestingConnectionServiceService"]],
                     bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]]
                 })
             ], AppModule);
+            /***/ 
+        }),
+        /***/ "./src/app/backend-connection.service.ts": 
+        /*!***********************************************!*\
+          !*** ./src/app/backend-connection.service.ts ***!
+          \***********************************************/
+        /*! exports provided: BackendConnectionService */
+        /***/ (function (module, __webpack_exports__, __webpack_require__) {
+            "use strict";
+            __webpack_require__.r(__webpack_exports__);
+            /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BackendConnectionService", function () { return BackendConnectionService; });
+            /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+            /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+            /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+            var httpOptions = {
+                headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
+                    'Content-Type': 'application/json',
+                    'Authorization': 'my-auth-token'
+                })
+            };
+            var BackendConnectionService = /** @class */ (function () {
+                function BackendConnectionService(http) {
+                    this.http = http;
+                    this.baseURL = 'http://localhost:8080';
+                }
+                BackendConnectionService.prototype.checkUserRoom = function (id) {
+                    var room_id = { "room_id": id };
+                    return this.http.post(this.baseURL + "/checkUserRoom", JSON.stringify(room_id), httpOptions);
+                };
+                BackendConnectionService.prototype.createRoom = function () {
+                    return this.http.get(this.baseURL + "/createRoom");
+                };
+                return BackendConnectionService;
+            }());
+            BackendConnectionService.ctorParameters = function () { return [
+                { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] }
+            ]; };
+            BackendConnectionService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+                Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+                    providedIn: 'root'
+                })
+            ], BackendConnectionService);
             /***/ 
         }),
         /***/ "./src/app/homepage/homepage.component.css": 
@@ -499,22 +541,41 @@
             /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
             /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
             /* harmony import */ var _testing_connection_service_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../testing-connection-service.service */ "./src/app/testing-connection-service.service.ts");
+            /* harmony import */ var _backend_connection_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../backend-connection.service */ "./src/app/backend-connection.service.ts");
+            /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
             var HomepageComponent = /** @class */ (function () {
-                function HomepageComponent(service) {
+                function HomepageComponent(service, backendService, router) {
                     this.service = service;
+                    this.backendService = backendService;
+                    this.router = router;
                     this.title = "";
                 }
                 HomepageComponent.prototype.ngOnInit = function () {
                     var _this = this;
                     this.service.testConnection().subscribe(function (data) {
                         _this.title = data['response'];
-                        console.log(data['response']);
+                    });
+                    if (localStorage.getItem("room_id") !== null) {
+                        this.backendService.checkUserRoom(localStorage.getItem("room_id")).subscribe(function (response) {
+                            if (response['exists']) {
+                                _this.router.navigate(['/pollroom']);
+                            }
+                        });
+                    }
+                };
+                HomepageComponent.prototype.createRoom = function () {
+                    var _this = this;
+                    this.backendService.createRoom().subscribe(function (response) {
+                        localStorage.setItem("room_id", response['room_id']);
+                        _this.router.navigate(['/pollroom']);
                     });
                 };
                 return HomepageComponent;
             }());
             HomepageComponent.ctorParameters = function () { return [
-                { type: _testing_connection_service_service__WEBPACK_IMPORTED_MODULE_2__["TestingConnectionServiceService"] }
+                { type: _testing_connection_service_service__WEBPACK_IMPORTED_MODULE_2__["TestingConnectionServiceService"] },
+                { type: _backend_connection_service__WEBPACK_IMPORTED_MODULE_3__["BackendConnectionService"] },
+                { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"] }
             ]; };
             HomepageComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
                 Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -567,54 +628,61 @@
             ], NavbarComponent);
             /***/ 
         }),
-        /***/ "./src/app/newpoll/newpoll.component.css": 
-        /*!***********************************************!*\
-          !*** ./src/app/newpoll/newpoll.component.css ***!
-          \***********************************************/
+        /***/ "./src/app/pollroom/pollroom.component.css": 
+        /*!*************************************************!*\
+          !*** ./src/app/pollroom/pollroom.component.css ***!
+          \*************************************************/
         /*! exports provided: default */
         /***/ (function (module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony default export */ __webpack_exports__["default"] = ("\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL25ld3BvbGwvbmV3cG9sbC5jb21wb25lbnQuY3NzIn0= */");
+            /* harmony default export */ __webpack_exports__["default"] = ("\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3BvbGxyb29tL3BvbGxyb29tLmNvbXBvbmVudC5jc3MifQ== */");
             /***/ 
         }),
-        /***/ "./src/app/newpoll/newpoll.component.ts": 
-        /*!**********************************************!*\
-          !*** ./src/app/newpoll/newpoll.component.ts ***!
-          \**********************************************/
-        /*! exports provided: NewpollComponent */
+        /***/ "./src/app/pollroom/pollroom.component.ts": 
+        /*!************************************************!*\
+          !*** ./src/app/pollroom/pollroom.component.ts ***!
+          \************************************************/
+        /*! exports provided: PollroomComponent */
         /***/ (function (module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NewpollComponent", function () { return NewpollComponent; });
+            /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PollroomComponent", function () { return PollroomComponent; });
             /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
             /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-            var NewpollComponent = /** @class */ (function () {
-                function NewpollComponent() {
-                    this.Arr = Array;
-                    this.num = 4;
+            /* harmony import */ var _backend_connection_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../backend-connection.service */ "./src/app/backend-connection.service.ts");
+            /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+            var PollroomComponent = /** @class */ (function () {
+                function PollroomComponent(backendService, router) {
+                    this.backendService = backendService;
+                    this.router = router;
                 }
-                NewpollComponent.prototype.add_answer_input = function () {
-                    if (this.num < 10) {
-                        this.num++;
+                PollroomComponent.prototype.ngOnInit = function () {
+                    var _this = this;
+                    if (localStorage.getItem("room_id") === null) {
+                        this.router.navigate(['/']);
+                    }
+                    else {
+                        this.backendService.checkUserRoom(localStorage.getItem("room_id")).subscribe(function (response) {
+                            if (!response['exists']) {
+                                _this.router.navigate(['/']);
+                            }
+                        });
                     }
                 };
-                NewpollComponent.prototype.remove_answer_input = function () {
-                    if (this.num > 1) {
-                        this.num--;
-                    }
-                };
-                NewpollComponent.prototype.ngOnInit = function () {
-                };
-                return NewpollComponent;
+                return PollroomComponent;
             }());
-            NewpollComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+            PollroomComponent.ctorParameters = function () { return [
+                { type: _backend_connection_service__WEBPACK_IMPORTED_MODULE_2__["BackendConnectionService"] },
+                { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] }
+            ]; };
+            PollroomComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
                 Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-                    selector: 'app-newpoll',
-                    template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! raw-loader!./newpoll.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/newpoll/newpoll.component.html")).default,
-                    styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./newpoll.component.css */ "./src/app/newpoll/newpoll.component.css")).default]
+                    selector: 'app-pollroom',
+                    template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! raw-loader!./pollroom.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/pollroom/pollroom.component.html")).default,
+                    styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./pollroom.component.css */ "./src/app/pollroom/pollroom.component.css")).default]
                 })
-            ], NewpollComponent);
+            ], PollroomComponent);
             /***/ 
         }),
         /***/ "./src/app/testing-connection-service.service.ts": 
@@ -699,7 +767,7 @@
           \***************************/
         /*! no static exports found */
         /***/ (function (module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(/*! C:\Users\janku\git\innovativeproject-instant-poll\frontend\src\main.ts */ "./src/main.ts");
+            module.exports = __webpack_require__(/*! C:\Users\Piotr\Desktop\Programowanie\innovativeproject-instant-poll\frontend\src\main.ts */ "./src/main.ts");
             /***/ 
         })
     }, [[0, "runtime", "vendor"]]]);
