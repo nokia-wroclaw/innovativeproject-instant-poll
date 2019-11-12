@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { HttpClientModule } from '@angular/common/http';
 import { TestingConnectionServiceService } from '../app/testing-connection-service.service';
@@ -27,7 +28,8 @@ import { HomepageComponent } from './homepage/homepage.component';
       { path: 'pollroom', component: PollroomComponent },
     ])
   ],
-  providers: [TestingConnectionServiceService],
+  providers: [TestingConnectionServiceService,{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
+
 })
 export class AppModule { }
