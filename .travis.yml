@@ -4,3 +4,4 @@ jdk: oraclejdk8
 before_install: cd backend
 notifications:
   email: false
+

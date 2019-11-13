@@ -71,7 +71,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"row\">\r\n\r\n  <div class=\"col-md-12\">\r\n\r\n    <div class=\"card bg-dark my-5 \">\r\n\r\n      <div class=\"card-body\">\r\n        <h2 class=\"card-title text-center text-white py-3\">Twój pokój!</h2>\r\n      </div>\r\n    </div>\r\n    <router-outlet></router-outlet>\r\n  </div>\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"row\">\r\n\r\n    <div class=\"col-md-12\">\r\n\r\n        <div class=\"card bg-dark my-5 \">\r\n\r\n            <div class=\"card-body\">\r\n                <h2 class=\"card-title text-center text-white py-3\">Twój pokój.</h2>\r\n            </div>\r\n        </div>\r\n        <router-outlet></router-outlet>\r\n    </div>\r\n</div>");
 
 /***/ }),
 
@@ -466,14 +466,13 @@ const httpOptions = {
 let BackendConnectionService = class BackendConnectionService {
     constructor(http) {
         this.http = http;
-        this.baseURL = 'http://localhost:8080';
     }
     checkUserRoom(id) {
         var room_id = { "room_id": id };
-        return this.http.post(this.baseURL + "/checkUserRoom", JSON.stringify(room_id), httpOptions);
+        return this.http.post("/checkUserRoom", JSON.stringify(room_id), httpOptions);
     }
     createRoom() {
-        return this.http.get(this.baseURL + "/createRoom");
+        return this.http.get("/createRoom");
     }
 };
 BackendConnectionService.ctorParameters = () => [
@@ -698,10 +697,9 @@ __webpack_require__.r(__webpack_exports__);
 let TestingConnectionServiceService = class TestingConnectionServiceService {
     constructor(http) {
         this.http = http;
-        this.baseURL = 'http://localhost:8080';
     }
     testConnection() {
-        return this.http.get(this.baseURL + "/test");
+        return this.http.get("/test");
     }
 };
 TestingConnectionServiceService.ctorParameters = () => [
@@ -780,7 +778,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_2__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Piotr\Desktop\Programowanie\innovativeproject-instant-poll\frontend\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\janku\git\innovativeproject-instant-poll\frontend\src\main.ts */"./src/main.ts");
 
 
 /***/ })
