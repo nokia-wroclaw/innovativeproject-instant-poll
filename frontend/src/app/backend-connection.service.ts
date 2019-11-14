@@ -14,17 +14,14 @@ const httpOptions = {
 })
 export class BackendConnectionService {
 
-	private baseURL: string;
-
 	constructor(private http: HttpClient) {
-		this.baseURL = 'http://localhost:8080';
 	}
 
 	public checkUserRoom(id: string): Observable<Object> {
 		var room_id = { "room_id": id };
-		return this.http.post(this.baseURL + "/checkUserRoom", JSON.stringify(room_id), httpOptions);
+		return this.http.post("/checkUserRoom", JSON.stringify(room_id), httpOptions);
 	}
 	public createRoom(): Observable<Object> {
-		return this.http.get(this.baseURL + "/createRoom");
+		return this.http.get("/createRoom");
 	}
 }

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Controller;
 import instantPolls.constants.Constants;
 import instantPolls.storage.Storage;
 
-@CrossOrigin(origins = Constants.frontendServerUrl)
+@CrossOrigin(origins = "*")
 @Controller
 public class RestControllerImpl {
 	

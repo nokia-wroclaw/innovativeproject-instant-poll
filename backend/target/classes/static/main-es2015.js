@@ -71,7 +71,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"row\">\r\n\r\n  <div class=\"col-md-12\">\r\n\r\n    <div class=\"card bg-dark my-5 \">\r\n\r\n      <div class=\"card-body\">\r\n        <h2 class=\"card-title text-center text-white py-3\">Twój pokój</h2>\r\n      </div>\r\n    </div>\r\n    <router-outlet></router-outlet>\r\n  </div>\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"row\">\r\n\r\n    <div class=\"col-md-12\">\r\n\r\n        <div class=\"card bg-dark my-5 \">\r\n\r\n            <div class=\"card-body\">\r\n                <h2 class=\"card-title text-center text-white py-3\">Twój pokój.</h2>\r\n            </div>\r\n        </div>\r\n        <router-outlet></router-outlet>\r\n    </div>\r\n</div>");
 
 /***/ }),
 
@@ -392,14 +392,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
-/* harmony import */ var _app_testing_connection_service_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../app/testing-connection-service.service */ "./src/app/testing-connection-service.service.ts");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
-/* harmony import */ var _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./navbar/navbar.component */ "./src/app/navbar/navbar.component.ts");
-/* harmony import */ var _pollroom_pollroom_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pollroom/pollroom.component */ "./src/app/pollroom/pollroom.component.ts");
-/* harmony import */ var _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./homepage/homepage.component */ "./src/app/homepage/homepage.component.ts");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+/* harmony import */ var _app_testing_connection_service_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../app/testing-connection-service.service */ "./src/app/testing-connection-service.service.ts");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./navbar/navbar.component */ "./src/app/navbar/navbar.component.ts");
+/* harmony import */ var _pollroom_pollroom_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pollroom/pollroom.component */ "./src/app/pollroom/pollroom.component.ts");
+/* harmony import */ var _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./homepage/homepage.component */ "./src/app/homepage/homepage.component.ts");
+
 
 
 
@@ -416,22 +418,22 @@ let AppModule = class AppModule {
 AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
         declarations: [
-            _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
-            _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_8__["NavbarComponent"],
-            _pollroom_pollroom_component__WEBPACK_IMPORTED_MODULE_9__["PollroomComponent"],
-            _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_10__["HomepageComponent"],
+            _app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"],
+            _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_9__["NavbarComponent"],
+            _pollroom_pollroom_component__WEBPACK_IMPORTED_MODULE_10__["PollroomComponent"],
+            _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_11__["HomepageComponent"],
         ],
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
-            _app_routing_module__WEBPACK_IMPORTED_MODULE_5__["AppRoutingModule"],
-            _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_7__["RouterModule"].forRoot([
-                { path: '', component: _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_10__["HomepageComponent"] },
-                { path: 'pollroom', component: _pollroom_pollroom_component__WEBPACK_IMPORTED_MODULE_9__["PollroomComponent"] },
+            _app_routing_module__WEBPACK_IMPORTED_MODULE_6__["AppRoutingModule"],
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClientModule"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_8__["RouterModule"].forRoot([
+                { path: '', component: _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_11__["HomepageComponent"] },
+                { path: 'pollroom', component: _pollroom_pollroom_component__WEBPACK_IMPORTED_MODULE_10__["PollroomComponent"] },
             ])
         ],
-        providers: [_app_testing_connection_service_service__WEBPACK_IMPORTED_MODULE_4__["TestingConnectionServiceService"]],
-        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]]
+        providers: [_app_testing_connection_service_service__WEBPACK_IMPORTED_MODULE_5__["TestingConnectionServiceService"], { provide: _angular_common__WEBPACK_IMPORTED_MODULE_3__["LocationStrategy"], useClass: _angular_common__WEBPACK_IMPORTED_MODULE_3__["HashLocationStrategy"] }],
+        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]]
     })
 ], AppModule);
 
@@ -464,14 +466,13 @@ const httpOptions = {
 let BackendConnectionService = class BackendConnectionService {
     constructor(http) {
         this.http = http;
-        this.baseURL = 'http://localhost:8080';
     }
     checkUserRoom(id) {
         var room_id = { "room_id": id };
-        return this.http.post(this.baseURL + "/checkUserRoom", JSON.stringify(room_id), httpOptions);
+        return this.http.post("/checkUserRoom", JSON.stringify(room_id), httpOptions);
     }
     createRoom() {
-        return this.http.get(this.baseURL + "/createRoom");
+        return this.http.get("/createRoom");
     }
 };
 BackendConnectionService.ctorParameters = () => [
@@ -696,10 +697,9 @@ __webpack_require__.r(__webpack_exports__);
 let TestingConnectionServiceService = class TestingConnectionServiceService {
     constructor(http) {
         this.http = http;
-        this.usersUrl = '/test';
     }
     testConnection() {
-        return this.http.get(this.usersUrl);
+        return this.http.get("/test");
     }
 };
 TestingConnectionServiceService.ctorParameters = () => [
@@ -778,7 +778,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_2__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Piotr\Desktop\Programowanie\innovativeproject-instant-poll\frontend\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\janku\git\innovativeproject-instant-poll\frontend\src\main.ts */"./src/main.ts");
 
 
 /***/ })
