@@ -4,4 +4,8 @@ jdk: oraclejdk8
 before_install: cd backend
 notifications:
   email: false
-
+deploy:
+ provider: heroku
+ api-key: 
+  secure: $HEROKU_API_KEY
+ app: instant-polls
