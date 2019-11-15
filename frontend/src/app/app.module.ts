@@ -11,7 +11,6 @@ import { RouterModule } from "@angular/router";
 import { NavbarComponent } from './navbar/navbar.component';
 import { PollroomComponent } from './pollroom/pollroom.component';
 import { HomepageComponent } from './homepage/homepage.component';
-import { ChartsComponent } from './charts/charts.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +18,6 @@ import { ChartsComponent } from './charts/charts.component';
     NavbarComponent,
     PollroomComponent,
     HomepageComponent,
-    ChartsComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,12 +25,7 @@ import { ChartsComponent } from './charts/charts.component';
     HttpClientModule,
     RouterModule.forRoot([
       { path: '', component: HomepageComponent },
-<<<<<<< HEAD:FRONTEND/src/app/app.module.ts
-      { path: 'newpoll', component: NewpollComponent },
-      { path: 'charts', component: ChartsComponent },
-=======
       { path: 'pollroom', component: PollroomComponent },
->>>>>>> dev:frontend/src/app/app.module.ts
     ])
   ],
   providers: [TestingConnectionServiceService,{provide: LocationStrategy, useClass: HashLocationStrategy}],
