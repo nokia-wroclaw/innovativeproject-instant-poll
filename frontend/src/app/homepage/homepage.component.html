@@ -1,24 +1,40 @@
-<div class="row">
+<div class="card col-sm-12 py-3 mt-3">
 
-  <div class="col-md-12">
-
-    <div class="card bg-dark my-5 ">
-
-      <div class="card-body">
-        <h2 class="card-title text-center text-white py-3">{{ title }}</h2>
+    <div class="row py-3">
+      <div class="col-sm-4">
+        <button (click)="createRoom()" type="button" class="btn btn-primary btn-block py-5">
+          Stwórz pokój
+        </button>
+      </div>
+      <div class="d-none d-sm-block col-sm-8">
+        <h2 class=" text-dark py-5 ">Stwórz swój własny pokój ankiet</h2>
       </div>
     </div>
 
-    <div class="card bg-light my-5 ">
-
-      <div class="card-body">
-        <h2 class="card-title text-center text-dark py-3">
-          <button (click)="createRoom()" type="button" class="btn btn-primary btn-lg btn-block">Stwórz pokój</button>
-        </h2>
+    <div class="row py-3">
+      <div class="col-sm-4">
+        <button type="button" class="btn btn-primary btn-block py-5 ">
+          Dołącz
+        </button>
+      </div>
+      <div class=" col-sm-8 .d-none">
+        <h2 class="d-none d-sm-block text-dark py-5 ">Dołącz do pokoju ankiet.</h2>
       </div>
     </div>
 
+  <router-outlet></router-outlet>
 
-    <router-outlet></router-outlet>
+  <div class= "card col-sm-12 py-2 mt-5 ">
+    <h2>Poll</h2>
+    <div class="card-body">
+      <p class="col-sm-10 ">
+        Koniec ze żmudnym drukowaniem kartek czy liczeniem rąk w górze. Nadszedł czas na Poll.
+        Poll jest świetnym rozwiązaniem na zebraniu lub wykładzie.
+        Korzystaj wszędzie tam gdzie łatwość i szybkość zbierania opinii jest bardzo ważna.
+      </p>
+    </div>
   </div>
 </div>
+
+
+

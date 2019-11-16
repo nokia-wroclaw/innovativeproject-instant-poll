@@ -19,7 +19,8 @@ export class HomepageComponent implements OnInit {
 
   ngOnInit() {
     this.service.testConnection().subscribe(data => {
-      this.title = data['response'];
+      //this.title = data['response'];
+      console.log(data['response']);
     });
     if (localStorage.getItem("room_id") !== null) {
       this.backendService.checkUserRoom(localStorage.getItem("room_id")).subscribe(response => {
