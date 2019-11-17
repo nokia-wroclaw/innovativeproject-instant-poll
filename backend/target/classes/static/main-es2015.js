@@ -84,7 +84,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<form>\n  <div class=\"form-group\">\n    <label for=\"roomName\">Nazwa pokoju</label>\n    <input type=\"text\" class=\"form-control\" id=\"roomName\" value=\"nazwa\" placeholder=\"Nazwa pokoju\">\n  </div>\n  <div class=\"form-group\">\n\t <label for=\"date\" class=\"col-2 col-form-label\">Data wygaśnięcia</label>\n\t <input type=\"date\" class=\"form-control\" id=\"date\" value=\"2019-11-19\">\n  </div>\n  <button (click)=\"createRoom()\" type=\"submit\" class=\"btn btn-primary\" >Submit</button>\n</form>\n<router-outlet></router-outlet>\n\n<div class=\"list-group\">\n    <a *ngFor=\"let element of array\" [routerLink]=\"['/pollroom/'+element.id]\" class=\"list-group-item list-group-item-action\">\n        <div class=\"d-flex w-100 justify-content-between\">\n            <h4>{{element.roomName}}</h4>\n        </div>        \n        <p>Data wygaśnięcia: {{element.expirationDate}}</p>\n    </a>\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<form>\r\n  <div class=\"form-group\">\r\n    <label for=\"roomName\">Nazwa pokoju</label>\r\n    <input type=\"text\" class=\"form-control\" id=\"roomName\" value=\"nazwa\" placeholder=\"Nazwa pokoju\">\r\n  </div>\r\n  <div class=\"form-group\">\r\n\t <label for=\"date\" class=\"col-2 col-form-label\">Data wygaśnięcia</label>\r\n\t <input type=\"date\" class=\"form-control\" id=\"date\" value=\"2019-11-19\">\r\n  </div>\r\n  <button (click)=\"createRoom()\" type=\"submit\" class=\"btn btn-primary\" >Submit</button>\r\n</form>\r\n<router-outlet></router-outlet>\r\n\r\n<div class=\"list-group\">\r\n    <a *ngFor=\"let element of array\" [routerLink]=\"['/pollroom/'+element.id]\" class=\"list-group-item list-group-item-action\">\r\n        <div class=\"d-flex w-100 justify-content-between\">\r\n            <h4>{{element.roomName}}</h4>\r\n        </div>        \r\n        <p>Data wygaśnięcia: {{element.expirationDate}}</p>\r\n    </a>\r\n</div>");
 
 /***/ }),
 
@@ -873,7 +873,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_2__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Piotr\Desktop\Programowanie\innovativeproject-instant-poll\frontend\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\janku\git\innovativeproject-instant-poll\frontend\src\main.ts */"./src/main.ts");
 
 
 /***/ })

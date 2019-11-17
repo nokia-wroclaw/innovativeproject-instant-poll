@@ -9,7 +9,7 @@ import instantPolls.model.Room;
 @Component
 public class RoomsStorage implements Storage {
 	
-	private Map<String,Room> rooms;
+	volatile private Map<String,Room> rooms;
 	
 	public RoomsStorage() {
 		rooms = new TreeMap<>();
@@ -37,4 +37,14 @@ public class RoomsStorage implements Storage {
 		rooms.remove(id);
 		return null;
 	}
+
+	public Map<String, Room> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(Map<String, Room> rooms) {
+		this.rooms = rooms;
+	}
+	
+	
 }

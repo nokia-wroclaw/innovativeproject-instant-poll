@@ -276,7 +276,7 @@
           \******************************/
         /*! no static exports found */
         /***/ (function (module, exports, __webpack_require__) {
-            module.exports = __webpack_require__(/*! C:\Users\Piotr\Desktop\Programowanie\innovativeproject-instant-poll\frontend\src\styles.css */ "./src/styles.css");
+            module.exports = __webpack_require__(/*! C:\Users\janku\git\innovativeproject-instant-poll\frontend\src\styles.css */ "./src/styles.css");
             /***/ 
         })
     }, [[3, "runtime"]]]);

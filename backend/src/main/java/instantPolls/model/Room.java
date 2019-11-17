@@ -1,6 +1,8 @@
 package instantPolls.model;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Room {
 	
@@ -12,6 +14,7 @@ public class Room {
 		this.id=id;
 		this.roomName = roomName;
 		this.expirationDate = expirationDate;
+		expirationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 	}
 
 	public String getId() {
