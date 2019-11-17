@@ -5,9 +5,12 @@
         <div class="card bg-dark my-5 ">
 
             <div class="card-body">
-                <h2 class="card-title text-center text-white py-3">Twój pokój!</h2>
+                <h2 class="card-title text-center text-white py-3" id="roomName"></h2>
             </div>
         </div>
+		<button (click)="closeRoom()"  type="button" class="btn btn-primary btn-block py-5">
+          Zamknij pokój
+        </button>
         <router-outlet></router-outlet>
     </div>
 </div>

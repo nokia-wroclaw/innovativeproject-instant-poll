@@ -22,19 +22,5 @@ export class HomepageComponent implements OnInit {
       //this.title = data['response'];
       console.log(data['response']);
     });
-    if (localStorage.getItem("room_id") !== null) {
-      this.backendService.checkUserRoom(localStorage.getItem("room_id")).subscribe(response => {
-        if (response['exists']) {
-          this.router.navigate(['/pollroom']);
-        }
-      });
-    }
-  }
-
-  createRoom() {
-    this.backendService.createRoom().subscribe(response => {
-      localStorage.setItem("room_id", response['room_id']);
-      this.router.navigate(['/pollroom']);
-    });
   }
 }

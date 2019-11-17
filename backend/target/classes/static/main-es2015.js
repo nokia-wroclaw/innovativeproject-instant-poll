@@ -45,7 +45,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"row\">\r\n\r\n  <div class=\"col-md-12\">\r\n\r\n    <div class=\"card bg-dark my-5 \">\r\n\r\n      <div class=\"card-body\">\r\n        <h2 class=\"card-title text-center text-white py-3\">{{ title }}</h2>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"card bg-light my-5 \">\r\n\r\n      <div class=\"card-body\">\r\n        <h2 class=\"card-title text-center text-dark py-3\">\r\n          <button (click)=\"createRoom()\" type=\"button\" class=\"btn btn-primary btn-lg btn-block\">Stwórz pokój</button>\r\n        </h2>\r\n      </div>\r\n    </div>\r\n\r\n\r\n    <router-outlet></router-outlet>\r\n  </div>\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"card col-sm-12 py-3 mt-3\">\r\n\r\n    <div class=\"row py-3\">\r\n      <div class=\"col-sm-4\">\r\n        <button [routerLink]=\"['/rooms']\" type=\"button\" class=\"btn btn-primary btn-block py-5\">\r\n          Stwórz pokój\r\n        </button>\r\n      </div>\r\n      <div class=\"d-none d-sm-block col-sm-8\">\r\n        <h2 class=\" text-dark py-5 \">Stwórz swój własny pokój ankiet</h2>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"row py-3\">\r\n      <div class=\"col-sm-4\">\r\n        <button type=\"button\" class=\"btn btn-primary btn-block py-5 \">\r\n          Dołącz\r\n        </button>\r\n      </div>\r\n      <div class=\" col-sm-8 .d-none\">\r\n        <h2 class=\"d-none d-sm-block text-dark py-5 \">Dołącz do pokoju ankiet.</h2>\r\n      </div>\r\n    </div>\r\n\r\n  <router-outlet></router-outlet>\r\n\r\n  <div class= \"card col-sm-12 py-2 mt-5 \">\r\n    <h2>Poll</h2>\r\n    <div class=\"card-body\">\r\n      <p class=\"col-sm-10 \">\r\n        Koniec ze żmudnym drukowaniem kartek czy liczeniem rąk w górze. Nadszedł czas na Poll.\r\n        Poll jest świetnym rozwiązaniem na zebraniu lub wykładzie.\r\n        Korzystaj wszędzie tam gdzie łatwość i szybkość zbierania opinii jest bardzo ważna.\r\n      </p>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n\r\n\r\n");
 
 /***/ }),
 
@@ -58,7 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<nav class=\"navbar navbar-dark bg-primary navbar-expand-md\">\r\n\r\n\r\n  <a class=\"navbar-brand\" href=\"/\">Poll</a>\r\n\r\n  <button class=\"navbar-toggler\" type=\"button\" (click)=\"toggleNavbar()\">\r\n    <span class=\"navbar-toggler-icon\"></span>\r\n  </button>\r\n\r\n  <div class=\"collapse navbar-collapse\" [ngClass]=\"{ 'show': navbarOpen }\">\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"#\">Item 1</a>\r\n      </li>\r\n\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"#\">Item 2</a>\r\n      </li>\r\n    </ul>\r\n  </div>\r\n\r\n</nav>\r\n\r\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<nav class=\"navbar navbar-dark bg-dark navbar-expand-md\">\r\n\r\n\r\n  <a class=\"navbar-brand\" href=\"/\">Poll</a>\r\n\r\n  <button class=\"navbar-toggler\" type=\"button\" (click)=\"toggleNavbar()\">\r\n    <span class=\"navbar-toggler-icon\"></span>\r\n  </button>\r\n\r\n  <div class=\"collapse navbar-collapse\" [ngClass]=\"{ 'show': navbarOpen }\">\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"/#/rooms\">Stwórz pokój</a>\r\n      </li>\r\n\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" href=\"/#/join\">Dołącz do pokoju</a>\r\n      </li>\r\n    </ul>\r\n  </div>\r\n\r\n</nav>\r\n\r\n");
 
 /***/ }),
 
@@ -71,7 +71,20 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"row\">\r\n\r\n    <div class=\"col-md-12\">\r\n\r\n        <div class=\"card bg-dark my-5 \">\r\n\r\n            <div class=\"card-body\">\r\n                <h2 class=\"card-title text-center text-white py-3\">Twój pokój.</h2>\r\n            </div>\r\n        </div>\r\n        <router-outlet></router-outlet>\r\n    </div>\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"row\">\r\n\r\n    <div class=\"col-md-12\">\r\n\r\n        <div class=\"card bg-dark my-5 \">\r\n\r\n            <div class=\"card-body\">\r\n                <h2 class=\"card-title text-center text-white py-3\" id=\"roomName\"></h2>\r\n            </div>\r\n        </div>\r\n\t\t<button (click)=\"closeRoom()\"  type=\"button\" class=\"btn btn-primary btn-block py-5\">\r\n          Zamknij pokój\r\n        </button>\r\n        <router-outlet></router-outlet>\r\n    </div>\r\n</div>");
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/rooms/rooms.component.html":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/rooms/rooms.component.html ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<form>\n  <div class=\"form-group\">\n    <label for=\"roomName\">Nazwa pokoju</label>\n    <input type=\"text\" class=\"form-control\" id=\"roomName\" value=\"nazwa\" placeholder=\"Nazwa pokoju\">\n  </div>\n  <div class=\"form-group\">\n\t <label for=\"date\" class=\"col-2 col-form-label\">Data wygaśnięcia</label>\n\t <input type=\"date\" class=\"form-control\" id=\"date\" value=\"2019-11-19\">\n  </div>\n  <button (click)=\"createRoom()\" type=\"submit\" class=\"btn btn-primary\" >Submit</button>\n</form>\n<router-outlet></router-outlet>\n\n<div class=\"list-group\">\n    <a *ngFor=\"let element of array\" [routerLink]=\"['/pollroom/'+element.id]\" class=\"list-group-item list-group-item-action\">\n        <div class=\"d-flex w-100 justify-content-between\">\n            <h4>{{element.roomName}}</h4>\n        </div>        \n        <p>Data wygaśnięcia: {{element.expirationDate}}</p>\n    </a>\n</div>");
 
 /***/ }),
 
@@ -395,12 +408,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
 /* harmony import */ var _app_testing_connection_service_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../app/testing-connection-service.service */ "./src/app/testing-connection-service.service.ts");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
-/* harmony import */ var _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./navbar/navbar.component */ "./src/app/navbar/navbar.component.ts");
-/* harmony import */ var _pollroom_pollroom_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pollroom/pollroom.component */ "./src/app/pollroom/pollroom.component.ts");
-/* harmony import */ var _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./homepage/homepage.component */ "./src/app/homepage/homepage.component.ts");
+/* harmony import */ var _app_backend_connection_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../app/backend-connection.service */ "./src/app/backend-connection.service.ts");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./navbar/navbar.component */ "./src/app/navbar/navbar.component.ts");
+/* harmony import */ var _pollroom_pollroom_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pollroom/pollroom.component */ "./src/app/pollroom/pollroom.component.ts");
+/* harmony import */ var _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./homepage/homepage.component */ "./src/app/homepage/homepage.component.ts");
+/* harmony import */ var _rooms_rooms_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./rooms/rooms.component */ "./src/app/rooms/rooms.component.ts");
+
+
 
 
 
@@ -418,22 +435,24 @@ let AppModule = class AppModule {
 AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
         declarations: [
-            _app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"],
-            _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_9__["NavbarComponent"],
-            _pollroom_pollroom_component__WEBPACK_IMPORTED_MODULE_10__["PollroomComponent"],
-            _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_11__["HomepageComponent"],
+            _app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"],
+            _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_10__["NavbarComponent"],
+            _pollroom_pollroom_component__WEBPACK_IMPORTED_MODULE_11__["PollroomComponent"],
+            _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_12__["HomepageComponent"],
+            _rooms_rooms_component__WEBPACK_IMPORTED_MODULE_13__["RoomsComponent"],
         ],
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
-            _app_routing_module__WEBPACK_IMPORTED_MODULE_6__["AppRoutingModule"],
+            _app_routing_module__WEBPACK_IMPORTED_MODULE_7__["AppRoutingModule"],
             _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClientModule"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_8__["RouterModule"].forRoot([
-                { path: '', component: _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_11__["HomepageComponent"] },
-                { path: 'pollroom', component: _pollroom_pollroom_component__WEBPACK_IMPORTED_MODULE_10__["PollroomComponent"] },
+            _angular_router__WEBPACK_IMPORTED_MODULE_9__["RouterModule"].forRoot([
+                { path: '', component: _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_12__["HomepageComponent"] },
+                { path: 'pollroom/:id', component: _pollroom_pollroom_component__WEBPACK_IMPORTED_MODULE_11__["PollroomComponent"] },
+                { path: 'rooms', component: _rooms_rooms_component__WEBPACK_IMPORTED_MODULE_13__["RoomsComponent"] }
             ])
         ],
-        providers: [_app_testing_connection_service_service__WEBPACK_IMPORTED_MODULE_5__["TestingConnectionServiceService"], { provide: _angular_common__WEBPACK_IMPORTED_MODULE_3__["LocationStrategy"], useClass: _angular_common__WEBPACK_IMPORTED_MODULE_3__["HashLocationStrategy"] }],
-        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]]
+        providers: [_app_testing_connection_service_service__WEBPACK_IMPORTED_MODULE_5__["TestingConnectionServiceService"], _app_backend_connection_service__WEBPACK_IMPORTED_MODULE_6__["BackendConnectionService"], { provide: _angular_common__WEBPACK_IMPORTED_MODULE_3__["LocationStrategy"], useClass: _angular_common__WEBPACK_IMPORTED_MODULE_3__["HashLocationStrategy"] }],
+        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"]]
     })
 ], AppModule);
 
@@ -467,12 +486,21 @@ let BackendConnectionService = class BackendConnectionService {
     constructor(http) {
         this.http = http;
     }
-    checkUserRoom(id) {
-        var room_id = { "room_id": id };
-        return this.http.post("/checkUserRoom", JSON.stringify(room_id), httpOptions);
+    checkUserRoom(rooms) {
+        return this.http.post("/room/check", rooms, httpOptions);
     }
-    createRoom() {
-        return this.http.get("/createRoom");
+    createRoom(name, date) {
+        var room = { "name": name, "date": date };
+        return this.http.post("/room/create", JSON.stringify(room), httpOptions);
+    }
+    getRoom(room_id) {
+        return this.http.get("/room/" + room_id);
+    }
+    closeRoom(room_id) {
+        var room = { "room_id": room_id };
+        console.log(room);
+        const post = this.http.post("/room/close", JSON.stringify(room), httpOptions);
+        post.subscribe();
     }
 };
 BackendConnectionService.ctorParameters = () => [
@@ -530,20 +558,8 @@ let HomepageComponent = class HomepageComponent {
     }
     ngOnInit() {
         this.service.testConnection().subscribe(data => {
-            this.title = data['response'];
-        });
-        if (localStorage.getItem("room_id") !== null) {
-            this.backendService.checkUserRoom(localStorage.getItem("room_id")).subscribe(response => {
-                if (response['exists']) {
-                    this.router.navigate(['/pollroom']);
-                }
-            });
-        }
-    }
-    createRoom() {
-        this.backendService.createRoom().subscribe(response => {
-            localStorage.setItem("room_id", response['room_id']);
-            this.router.navigate(['/pollroom']);
+            //this.title = data['response'];
+            console.log(data['response']);
         });
     }
 };
@@ -645,26 +661,28 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let PollroomComponent = class PollroomComponent {
-    constructor(backendService, router) {
+    constructor(backendService, router, route) {
         this.backendService = backendService;
         this.router = router;
+        this.route = route;
     }
     ngOnInit() {
-        if (localStorage.getItem("room_id") === null) {
-            this.router.navigate(['/']);
-        }
-        else {
-            this.backendService.checkUserRoom(localStorage.getItem("room_id")).subscribe(response => {
-                if (!response['exists']) {
-                    this.router.navigate(['/']);
-                }
+        this.route.params.subscribe(params => {
+            this.backendService.getRoom(params['id']).subscribe(r => {
+                this.room = r;
+                document.getElementById("roomName").innerHTML = this.room.roomName;
             });
-        }
+        });
+    }
+    closeRoom() {
+        this.backendService.closeRoom(this.room.id);
+        this.router.navigate(['rooms']);
     }
 };
 PollroomComponent.ctorParameters = () => [
     { type: _backend_connection_service__WEBPACK_IMPORTED_MODULE_2__["BackendConnectionService"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] }
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"] }
 ];
 PollroomComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -673,6 +691,83 @@ PollroomComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./pollroom.component.css */ "./src/app/pollroom/pollroom.component.css")).default]
     })
 ], PollroomComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/rooms/rooms.component.css":
+/*!*******************************************!*\
+  !*** ./src/app/rooms/rooms.component.css ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3Jvb21zL3Jvb21zLmNvbXBvbmVudC5jc3MifQ== */");
+
+/***/ }),
+
+/***/ "./src/app/rooms/rooms.component.ts":
+/*!******************************************!*\
+  !*** ./src/app/rooms/rooms.component.ts ***!
+  \******************************************/
+/*! exports provided: RoomsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RoomsComponent", function() { return RoomsComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _backend_connection_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../backend-connection.service */ "./src/app/backend-connection.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+
+
+
+
+let RoomsComponent = class RoomsComponent {
+    constructor(backendService, router) {
+        this.backendService = backendService;
+        this.router = router;
+    }
+    ngOnInit() {
+        if (localStorage.getItem("rooms") !== null) {
+            this.backendService.checkUserRoom(localStorage.getItem("rooms")).subscribe(response => {
+                this.array = response;
+            });
+        }
+        else {
+            localStorage.setItem("rooms", JSON.stringify([]));
+        }
+    }
+    createRoom() {
+        var name = document.getElementById("roomName").value;
+        var date = document.getElementById("date").value;
+        this.backendService.createRoom(name, date).subscribe(response => {
+            var storedRooms = JSON.parse(localStorage.getItem("rooms"));
+            var id = response['room_id'];
+            storedRooms.push(id);
+            localStorage.setItem("rooms", JSON.stringify(storedRooms));
+            this.enterRoom(id);
+        });
+    }
+    enterRoom(id) {
+        this.router.navigate(['/pollroom/', id]);
+    }
+};
+RoomsComponent.ctorParameters = () => [
+    { type: _backend_connection_service__WEBPACK_IMPORTED_MODULE_2__["BackendConnectionService"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] }
+];
+RoomsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-rooms',
+        template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! raw-loader!./rooms.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/rooms/rooms.component.html")).default,
+        styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./rooms.component.css */ "./src/app/rooms/rooms.component.css")).default]
+    })
+], RoomsComponent);
 
 
 
@@ -778,7 +873,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_2__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\janku\git\innovativeproject-instant-poll\frontend\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\Piotr\Desktop\Programowanie\innovativeproject-instant-poll\frontend\src\main.ts */"./src/main.ts");
 
 
 /***/ })

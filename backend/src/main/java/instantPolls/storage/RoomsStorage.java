@@ -1,5 +1,6 @@
 package instantPolls.storage;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import org.springframework.stereotype.Component;
@@ -15,9 +16,9 @@ public class RoomsStorage implements Storage {
 	}
 	
 	@Override
-	public String createRoom() {
+	public String createRoom(String name, LocalDate date) {
 		String generatedId = generateId();
-		Room new_room = new Room(generatedId);
+		Room new_room = new Room(generatedId,name,date);
 		rooms.put(generatedId, new_room);
 		return generatedId;
 	}
@@ -29,5 +30,11 @@ public class RoomsStorage implements Storage {
 	
 	private String generateId() {
 		return UUID.randomUUID().toString();
+	}
+
+	@Override
+	public Room closeRoom(String id) {
+		rooms.remove(id);
+		return null;
 	}
 }

@@ -1,21 +1,28 @@
 package instantPolls.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collections;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import org.springframework.stereotype.Controller;
 import instantPolls.constants.Constants;
+import instantPolls.model.Room;
 import instantPolls.storage.Storage;
 
 @CrossOrigin(origins = "*")
@@ -32,24 +39,41 @@ public class RestControllerImpl {
 	}
   
 	@ResponseBody
-	@PostMapping(value = "/checkUserRoom")
-	public Map<String,Boolean> checkUserRoom(@RequestBody ObjectNode tripData) {
-		String id = tripData.findValue("room_id").asText();
-		Map<String,Boolean> response = new HashMap<>();
-		if(roomStorage.findRoomById(id) == null) {
-			response.put("exists", false);
-		} else {
-			response.put("exists", true);
+	@PostMapping(value = "/room/check")
+	public List<Room> checkUserRoom(@RequestBody List<String> ids) {
+		List<Room> rooms = new ArrayList<>();
+		for(String id: ids) {
+			Room room = roomStorage.findRoomById(id);
+			if(room != null) {
+				rooms.add(room);
+			}
 		}
+		return rooms;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/room/create") 
+	public Map<String, String> createRoom(@RequestBody ObjectNode tripData) {
+		String name = tripData.findValue("name").asText();
+		String date = tripData.findValue("date").asText();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		Map<String,String> response = new HashMap<>();
+		String id = roomStorage.createRoom(name,LocalDate.parse(date, formatter));
+		response.put("room_id", id);
 		return response;
 	}
 	
 	@ResponseBody
-	@GetMapping(value = "/createRoom") 
-	public Map<String, String> createRoom() {
-		Map<String,String> response = new HashMap<>();
-		String id = roomStorage.createRoom();
-		response.put("room_id", id);
-		return response;
+	@GetMapping(value = "/room/{id}")
+	public Room getRoom(@PathVariable(value = "id") String id) {
+		Room room = roomStorage.findRoomById(id);
+		return room;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/room/close")
+	public void closeRoom(@RequestBody ObjectNode tripData) {
+		String id = tripData.findValue("room_id").asText();
+		roomStorage.closeRoom(id);
 	}
 }
