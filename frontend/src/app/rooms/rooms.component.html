@@ -1,13 +1,13 @@
 <form>
-  <div class="form-group">
-    <label for="roomName">Nazwa pokoju</label>
-    <input type="text" class="form-control" id="roomName" value="nazwa" placeholder="Nazwa pokoju">
-  </div>
-  <div class="form-group">
-	 <label for="date" class="col-2 col-form-label">Data wygaśnięcia</label>
-	 <input type="date" class="form-control" id="date" value="2019-11-19">
-  </div>
-  <button (click)="createRoom()" type="submit" class="btn btn-primary" >Submit</button>
+    <div class="form-group">
+        <label for="roomName">Nazwa pokoju</label>
+        <input type="text" class="form-control" id="roomName" value="nazwa" placeholder="Nazwa pokoju">
+    </div>
+    <div class="form-group">
+        <label for="date" class="col-2 col-form-label">Data wygaśnięcia</label>
+        <input type="date" class="form-control" id="date" value="2019-11-19">
+    </div>
+    <button (click)="createRoom()" type="button" class="btn btn-primary">Submit</button>
 </form>
 <router-outlet></router-outlet>
 
@@ -15,7 +15,7 @@
     <a *ngFor="let element of array" [routerLink]="['/pollroom/'+element.id]" class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
             <h4>{{element.roomName}}</h4>
-        </div>        
+        </div>
         <p>Data wygaśnięcia: {{element.expirationDate}}</p>
     </a>
 </div>
