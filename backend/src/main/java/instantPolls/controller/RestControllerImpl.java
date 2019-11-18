@@ -56,9 +56,10 @@ public class RestControllerImpl {
 	public Map<String, String> createRoom(@RequestBody ObjectNode tripData) {
 		String name = tripData.findValue("name").asText();
 		String date = tripData.findValue("date").asText();
-	//	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+		String timeZoneName = tripData.findValue("timeZone").asText();
+	
 		Map<String,String> response = new HashMap<>();
-		String id = roomStorage.createRoom(name,LocalDate.parse(date));
+		String id = roomStorage.createRoom(name,LocalDate.parse(date),timeZoneName);
 		response.put("room_id", id);
 		return response;
 	}

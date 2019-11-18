@@ -9,6 +9,7 @@ import { Room } from '../room';
 	templateUrl: './pollroom.component.html',
 	styleUrls: ['./pollroom.component.css']
 })
+
 export class PollroomComponent implements OnInit {
 	
 	private room : Room;

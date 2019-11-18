@@ -19,7 +19,6 @@ export class HomepageComponent implements OnInit {
 
   ngOnInit() {
     this.service.testConnection().subscribe(data => {
-      //this.title = data['response'];
       console.log(data['response']);
     });
   }

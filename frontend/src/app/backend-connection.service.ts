@@ -22,7 +22,8 @@ export class BackendConnectionService {
 		return this.http.post<Array<Room>>("/room/check", rooms, httpOptions);
 	}
 	public createRoom(name: string, date: string): Observable<Object> {
-		var room = { "name": name, "date": date };
+		var timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+		var room = { "name": name, "date": date, "timeZone": timeZone};
 		return this.http.post("/room/create", JSON.stringify(room), httpOptions);
 	}
 	public getRoom(room_id: string) : Observable<Room> {
