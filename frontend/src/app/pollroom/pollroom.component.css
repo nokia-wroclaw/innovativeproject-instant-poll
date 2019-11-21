@@ -1,0 +1,26 @@
+.material-icons.red {
+    color: #ff0000;
+    float: right;
+}
+
+.button-transparent {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    float: right;
+    margin: 0 0;
+    padding: 0 0;
+}
+
+#expire-date {
+    float: right;
+    left: 50%;
+}
+
+#back {
+    float: left;
+    left: 10px;
+}

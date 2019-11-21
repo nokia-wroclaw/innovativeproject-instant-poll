@@ -1,21 +1,33 @@
-<form>
-    <div class="form-group">
-        <label for="roomName">Nazwa pokoju</label>
-        <input type="text" class="form-control" id="roomName" value="nazwa" placeholder="Nazwa pokoju">
-    </div>
-    <div class="form-group">
-        <label for="date" class="col-2 col-form-label">Data wygaśnięcia</label>
-        <input type="date" class="form-control" id="date" value="2019-11-19">
-    </div>
-    <button (click)="createRoom()" type="button" class="btn btn-primary">Submit</button>
-</form>
-<router-outlet></router-outlet>
+<div class="row">
 
-<div class="list-group">
-    <a *ngFor="let element of array" [routerLink]="['/pollroom/'+element.id]" class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
-            <h4>{{element.roomName}}</h4>
-        </div>
-        <p>Data wygaśnięcia: {{element.expirationDate}}</p>
-    </a>
+    <div class="col-md-3 align-self-start">
+        <h2>Stwórz pokój</h2>
+        <form>
+            <div class="form-group">
+                <label for="roomName">Nazwa pokoju</label>
+                <input type="text" class="form-control" id="roomName" placeholder="Podaj nazwę" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Data wygaśnięcia</label>
+                <input type="date" class="form-control" id="date">
+            </div>
+            <button (click)="createRoom()" type="button" class="button-transparent"><i class="material-icons">send</i></button>
+        </form>
+    </div>
+
+    <div class="col-md-8 .offset-md-1 col align-self-end">
+        <h2>Twoje pokoje</h2>
+        <ul class="list-group">
+            <li *ngFor="let element of array" class="list-group-item">
+                <div class="d-flex w-100 justify-content-between">
+                    <h4>{{element.roomName}}</h4>
+                    <a [routerLink]="['/pollroom/'+element.id]"><i class="material-icons green">arrow_forward</i></a>
+                </div>
+                <p>Data wygaśnięcia: {{element.expirationDate}}</p>
+                <button type="button" class="button-transparent" (click)="deleteRoom(element.id)"><i class="material-icons red">delete</i></button>
+            </li>
+        </ul>
+    </div>
 </div>
+
+<router-outlet></router-outlet>

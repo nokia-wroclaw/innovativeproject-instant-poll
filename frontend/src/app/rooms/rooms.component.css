@@ -1,0 +1,33 @@
+.col-md-3,
+.col-md-8 {
+    border-style: solid;
+    border-block-color: black;
+    border-width: 1px;
+    margin: 1% 1%;
+    padding: 1% 1%;
+}
+
+.col-md-3 {
+    height: auto;
+}
+
+.material-icons.red {
+    color: #ff0000;
+    float: right;
+}
+
+.material-icons.green {
+    color: #008000;
+}
+
+.button-transparent {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    float: right;
+    margin: 0 0;
+    padding: 0 0;
+}

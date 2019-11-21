@@ -12,10 +12,13 @@ import { Room } from '../room';
 export class RoomsComponent implements OnInit {
   
 	private array : Array<Room>;
-
-  constructor(private backendService: BackendConnectionService, private router: Router) { }
+  
+	constructor(private backendService: BackendConnectionService, private router: Router) { }
 
   ngOnInit() {
+	  
+	(<HTMLInputElement>document.getElementById("date")).value = new Date().toJSON().slice(0,10).replace(/-/g,'.').toString();
+	
 	if (localStorage.getItem("rooms") !== null) {
 		this.backendService.checkUserRoom(localStorage.getItem("rooms")).subscribe(response => {
 			this.array = response;
@@ -40,4 +43,9 @@ export class RoomsComponent implements OnInit {
   enterRoom(id: string) {
 	  this.router.navigate(['/pollroom/',id]);
   }
+
+  deleteRoom(id: string) {
+	this.backendService.closeRoom(id);
+	this.array = this.array.filter(x => x.id !== id)
+}
 }

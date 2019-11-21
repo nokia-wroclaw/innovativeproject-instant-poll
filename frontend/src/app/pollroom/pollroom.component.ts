@@ -21,6 +21,7 @@ export class PollroomComponent implements OnInit {
 			this.backendService.getRoom(params['id']).subscribe(r => {
 				this.room = r;
 				document.getElementById("roomName").innerHTML = this.room.roomName;
+				document.getElementById("expire-date").innerHTML = "Pokój ważny do: " + this.room.expirationDate;
 			});
 		});
 	}
