@@ -1,7 +1,14 @@
 language: java
 dist: trusty
 jdk: oraclejdk8
-before_install: cd backend
+before_install:
+ - cd frontend
+ - nvm install --lts
+ - npm install -g --silent @angular/cli
+ - npm install --save-dev @angular-devkit/build-angular
+script:
+ - ng build
+ - cd ../backend
 notifications:
   email: false
 deploy:
