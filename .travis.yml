@@ -14,7 +14,10 @@ script:
 notifications:
   email: false
 deploy:
+ skip_cleanup: true
  provider: heroku
  api-key: 
   secure: $HEROKU_API_KEY
  app: instant-polls
+ on:
+  branch: master
