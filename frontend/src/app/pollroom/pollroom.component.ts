@@ -1,27 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendConnectionService } from "../backend-connection.service";
 import { Observable } from 'rxjs/internal/Observable';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute  } from '@angular/router';
+import { Room } from '../room';
 
 @Component({
 	selector: 'app-pollroom',
 	templateUrl: './pollroom.component.html',
 	styleUrls: ['./pollroom.component.css']
 })
-export class PollroomComponent implements OnInit {
 
-	constructor(private backendService: BackendConnectionService, private router: Router) { }
+export class PollroomComponent implements OnInit {
+	
+	private room : Room;
+
+	constructor(private backendService: BackendConnectionService, private router: Router, private route: ActivatedRoute) { }
 
 	ngOnInit() {
-		if (localStorage.getItem("room_id") === null) {
-			this.router.navigate(['/']);
-		} else {
-			this.backendService.checkUserRoom(localStorage.getItem("room_id")).subscribe(response => {
-				if (!response['exists']) {
-					this.router.navigate(['/']);
-				}
+		this.route.params.subscribe(params => {      
+			this.backendService.getRoom(params['id']).subscribe(r => {
+				this.room = r;
+				document.getElementById("roomName").innerHTML = this.room.roomName;
+				document.getElementById("expire-date").innerHTML = "Pokój ważny do: " + this.room.expirationDate;
 			});
-		}
+		});
 	}
-
+	
+	closeRoom() {
+		var token = localStorage.getItem("token");
+		this.backendService.closeRoom(this.room.id,token).subscribe();
+		this.router.navigate(['rooms']);
+	}
 }

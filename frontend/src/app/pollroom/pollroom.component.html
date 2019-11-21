@@ -1,13 +1,7 @@
-<div class="row">
+<button ngIf="admin === true" type="button" class="button-transparent" (click)="closeRoom()"><i class="material-icons red">delete</i></button>
 
-    <div class="col-md-12">
+<span id="expire-date"></span>
+<button type="button" id="back" [routerLink]="['/rooms']" class="button-transparent"><i class="material-icons">arrow_back</i></button>
+<h1 class="text-center" id="roomName"></h1>
 
-        <div class="card bg-dark my-5 ">
-
-            <div class="card-body">
-                <h2 class="card-title text-center text-white py-3">Twój pokój!</h2>
-            </div>
-        </div>
-        <router-outlet></router-outlet>
-    </div>
-</div>
+<router-outlet></router-outlet>

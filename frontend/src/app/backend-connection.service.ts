@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
+import { Room } from './room';
 
 const httpOptions = {
 	headers: new HttpHeaders({
@@ -17,11 +18,19 @@ export class BackendConnectionService {
 	constructor(private http: HttpClient) {
 	}
 
-	public checkUserRoom(id: string): Observable<Object> {
-		var room_id = { "room_id": id };
-		return this.http.post("/checkUserRoom", JSON.stringify(room_id), httpOptions);
+	public checkUserRoom(rooms: string): Observable<Room[]> {
+		return this.http.post<Array<Room>>("/room/created", rooms, httpOptions);
 	}
-	public createRoom(): Observable<Object> {
-		return this.http.get("/createRoom");
+	public createRoom(name: string, date: string, token:string): Observable<Object> {
+		var timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+		var room = { "name": name, "date": date, "timeZone": timeZone, "token": token};
+		return this.http.post("/room", JSON.stringify(room), httpOptions);
+	}
+	public getRoom(room_id: string) : Observable<Room> {
+		return this.http.get<Room>("/room/"+room_id);
+	}
+	
+	public closeRoom(room_id: string, token:string) {	
+		return this.http.delete("/room/"+room_id+"/"+token);
 	}
 }
