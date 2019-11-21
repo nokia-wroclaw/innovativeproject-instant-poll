@@ -10,7 +10,7 @@ public class ScheduledTasks {
 	@Autowired
 	private RoomsStorage roomsStorage;
     
-    @Scheduled(cron = "1 0 * * * *", zone = "GMT+1") // 1 second after every full hour 
+    @Scheduled(cron = "1 0 * * * *") // 1 second after every full hour 
     public void deleteExpiredRooms() {
     	roomsStorage.deleteExpiredRooms();
     }
