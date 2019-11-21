@@ -2,14 +2,22 @@ language: java
 dist: trusty
 jdk: oraclejdk8
 before_install:
-	- cd frontend
-	- npm ci
-    - npm run build
-	- cd ../backend
+ - cd frontend
+ - nvm install --lts
+ - npm install -g --silent @angular/cli
+ - npm install --save-dev @angular-devkit/build-angular
+script:
+ - ng build
+ - cd ../backend
+ - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+ - mvn test -B
 notifications:
   email: false
 deploy:
+ skip_cleanup: true
  provider: heroku
  api-key: 
   secure: $HEROKU_API_KEY
  app: instant-polls
+ on:
+  branch: master

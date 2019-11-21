@@ -67,7 +67,6 @@ public class RestControllerImpl {
 		String id = roomStorage.createRoom(name,token,LocalDate.parse(date),timeZoneName);
 		response.put("room_id", id);
 		response.put("token", roomStorage.findRoomById(id).getToken());
-		System.out.println(roomStorage.findRoomById(id).getToken());
 		return response;
 	}
 	
