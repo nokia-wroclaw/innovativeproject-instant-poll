@@ -31,11 +31,14 @@ export class RoomsComponent implements OnInit {
   createRoom() {
 	var name = (<HTMLInputElement>document.getElementById("roomName")).value;
 	var date = (<HTMLInputElement>document.getElementById("date")).value;
-	this.backendService.createRoom(name,date).subscribe(response => {
+	var token = localStorage.getItem("token");
+	this.backendService.createRoom(name,date,token).subscribe(response => {
 		var storedRooms = JSON.parse(localStorage.getItem("rooms"));
 		var id = response['room_id'];
+		var tokenNew = response['token'];
 		storedRooms.push(id);
 		localStorage.setItem("rooms",  JSON.stringify(storedRooms));
+		localStorage.setItem("token",  tokenNew);
 		this.enterRoom(id);
 	  });
   }
@@ -45,7 +48,12 @@ export class RoomsComponent implements OnInit {
   }
 
   deleteRoom(id: string) {
-	this.backendService.closeRoom(id);
-	this.array = this.array.filter(x => x.id !== id)
+	var token = localStorage.getItem("token");
+	this.backendService.closeRoom(id,token).subscribe(response => {
+		if(response['result'] === 'success') {
+			this.array = this.array.filter(x => x.id !== id)
+		}
+	});
+	
 }
 }

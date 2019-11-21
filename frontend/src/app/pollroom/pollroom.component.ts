@@ -27,7 +27,8 @@ export class PollroomComponent implements OnInit {
 	}
 	
 	closeRoom() {
-		this.backendService.closeRoom(this.room.id);
+		var token = localStorage.getItem("token");
+		this.backendService.closeRoom(this.room.id,token).subscribe();
 		this.router.navigate(['rooms']);
 	}
 }

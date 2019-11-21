@@ -19,9 +19,15 @@ public class RoomsStorage implements Storage {
 	}
 	
 	@Override
-	public String createRoom(String name, LocalDate date, String timeZone) {
+	public String createRoom(String name, String token, LocalDate date, String timeZone) {
 		String generatedId = generateId();
 		Room new_room = new Room(generatedId, name, date, timeZone);
+		
+		if(token.equals("null")) {
+			token = generateId();
+		}
+		new_room.setToken(token);
+		System.out.println(token);
 		rooms.put(generatedId, new_room);
 		return generatedId;
 	}
@@ -32,9 +38,13 @@ public class RoomsStorage implements Storage {
 	}
 	
 	@Override
-	public Room closeRoom(String id) {
-		rooms.remove(id);
-		return null;
+	public boolean closeRoom(String id, String token) {
+		Room room = rooms.get(id);
+		if(room != null && room.getToken().equals(token)) {
+			rooms.remove(id);
+			return true;
+		} else
+			return false;
 	}
 	
 	@Override

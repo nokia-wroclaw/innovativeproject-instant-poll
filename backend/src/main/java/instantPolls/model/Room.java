@@ -8,6 +8,7 @@ import java.util.TimeZone;
 public class Room {
 	
 	private String id;
+	private String token;
 	private String roomName;
 	private TimeZone timeZone;
 	private LocalDate expirationDate;
@@ -51,6 +52,13 @@ public class Room {
 	public void setTimeZone(TimeZone timeZone) {
 		this.timeZone = timeZone;
 	}
-	
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 	
 }

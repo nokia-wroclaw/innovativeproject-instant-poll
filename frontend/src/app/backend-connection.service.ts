@@ -19,21 +19,18 @@ export class BackendConnectionService {
 	}
 
 	public checkUserRoom(rooms: string): Observable<Room[]> {
-		return this.http.post<Array<Room>>("/room/check", rooms, httpOptions);
+		return this.http.post<Array<Room>>("/room/created", rooms, httpOptions);
 	}
-	public createRoom(name: string, date: string): Observable<Object> {
+	public createRoom(name: string, date: string, token:string): Observable<Object> {
 		var timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-		var room = { "name": name, "date": date, "timeZone": timeZone};
-		return this.http.post("/room/create", JSON.stringify(room), httpOptions);
+		var room = { "name": name, "date": date, "timeZone": timeZone, "token": token};
+		return this.http.post("/room", JSON.stringify(room), httpOptions);
 	}
 	public getRoom(room_id: string) : Observable<Room> {
 		return this.http.get<Room>("/room/"+room_id);
 	}
 	
-	public closeRoom(room_id: string) {
-		var room = { "room_id": room_id };
-		console.log(room);
-		const post = this.http.post("/room/close",JSON.stringify(room),httpOptions);
-		post.subscribe();
+	public closeRoom(room_id: string, token:string) {	
+		return this.http.delete("/room/"+room_id+"/"+token);
 	}
 }

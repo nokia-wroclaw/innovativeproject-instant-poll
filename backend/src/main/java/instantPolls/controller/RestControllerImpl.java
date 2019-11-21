@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +40,7 @@ public class RestControllerImpl {
 	}
   
 	@ResponseBody
-	@PostMapping(value = "/room/check")
+	@PostMapping(value = "/room/created")
 	public List<Room> checkUserRoom(@RequestBody List<String> ids) {
 		List<Room> rooms = new ArrayList<>();
 		for(String id: ids) {
@@ -52,15 +53,21 @@ public class RestControllerImpl {
 	}
 	
 	@ResponseBody
-	@PostMapping(value = "/room/create") 
+	@PostMapping(value = "/room") 
 	public Map<String, String> createRoom(@RequestBody ObjectNode tripData) {
 		String name = tripData.findValue("name").asText();
 		String date = tripData.findValue("date").asText();
 		String timeZoneName = tripData.findValue("timeZone").asText();
+		JsonNode tokenJson = tripData.findValue("token");
+		String token = null;
+		if(tokenJson != null)
+			token = tokenJson.asText();
 	
 		Map<String,String> response = new HashMap<>();
-		String id = roomStorage.createRoom(name,LocalDate.parse(date),timeZoneName);
+		String id = roomStorage.createRoom(name,token,LocalDate.parse(date),timeZoneName);
 		response.put("room_id", id);
+		response.put("token", roomStorage.findRoomById(id).getToken());
+		System.out.println(roomStorage.findRoomById(id).getToken());
 		return response;
 	}
 	
@@ -72,9 +79,11 @@ public class RestControllerImpl {
 	}
 	
 	@ResponseBody
-	@PostMapping(value = "/room/close")
-	public void closeRoom(@RequestBody ObjectNode tripData) {
-		String id = tripData.findValue("room_id").asText();
-		roomStorage.closeRoom(id);
+	@DeleteMapping(value = "/room/{id}/{token}")
+	public Map<String,String> closeRoom(@PathVariable(value = "id") String id,@PathVariable(value = "token") String token) {
+		if(roomStorage.closeRoom(id, token))
+			return Collections.singletonMap("result", "success");
+		else
+			return Collections.singletonMap("result", "failed");
 	}
 }
