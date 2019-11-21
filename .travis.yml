@@ -9,6 +9,8 @@ before_install:
 script:
  - ng build
  - cd ../backend
+ - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+ - mvn test -B
 notifications:
   email: false
 deploy:
