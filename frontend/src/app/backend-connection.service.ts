@@ -23,6 +23,9 @@ export class BackendConnectionService {
 	}
 	public createRoom(name: string, date: string, token:string): Observable<Object> {
 		var timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if(token === null) {
+            token = "";
+        }
 		var room = { "name": name, "date": date, "timeZone": timeZone, "token": token};
 		return this.http.post("/room", JSON.stringify(room), httpOptions);
 	}
@@ -30,7 +33,11 @@ export class BackendConnectionService {
 		return this.http.get<Room>("/room/"+room_id);
 	}
 	
-	public closeRoom(room_id: string, token:string) {	
+	public closeRoom(room_id: string, token:string): Observable<Object> {	
 		return this.http.delete("/room/"+room_id+"/"+token);
 	}
+    
+    public generateUserId() {
+        return this.http.get("/userID");
+    }
 }

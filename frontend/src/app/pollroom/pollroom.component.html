@@ -1,7 +1,8 @@
-<button type="button" class="button-transparent" (click)="closeRoom()"><i class="material-icons red">delete</i></button>
+<button *ngIf="admin" type="button" class="button-transparent" (click)="closeRoom()"><i class="material-icons red">delete</i></button>
 
 <span id="expire-date"></span>
 <button type="button" id="back" [routerLink]="['/rooms']" class="button-transparent"><i class="material-icons">arrow_back</i></button>
+<span id="users">Użytkowników w pokoju: 0</span>
 <h1 class="text-center" id="roomName"></h1>
 
 <router-outlet></router-outlet>

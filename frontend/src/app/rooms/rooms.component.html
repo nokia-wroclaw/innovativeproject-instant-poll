@@ -5,11 +5,11 @@
         <form>
             <div class="form-group">
                 <label for="roomName">Nazwa pokoju</label>
-                <input type="text" class="form-control" id="roomName" placeholder="Podaj nazwę" required>
+                <input type="text" class="form-control" id="roomName" placeholder="Podaj nazwę">
             </div>
             <div class="form-group">
                 <label for="date">Data wygaśnięcia</label>
-                <input type="date" class="form-control" id="date">
+                <input type="date" class="form-control" id="date" value={{dateString}}>
             </div>
             <button (click)="createRoom()" type="button" class="button-transparent"><i class="material-icons">send</i></button>
         </form>
