@@ -26,7 +26,6 @@ public class RoomsStorage implements Storage {
 			token = generateId();
 		}
 		new_room.setToken(token);
-		System.out.println(token);
 		rooms.put(generatedId, new_room);
 		return new_room;
 	}

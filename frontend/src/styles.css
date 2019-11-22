@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+img.bg {
+    /* Set rules to fill background */
+    min-height: 100%;
+    min-width: 100%;
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+    /* Set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+}
