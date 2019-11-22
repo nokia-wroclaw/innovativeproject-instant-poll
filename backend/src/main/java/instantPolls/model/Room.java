@@ -1,6 +1,5 @@
 package instantPolls.model;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.TimeZone;
@@ -12,6 +11,7 @@ public class Room {
 	private String roomName;
 	private TimeZone timeZone;
 	private LocalDate expirationDate;
+	private int numberOfUsers;
 	
 	public Room(String id, String roomName, LocalDate expirationDate, String timeZoneName) {
 		this.id = id;
@@ -59,6 +59,22 @@ public class Room {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+	
+	public void incrementUsers() {
+		this.numberOfUsers++;
+	}
+	
+	public void decrementUsers() {
+		this.numberOfUsers--;
+	}
+
+	public int getNumberOfUsers() {
+		return numberOfUsers;
+	}
+
+	public void setNumberOfUsers(int numberOfUsers) {
+		this.numberOfUsers = numberOfUsers;
 	}
 	
 }

@@ -12,16 +12,24 @@ import { Room } from '../room';
 export class RoomsComponent implements OnInit {
   
 	private array : Array<Room>;
+	private dateString : String;
   
 	constructor(private backendService: BackendConnectionService, private router: Router) { }
 
   ngOnInit() {
-	  
-	(<HTMLInputElement>document.getElementById("date")).value = new Date().toJSON().slice(0,10).replace(/-/g,'.').toString();
-	
-	if (localStorage.getItem("rooms") !== null) {
+    var today = new Date();
+	var dd = String(today.getDate()+1).padStart(2, '0');
+	var mm = String(today.getMonth() + 1).padStart(2, '0');
+	var yyyy = today.getFullYear();
+	this.dateString = yyyy + '-' + mm + '-' + dd;
+    if (localStorage.getItem("rooms") !== null) {
 		this.backendService.checkUserRoom(localStorage.getItem("rooms")).subscribe(response => {
 			this.array = response;
+            var rooms = [];
+            for(var i in response) { 
+                rooms.push(response[i].id)
+            }
+            localStorage.setItem("rooms",JSON.stringify(rooms));
 		});
 	} else {
 		localStorage.setItem("rooms",  JSON.stringify([]));
