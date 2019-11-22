@@ -8,11 +8,14 @@ import { BackendConnectionService } from "../app/backend-connection.service";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule } from "@angular/router";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { PollroomComponent } from './pollroom/pollroom.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { RoomsComponent } from './rooms/rooms.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
 
 @NgModule({
   declarations: [
@@ -21,8 +24,10 @@ import { RoomsComponent } from './rooms/rooms.component';
     PollroomComponent,
     HomepageComponent,
     RoomsComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
+    NgbModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -32,8 +37,8 @@ import { RoomsComponent } from './rooms/rooms.component';
 	  { path: 'rooms', component: RoomsComponent }
     ])
   ],
-  providers: [TestingConnectionServiceService,BackendConnectionService,{provide: LocationStrategy, useClass: HashLocationStrategy}],
-  bootstrap: [AppComponent]
-
+  providers: [ConfirmationDialogService,TestingConnectionServiceService,BackendConnectionService,{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  bootstrap: [AppComponent],
+  entryComponents: [ ConfirmationDialogComponent ]
 })
 export class AppModule { }
