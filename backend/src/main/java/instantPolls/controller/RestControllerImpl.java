@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -31,12 +32,6 @@ public class RestControllerImpl {
 	@Autowired
 	Storage roomStorage;
 	
-	@ResponseBody
-	@GetMapping(value = "/test")
-	public Map<String,String> testing() {
-		return Collections.singletonMap("response", "There is connection from Spring Server!");
-	}
-  
 	@ResponseBody
 	@PostMapping(value = "/room/created")
 	public List<Room> checkUserRoom(@RequestBody List<String> ids) {
@@ -76,8 +71,8 @@ public class RestControllerImpl {
 	}
 	
 	@ResponseBody
-	@DeleteMapping(value = "/room/{id}/{token}")
-	public Map<String,String> closeRoom(@PathVariable(value = "id") String id,@PathVariable(value = "token") String token) {
+	@DeleteMapping(value = "/room/{id}")
+	public Map<String,String> closeRoom(@PathVariable(value = "id") String id, @RequestHeader("Authorization") String token) {
 		if(roomStorage.closeRoom(id, token))
 			return Collections.singletonMap("result", "success");
 		else

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TestingConnectionServiceService } from '../app/testing-connection-service.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +11,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
 }

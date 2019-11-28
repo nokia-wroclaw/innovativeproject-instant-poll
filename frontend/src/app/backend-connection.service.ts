@@ -33,8 +33,15 @@ export class BackendConnectionService {
 		return this.http.get<Room>("/room/"+room_id);
 	}
 	
-	public closeRoom(room_id: string, token:string): Observable<Object> {	
-		return this.http.delete("/room/"+room_id+"/"+token);
+	public closeRoom(room_id: string, token:string): Observable<Object> {
+		
+		const httpOptions2 = {
+			headers: new HttpHeaders({
+				'Content-Type': 'application/json',
+				'Authorization': token
+			})
+		};
+		return this.http.delete("/room/"+room_id, httpOptions2);
 	}
     
     public generateUserId() {
