@@ -70,6 +70,7 @@ export class RoomsComponent implements OnInit {
       .then((confirmed) => {
         if (confirmed) {
           var token = localStorage.getItem("token");
+
           this.backendService.closeRoom(id, token).subscribe(response => {
             if (response['result'] === 'success') {
               this.array = this.array.filter(x => x.id !== id)

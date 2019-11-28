@@ -23,7 +23,8 @@ export class PollroomComponent implements OnInit, OnDestroy {
     private webSocketAPI: WebSocketAPI;
     private question: NgModel;
     private submitted = false;
-
+    private ifConnecting = true;
+    
     constructor(private backendService: BackendConnectionService, private router: Router, private route: ActivatedRoute, private confirmationDialogService: ConfirmationDialogService, private titleService: Title) { }
 
     ngOnInit() {
@@ -48,6 +49,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
                 }
                 this.webSocketAPI = new WebSocketAPI(this, this.room);
                 this.webSocketAPI.connect();
+                
             });
         });
     }
@@ -79,6 +81,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
 
     setNumberOfUsers(users: string) {
         document.getElementById("users").innerHTML = "Użytkowników w pokoju: " + users;
+        this.ifConnecting = false;
     }
 
     questionPanel() {

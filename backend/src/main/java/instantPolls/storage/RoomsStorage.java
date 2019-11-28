@@ -3,6 +3,7 @@ package instantPolls.storage;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,13 +37,15 @@ public class RoomsStorage implements Storage {
 	}
 	
 	@Override
-	public boolean closeRoom(String id, String token) {
+	public int closeRoom(String id, String token) {
 		Room room = rooms.get(id);
-		if(room != null && room.getToken().equals(token)) {
+		if(room == null)
+			return 404;
+		if(room.getToken().equals(token)) {
 			rooms.remove(id);
-			return true;
+			return 200;
 		} else
-			return false;
+			return 401;
 	}
 	
 	@Override
@@ -51,7 +54,7 @@ public class RoomsStorage implements Storage {
 		
 		TimeZone localTimeZone = TimeZone.getDefault();
 		int offSetLocalTimeZone = localTimeZone.getOffset(System.currentTimeMillis()) / 1000 / 60;	// server to UTC in minutes
-
+		
 		rooms.entrySet().removeIf(entry -> {
 			Room room = entry.getValue();
 			TimeZone timeZone = room.getTimeZone();
