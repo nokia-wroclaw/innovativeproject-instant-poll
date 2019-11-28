@@ -3,6 +3,8 @@ import { BackendConnectionService } from "../backend-connection.service";
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { Room } from '../room';
+import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-rooms',
@@ -12,16 +14,25 @@ import { Room } from '../room';
 export class RoomsComponent implements OnInit {
   
 	private array : Array<Room>;
+	private dateString : String;
   
-	constructor(private backendService: BackendConnectionService, private router: Router) { }
+	constructor(private backendService: BackendConnectionService, private router: Router, private confirmationDialogService: ConfirmationDialogService, private titleService: Title) { }
 
   ngOnInit() {
-	  
-	(<HTMLInputElement>document.getElementById("date")).value = new Date().toJSON().slice(0,10).replace(/-/g,'.').toString();
-	
-	if (localStorage.getItem("rooms") !== null) {
+    this.titleService.setTitle( "Instatnt Polls - Twoje pokoje" );
+    var today = new Date();
+	var dd = String(today.getDate()+1).padStart(2, '0');
+	var mm = String(today.getMonth() + 1).padStart(2, '0');
+	var yyyy = today.getFullYear();
+	this.dateString = yyyy + '-' + mm + '-' + dd;
+    if (localStorage.getItem("rooms") !== null) {
 		this.backendService.checkUserRoom(localStorage.getItem("rooms")).subscribe(response => {
 			this.array = response;
+            var rooms = [];
+            for(var i in response) { 
+                rooms.push(response[i].id)
+            }
+            localStorage.setItem("rooms",JSON.stringify(rooms));
 		});
 	} else {
 		localStorage.setItem("rooms",  JSON.stringify([]));
@@ -48,12 +59,22 @@ export class RoomsComponent implements OnInit {
   }
 
   deleteRoom(id: string) {
-	var token = localStorage.getItem("token");
-	this.backendService.closeRoom(id,token).subscribe(response => {
-		if(response['result'] === 'success') {
-			this.array = this.array.filter(x => x.id !== id)
-		}
-	});
-	
-}
+      this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz zamknąć pokój? Stracisz wszystkie niezapisane dane i nie będziesz mógł wrócić  do pokoju.',"Zamknij pokój","Cofnij")
+        .then((confirmed) => {
+            if(confirmed) {
+                var token = localStorage.getItem("token");
+                this.backendService.closeRoom(id,token).subscribe(response => {
+                if(response['result'] === 'success') {
+                    this.array = this.array.filter(x => x.id !== id)
+                }
+                });
+            }
+        }).catch(() => {});
+    }
+    onDateSelect(date) {
+        var dd = String(date.day).padStart(2, '0');
+        var mm = String(date.month).padStart(2, '0');
+        var yyyy = date.year
+        this.dateString = yyyy + '-' + mm + '-' + dd;
+    }
 }

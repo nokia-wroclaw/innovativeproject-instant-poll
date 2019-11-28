@@ -19,17 +19,15 @@ public class RoomsStorage implements Storage {
 	}
 	
 	@Override
-	public String createRoom(String name, String token, LocalDate date, String timeZone) {
+	public Room createRoom(String name, String token, LocalDate date, String timeZone) {
 		String generatedId = generateId();
 		Room new_room = new Room(generatedId, name, date, timeZone);
-		
-		if(token.equals("null")) {
+		if(token == null) {
 			token = generateId();
 		}
 		new_room.setToken(token);
-		System.out.println(token);
 		rooms.put(generatedId, new_room);
-		return generatedId;
+		return new_room;
 	}
 	
 	@Override

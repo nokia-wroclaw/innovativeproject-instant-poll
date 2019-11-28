@@ -1,13 +1,13 @@
 package instantPolls.controller;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,11 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import org.springframework.stereotype.Controller;
-import instantPolls.constants.Constants;
 import instantPolls.model.Room;
 import instantPolls.storage.Storage;
 
@@ -58,15 +56,15 @@ public class RestControllerImpl {
 		String name = tripData.findValue("name").asText();
 		String date = tripData.findValue("date").asText();
 		String timeZoneName = tripData.findValue("timeZone").asText();
-		JsonNode tokenJson = tripData.findValue("token");
+		String tokenJson = tripData.findValue("token").asText();
 		String token = null;
-		if(tokenJson != null)
-			token = tokenJson.asText();
-	
+		if(!tokenJson.equals("")) {
+			token = tokenJson;
+		}
 		Map<String,String> response = new HashMap<>();
-		String id = roomStorage.createRoom(name,token,LocalDate.parse(date),timeZoneName);
-		response.put("room_id", id);
-		response.put("token", roomStorage.findRoomById(id).getToken());
+		Room new_room = roomStorage.createRoom(name,token,LocalDate.parse(date),timeZoneName);
+		response.put("room_id", new_room.getId());
+		response.put("token", new_room.getToken());
 		return response;
 	}
 	
@@ -84,5 +82,12 @@ public class RestControllerImpl {
 			return Collections.singletonMap("result", "success");
 		else
 			return Collections.singletonMap("result", "failed");
+	}
+	
+	@ResponseBody
+	@GetMapping(value = "/userID")
+	public Map<String,String> getUserID() {
+		String id = UUID.randomUUID().toString();
+		return Collections.singletonMap("user_id", id);
 	}
 }
