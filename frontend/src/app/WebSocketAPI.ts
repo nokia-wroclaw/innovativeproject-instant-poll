@@ -29,7 +29,11 @@ export class WebSocketAPI {
             _this.stompClient.subscribe("/answer/"+_this.room.id, function (message) {
                 _this.pollroomComponent.receiveAnswer(JSON.parse(message.body));
             });
+            _this.stompClient.subscribe("/user/"+localStorage.getItem("user_id")+"/allQuestions", function (message) {
+                _this.pollroomComponent.addQuestions(JSON.parse(message.body));
+            });
             _this.stompClient.send("/instant-polls/poll/"+_this.room.id+"/enter",{},{});
+            _this.stompClient.send("/instant-polls/poll/"+localStorage.getItem("user_id")+"/allQuestions",{},_this.room.id);
         }, this.errorCallBack);
     };
 

@@ -146,4 +146,8 @@ export class PollroomComponent implements OnInit, OnDestroy {
             }
         });
     }
+
+    addQuestions(listOfQuestion: Array<Question>) {
+        this.questions = listOfQuestion;
+    }
 }

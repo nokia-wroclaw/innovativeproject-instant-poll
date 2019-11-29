@@ -1,6 +1,7 @@
 package instantPolls.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -9,12 +10,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
-import com.google.gson.Gson;
-
 import instantPolls.model.SimpleMessage;
 import instantPolls.model.YesNoQuestion;
-import instantPolls.model.Answer;
 import instantPolls.model.AnswerMessage;
 import instantPolls.model.NumberOfVotesMessage;
 import instantPolls.model.Question;
@@ -36,6 +33,13 @@ public class WSController {
         r.incrementUsers();
         SimpleMessage m = new SimpleMessage(Integer.toString(r.getNumberOfUsers()));
         return m;
+    }
+	
+	@MessageMapping("/poll/{userId}/allQuestions")
+	@SendTo("/user/{userId}/allQuestions")
+    public ArrayList<HashMap<String,Object>> sendQuestions(@DestinationVariable String userId,@Payload String roomId) {
+		Room room = roomStorage.findRoomById(roomId);
+		return room.getListOfQuestionsWithVotes(userId);
     }
 	
 	@MessageMapping("/poll/{roomId}/exit")

@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.TimeZone;
 
 public class Room {
@@ -96,6 +95,34 @@ public class Room {
 			}
 		}
 		return null;
+	}
+
+	public ArrayList<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(ArrayList<Question> questions) {
+		this.questions = questions;
+	}
+	
+	public ArrayList<HashMap<String,Object>> getListOfQuestionsWithVotes(String userId) {
+		ArrayList<HashMap<String,Object>> list = new ArrayList<>();
+		questions.forEach(question -> {
+			HashMap<String,Object> q = new HashMap<>();
+			q.put("id", question.getId());
+			q.put("type", question.getType());
+			q.put("question", question.getQuestion());
+			q.put("answers", question.getOptions());
+			q.put("numberOfVotes", question.getNumberOfVotes());
+			question.getAnswers().forEach(answer -> {
+				if(answer.getUsersVoted().contains(userId)) {
+					q.put("selected", answer.getAnswer());
+					return;
+				}
+			});
+			list.add(q);
+		});
+		return list;
 	}
 	
 }
