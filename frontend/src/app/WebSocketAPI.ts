@@ -23,8 +23,11 @@ export class WebSocketAPI {
             _this.stompClient.subscribe("/room/"+_this.room.id+"/users", function (message) {
                 _this.pollroomComponent.setNumberOfUsers(JSON.parse(message.body).content);
             });
-            _this.stompClient.subscribe("/question/"+_this.room.id+"/questions", function (message) {
+            _this.stompClient.subscribe("/question/"+_this.room.id, function (message) {
                 _this.pollroomComponent.receiveQuestion(JSON.parse(message.body));
+            });
+            _this.stompClient.subscribe("/answer/"+_this.room.id, function (message) {
+                _this.pollroomComponent.receiveAnswer(JSON.parse(message.body));
             });
             _this.stompClient.send("/instant-polls/poll/"+_this.room.id+"/enter",{},{});
         }, this.errorCallBack);
@@ -34,6 +37,12 @@ export class WebSocketAPI {
         if (this.stompClient !== null) {
             var message = JSON.stringify({question: question, answers : answers});
             this.stompClient.send("/instant-polls/poll/"+this.room.id+"/addQuestion/" + questionType,{},message);
+        }
+    }
+
+    sendAnswer(answer: string) {
+        if (this.stompClient !== null) {
+            this.stompClient.send("/instant-polls/poll/"+this.room.id+"/answer",{},answer);
         }
     }
 

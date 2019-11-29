@@ -85,8 +85,17 @@ public class Room {
 	
 	public void addQuestion(Question question) {
 		question.setId(iterator);
-		iterator++;
+		iterator += 1;
 		questions.add(question);
+	}
+	
+	public Question getQuestionById(int id) {
+		for(Question q: questions) {
+			if(q.getId() == id) {
+				return q;
+			}
+		}
+		return null;
 	}
 	
 }

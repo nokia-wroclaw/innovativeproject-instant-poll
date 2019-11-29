@@ -1,5 +1,7 @@
 package instantPolls.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -12,6 +14,9 @@ import com.google.gson.Gson;
 
 import instantPolls.model.SimpleMessage;
 import instantPolls.model.YesNoQuestion;
+import instantPolls.model.Answer;
+import instantPolls.model.AnswerMessage;
+import instantPolls.model.NumberOfVotesMessage;
 import instantPolls.model.Question;
 import instantPolls.model.QuestionMessage;
 import instantPolls.model.Room;
@@ -46,7 +51,7 @@ public class WSController {
 	}
 	
 	@MessageMapping("/poll/{roomId}/addQuestion/{questionType}")
-	@SendTo("/question/{roomId}/questions")
+	@SendTo("/question/{roomId}")
 	public QuestionMessage addQuestion(@DestinationVariable String roomId, @DestinationVariable String questionType, @Payload QuestionMessage message) {
 		Question question = null;
 		QuestionMessage messageToSend = new QuestionMessage();
@@ -54,11 +59,21 @@ public class WSController {
 			question = new YesNoQuestion(message.getQuestion());
 			messageToSend.setQuestion(question.getQuestion());
 			messageToSend.setType("yesNo");
-			messageToSend.setAnswers(question.getAnswers());
-			messageToSend.setId(question.getId());
+			messageToSend.setAnswers(question.getOptions());
+			messageToSend.setNumberOfVotes(question.getNumberOfVotes());
 		} 
 			
 		roomStorage.findRoomById(roomId).addQuestion(question);
+		messageToSend.setId(question.getId());
 		return messageToSend;
+	}
+	
+	@MessageMapping("/poll/{roomId}/answer")
+	@SendTo("/answer/{roomId}")
+	public NumberOfVotesMessage getAnswer(@DestinationVariable String roomId, @Payload AnswerMessage message) {
+		Room room = roomStorage.findRoomById(roomId);
+		Question question = room.getQuestionById(message.getQuestion_id());
+		question.addAnswer(message.getAnswer(), message.getQuestion_id(), message.getUser_id());
+		return new NumberOfVotesMessage(question.getId(),question.getNumberOfVotes());
 	}
 }

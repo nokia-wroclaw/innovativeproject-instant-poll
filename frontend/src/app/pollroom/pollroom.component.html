@@ -49,10 +49,16 @@
     </div>
     <div *ngIf="element.hidden" class="card-body">
       <div *ngFor="let ans of element.answers" class="form-check">
-        <input type="radio" class="form-check-input" id={{ans}} name="answers">
-        <label class="form-check-label" for={{ans}}>{{ans}}</label>
+          <form>
+            <label>
+                <input type="radio" [(ngModel)]="element.selected" name="radiogroup" [value]="ans">
+                {{ans}}
+            </label>
+        </form>
       </div>
       <button (click)="sendAnswer(element)" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Wyślij odpowiedź!</button>
+      <br>
+      <span>{{element.numberOfVotes}}</span>
     </div>
   </div>
 

@@ -7,6 +7,7 @@ public class QuestionMessage {
 	private String type;
 	private String question;
 	private ArrayList<String> answers;
+	private ArrayList<Integer> numberOfVotes;
 	
 	public QuestionMessage() {
 		
@@ -48,5 +49,13 @@ public class QuestionMessage {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public ArrayList<Integer> getNumberOfVotes() {
+		return numberOfVotes;
+	}
+
+	public void setNumberOfVotes(ArrayList<Integer> numberOfVotes) {
+		this.numberOfVotes = numberOfVotes;
 	}
 }

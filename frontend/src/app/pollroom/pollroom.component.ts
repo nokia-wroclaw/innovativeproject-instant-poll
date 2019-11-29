@@ -25,7 +25,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
     private submitted = false;
     private ifConnecting = true;
     private questions: Array<Question>;
-    
+
     constructor(private backendService: BackendConnectionService, private router: Router, private route: ActivatedRoute, private confirmationDialogService: ConfirmationDialogService, private titleService: Title) { }
 
     ngOnInit() {
@@ -127,6 +127,23 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     sendAnswer(question: Question) {
-        
+        if(question.selected === undefined) {
+            alert("Nie udzielono odpowiedzi!");
+        } else {
+            var answer = {
+                user_id: localStorage.getItem("user_id"),
+                question_id: question.id,
+                answer: question.selected
+            }
+            this.webSocketAPI.sendAnswer(JSON.stringify(answer));
+        }    
+    }
+    receiveAnswer(answer: any) {
+        this.questions.forEach(element => {
+            if(element.id == answer.question_id) {
+                element.numberOfVotes = answer.numberOfVotes;
+                return;
+            }
+        });
     }
 }

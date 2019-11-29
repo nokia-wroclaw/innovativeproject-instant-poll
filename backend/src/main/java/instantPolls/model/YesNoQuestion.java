@@ -16,6 +16,28 @@ public class YesNoQuestion implements Question {
 		this.listOfAnswers.add(new Answer("Nie"));
 	}
 	
+	public void addAnswer(String answer, int question_id, String user_id) {
+		for(Answer a : listOfAnswers) {
+			if(a.getUsersVoted().contains(user_id)) {
+				a.getUsersVoted().remove(user_id);
+			}
+			if(a.getAnswer().equals(answer)) {
+				if(!a.getUsersVoted().contains(user_id)) {
+					a.getUsersVoted().add(user_id);
+				} 
+			}
+			
+		}
+	}
+	
+	public ArrayList<Integer> getNumberOfVotes() {
+		ArrayList<Integer> votes = new ArrayList<>();
+		for(Answer a : listOfAnswers) {
+			votes.add(a.getUsersVoted().size());
+		}
+		return votes;
+	}
+	
 	public String getQuestion() {
 		return question;
 	}
@@ -24,12 +46,16 @@ public class YesNoQuestion implements Question {
 		this.question = question;
 	}
 	
-	public ArrayList<String> getAnswers() {
+	public ArrayList<String> getOptions() {
 		ArrayList<String> answers = new ArrayList<>();
 		for(Answer a: listOfAnswers) {
 			answers.add(a.getAnswer());
 		}
 		return answers;
+	}
+	
+	public ArrayList<Answer> getAnswers() {
+		return listOfAnswers;
 	}
 
 	public void setAnswers(ArrayList<Answer> answers) {
