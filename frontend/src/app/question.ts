@@ -1,7 +1,7 @@
 export class Question {
-    questionType: string;
+    id: number;
+    type: string;
     question: string;
-    answers: string;
-
-    constructor(questionType: string, question: string, answers: string){}
-  }
+    answers: Array<string>;
+    hidden: boolean;
+}

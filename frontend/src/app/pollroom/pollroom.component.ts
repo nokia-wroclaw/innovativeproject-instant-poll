@@ -7,7 +7,7 @@ import { WebSocketAPI } from '../WebSocketAPI';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 import { Title } from "@angular/platform-browser";
 import { NgModel } from '@angular/forms';
-
+import { Question } from '../question';
 
 @Component({
     selector: 'app-pollroom',
@@ -24,12 +24,14 @@ export class PollroomComponent implements OnInit, OnDestroy {
     private question: NgModel;
     private submitted = false;
     private ifConnecting = true;
+    private questions: Array<Question>;
     
     constructor(private backendService: BackendConnectionService, private router: Router, private route: ActivatedRoute, private confirmationDialogService: ConfirmationDialogService, private titleService: Title) { }
 
     ngOnInit() {
         this.titleService.setTitle("Instant Polls - Pokój");
         this.admin = false;
+        this.questions = [];
         if (localStorage.getItem("user_id") === null) {
             this.backendService.generateUserId().subscribe(r => {
                 localStorage.setItem("user_id", r['user_id']);
@@ -95,9 +97,36 @@ export class PollroomComponent implements OnInit, OnDestroy {
                 .then((confirmed) => {
                     if (confirmed) {
                         var question = (<HTMLInputElement>document.getElementById("question")).value
-                        this.webSocketAPI.addQuestion("yesNo",question,"");
+                        this.webSocketAPI.addQuestion("yesNo",question,[]);
                     }
                 }).catch(() => { });
         }
+    }
+    
+    receiveQuestion(question: Question) {
+        this.questions.push(question);
+    }
+
+    hideQuestion(question: Question) {
+        question.hidden = !question.hidden;
+        var element = document.getElementById(question.id+"");
+        if(question.hidden) {
+            element.classList.replace("fa-angle-down","fa-angle-up");
+        } else {
+            element.classList.replace("fa-angle-up","fa-angle-down");
+        }
+        
+    }
+    deleteQuestion(question: Question) {
+        this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz usunąć pytanie?', "Usuń pytanie", "Cofnij")
+            .then((confirmed) => {
+                if (confirmed) {
+                    //usuwanie
+                }
+            }).catch(() => { });
+    }
+
+    sendAnswer(question: Question) {
+        
     }
 }

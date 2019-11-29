@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import instantPolls.model.SimpleMessage;
 import instantPolls.model.YesNoQuestion;
 import instantPolls.model.Question;
+import instantPolls.model.QuestionMessage;
 import instantPolls.model.Room;
 import instantPolls.storage.Storage;
 
@@ -45,14 +46,19 @@ public class WSController {
 	}
 	
 	@MessageMapping("/poll/{roomId}/addQuestion/{questionType}")
-	@SendTo("/room/{roomId}/questions")
-	public SimpleMessage addQuestion(@DestinationVariable String roomId, @DestinationVariable String questionType, @Payload String message) {
-		Gson gson = new Gson();
-		Question question = new YesNoQuestion("");
-		if(questionType.equals("yesNo"))
-			question = gson.fromJson(message,YesNoQuestion.class); //inne typ to bedzie inna klasa
-		
+	@SendTo("/question/{roomId}/questions")
+	public QuestionMessage addQuestion(@DestinationVariable String roomId, @DestinationVariable String questionType, @Payload QuestionMessage message) {
+		Question question = null;
+		QuestionMessage messageToSend = new QuestionMessage();
+		if(questionType.equals("yesNo")) {
+			question = new YesNoQuestion(message.getQuestion());
+			messageToSend.setQuestion(question.getQuestion());
+			messageToSend.setType("yesNo");
+			messageToSend.setAnswers(question.getAnswers());
+			messageToSend.setId(question.getId());
+		} 
+			
 		roomStorage.findRoomById(roomId).addQuestion(question);
-		return new SimpleMessage(question.getQuestion() + " " + questionType);
+		return messageToSend;
 	}
 }

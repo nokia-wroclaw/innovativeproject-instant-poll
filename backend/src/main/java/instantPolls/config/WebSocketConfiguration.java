@@ -12,12 +12,12 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 	
 	@Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/connect").setAllowedOrigins("https://instant-polls.herokuapp.com").withSockJS();
+        registry.addEndpoint("/connect").setAllowedOrigins("http://localhost:4200").withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/instant-polls");
-        registry.enableSimpleBroker("/room");
+        registry.enableSimpleBroker("/room","/question");
     }
 }

@@ -1,16 +1,19 @@
 package instantPolls.model;
 
+import java.util.ArrayList;
+
 public class YesNoQuestion implements Question {
 	
+	private int id;
 	private String question;
-	private int numberOfYes;
-	private int numberOfNo;
+	private ArrayList<Answer> listOfAnswers;
 	
 	
 	public YesNoQuestion(String question) {
 		this.question = question;
-		numberOfNo = 0;
-		numberOfYes = 0;
+		this.listOfAnswers = new ArrayList<>();
+		this.listOfAnswers.add(new Answer("Tak"));
+		this.listOfAnswers.add(new Answer("Nie"));
 	}
 	
 	public String getQuestion() {
@@ -20,20 +23,24 @@ public class YesNoQuestion implements Question {
 	public void setQuestion(String question) {
 		this.question = question;
 	}
-
-	public int getNumberOfYes() {
-		return numberOfYes;
+	
+	public ArrayList<String> getAnswers() {
+		ArrayList<String> answers = new ArrayList<>();
+		for(Answer a: listOfAnswers) {
+			answers.add(a.getAnswer());
+		}
+		return answers;
 	}
 
-	public void setNumberOfYes(int numberOfYes) {
-		this.numberOfYes = numberOfYes;
+	public void setAnswers(ArrayList<Answer> answers) {
+		this.listOfAnswers = answers;
 	}
 
-	public int getNumberOfNo() {
-		return numberOfNo;
+	public int getId() {
+		return id;
 	}
 
-	public void setNumberOfNo(int numberOfNo) {
-		this.numberOfNo = numberOfNo;
+	public void setId(int id) {
+		this.id = id;
 	}
 }
