@@ -94,7 +94,8 @@ export class PollroomComponent implements OnInit, OnDestroy {
             this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz zadać to pytanie?.', "Zadaj", "Cofnij")
                 .then((confirmed) => {
                     if (confirmed) {
-                        //sendQuestion
+                        var question = (<HTMLInputElement>document.getElementById("question")).value
+                        this.webSocketAPI.addQuestion("yesNo",question,"");
                     }
                 }).catch(() => { });
         }

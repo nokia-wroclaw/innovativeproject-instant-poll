@@ -2,6 +2,8 @@ package instantPolls.model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class Room {
@@ -12,6 +14,7 @@ public class Room {
 	private TimeZone timeZone;
 	private LocalDate expirationDate;
 	private int numberOfUsers;
+	private Map<Integer,Question> questions; 
 	
 	public Room(String id, String roomName, LocalDate expirationDate, String timeZoneName) {
 		this.id = id;
@@ -19,6 +22,7 @@ public class Room {
 		this.timeZone = TimeZone.getTimeZone(timeZoneName);
 		this.expirationDate = expirationDate;
 		expirationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+		questions = new HashMap<Integer,Question>();
 	}
 
 	public String getId() {
@@ -75,6 +79,10 @@ public class Room {
 
 	public void setNumberOfUsers(int numberOfUsers) {
 		this.numberOfUsers = numberOfUsers;
+	}
+	
+	public void addQuestion(Question question) {
+		questions.put(questions.size(), question);
 	}
 	
 }
