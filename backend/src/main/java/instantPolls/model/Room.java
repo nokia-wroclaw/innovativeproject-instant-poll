@@ -4,7 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 public class Room {
 	
@@ -13,8 +17,8 @@ public class Room {
 	private String roomName;
 	private TimeZone timeZone;
 	private LocalDate expirationDate;
-	private int numberOfUsers;
-	private ArrayList<Question> questions; 
+	private ArrayList<Question> questions;
+	private List<String> users;
 	private int iterator;
 	
 	public Room(String id, String roomName, LocalDate expirationDate, String timeZoneName) {
@@ -24,6 +28,42 @@ public class Room {
 		this.expirationDate = expirationDate;
 		expirationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 		questions = new ArrayList<Question>();
+		users = new ArrayList<>();
+	}
+	
+	public ArrayList<HashMap<String,Object>> getListOfQuestionsWithVotes(String userId) {
+		ArrayList<HashMap<String,Object>> list = new ArrayList<>();
+		questions.forEach(question -> {
+			HashMap<String,Object> q = new HashMap<>();
+			q.put("id", question.getId());
+			q.put("type", question.getType());
+			q.put("question", question.getQuestion());
+			q.put("answers", question.getOptions());
+			q.put("numberOfVotes", question.getNumberOfVotes());
+			question.getAnswers().forEach(answer -> {
+				if(answer.getUsersVoted().contains(userId)) {
+					q.put("selected", answer.getAnswer());
+					return;
+				}
+			});
+			list.add(q);
+		});
+		return list;
+	}
+	
+	public void addQuestion(Question question) {
+		question.setId(iterator);
+		iterator += 1;
+		questions.add(question);
+	}
+	
+	public Question getQuestionById(int id) {
+		for(Question q: questions) {
+			if(q.getId() == id) {
+				return q;
+			}
+		}
+		return null;
 	}
 
 	public String getId() {
@@ -65,37 +105,6 @@ public class Room {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	
-	public void incrementUsers() {
-		this.numberOfUsers++;
-	}
-	
-	public void decrementUsers() {
-		this.numberOfUsers--;
-	}
-
-	public int getNumberOfUsers() {
-		return numberOfUsers;
-	}
-
-	public void setNumberOfUsers(int numberOfUsers) {
-		this.numberOfUsers = numberOfUsers;
-	}
-	
-	public void addQuestion(Question question) {
-		question.setId(iterator);
-		iterator += 1;
-		questions.add(question);
-	}
-	
-	public Question getQuestionById(int id) {
-		for(Question q: questions) {
-			if(q.getId() == id) {
-				return q;
-			}
-		}
-		return null;
-	}
 
 	public ArrayList<Question> getQuestions() {
 		return questions;
@@ -104,25 +113,16 @@ public class Room {
 	public void setQuestions(ArrayList<Question> questions) {
 		this.questions = questions;
 	}
-	
-	public ArrayList<HashMap<String,Object>> getListOfQuestionsWithVotes(String userId) {
-		ArrayList<HashMap<String,Object>> list = new ArrayList<>();
-		questions.forEach(question -> {
-			HashMap<String,Object> q = new HashMap<>();
-			q.put("id", question.getId());
-			q.put("type", question.getType());
-			q.put("question", question.getQuestion());
-			q.put("answers", question.getOptions());
-			q.put("numberOfVotes", question.getNumberOfVotes());
-			question.getAnswers().forEach(answer -> {
-				if(answer.getUsersVoted().contains(userId)) {
-					q.put("selected", answer.getAnswer());
-					return;
-				}
-			});
-			list.add(q);
-		});
-		return list;
+
+	public List<String> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<String> users) {
+		this.users = users;
 	}
 	
+	public int getNumberOfUsers() {
+		return users.stream().distinct().collect(Collectors.toList()).size();
+	}
 }

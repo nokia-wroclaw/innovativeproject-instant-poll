@@ -28,11 +28,11 @@ public class WSController {
 	
 	@MessageMapping("/poll/{roomId}/enter")
 	@SendTo("/room/{roomId}/users")
-    public SimpleMessage enter(@DestinationVariable String roomId) {
-        Room r = roomStorage.findRoomById(roomId);
-        r.incrementUsers();
-        SimpleMessage m = new SimpleMessage(Integer.toString(r.getNumberOfUsers()));
-        return m;
+    public SimpleMessage enter(@DestinationVariable String roomId, @Payload String userId) {
+		Room room = roomStorage.findRoomById(roomId);
+		room.getUsers().add(userId);
+		SimpleMessage message = new SimpleMessage(Integer.toString(room.getNumberOfUsers()));
+        return message;
     }
 	
 	@MessageMapping("/poll/{userId}/allQuestions")
@@ -44,12 +44,12 @@ public class WSController {
 	
 	@MessageMapping("/poll/{roomId}/exit")
 	@SendTo("/room/{roomId}/users")
-	public SimpleMessage exit(@DestinationVariable String roomId) {
+	public SimpleMessage exit(@DestinationVariable String roomId, @Payload String userId) {
 		Room r = roomStorage.findRoomById(roomId);
 		SimpleMessage m = null;
 		if(r != null) {
-			r.decrementUsers();
-	        m = new SimpleMessage(Integer.toString(r.getNumberOfUsers()));
+			r.getUsers().remove(userId);
+			m = new SimpleMessage(Integer.toString(r.getNumberOfUsers()));
 		}
         return m;
 	}
