@@ -41,11 +41,12 @@ export class PollroomComponent implements OnInit, OnDestroy {
             this.backendService.getRoom(params['id']).subscribe(r => {
                 this.room = r;
                 if (this.room === null) {
-                    this.router.navigate(['/rooms']);
+                    this.router.navigate(['/join']);
                     return;
                 }
                 document.getElementById("roomName").innerHTML = this.room.roomName;
                 document.getElementById("expire-date").innerHTML = "Pokój ważny do: " + this.room.expirationDate;
+                document.getElementById("shortLink").innerHTML = "Link: " + this.generateShortLink(window.location.href);
                 if (this.room.token === localStorage.getItem("token")) {
                     this.admin = true;
                 }
@@ -58,13 +59,13 @@ export class PollroomComponent implements OnInit, OnDestroy {
 
     @HostListener('window:beforeunload', ['$event'])
     unloadHandler(event) {
-        if (this.room !== null) {
+        if (this.room !== null && this.room !== undefined) {
             this.webSocketAPI.disconnect();
         }
     }
 
     ngOnDestroy() {
-        if (this.room !== null) {
+        if (this.room !== null && this.room !== undefined) {
             this.webSocketAPI.disconnect();
         }
     }
@@ -149,5 +150,12 @@ export class PollroomComponent implements OnInit, OnDestroy {
 
     addQuestions(listOfQuestion: Array<Question>) {
         this.questions = listOfQuestion;
+    }
+
+    generateShortLink(link: string) {
+        var regex = new RegExp("pollroom\/.*$", "i");
+        var regex2 = new RegExp(".*\/\/","i");
+        link = link.replace(regex,"join/"+this.room.shortId).replace(regex2,"");
+        return link;
     }
 }

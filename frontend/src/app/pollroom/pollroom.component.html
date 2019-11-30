@@ -7,8 +7,9 @@
         <h1 class="text-center" id="roomName"></h1>
     </div>
     <div class="card-footer">
-        <p [hidden]="!admin" class="text-card" id="expire-date"></p>
-        <span class="text-card" id="users">Użytkowników w pokoju: 0</span>
+        <span [hidden]="!admin" class="text-card" id="expire-date"></span><br>
+        <span class="text-card" id="users">Użytkowników w pokoju: 0</span><br>
+        <span class="text-card" id="shortLink"></span>
         <button *ngIf="admin" type="button" id="back" (click)="questionPanel()" class="btn btn-success float-right" [disabled]="ifConnecting"><i class="fas fa-list-ul"></i> Utwórz pytanie</button>
     </div>
 </div>

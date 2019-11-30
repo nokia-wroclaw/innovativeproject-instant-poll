@@ -16,6 +16,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { RoomsComponent } from './rooms/rooms.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
+import { JoinRoomComponent } from './join-room/join-room.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ConfirmationDialogService } from './confirmation-dialog/confirmation-di
     HomepageComponent,
     RoomsComponent,
     ConfirmationDialogComponent,
+    JoinRoomComponent,
   ],
   imports: [
     NgbModule,
@@ -35,7 +37,9 @@ import { ConfirmationDialogService } from './confirmation-dialog/confirmation-di
     RouterModule.forRoot([
       { path: '', component: HomepageComponent },
       { path: 'pollroom/:id', component: PollroomComponent },
-	  { path: 'rooms', component: RoomsComponent }
+      { path: 'rooms', component: RoomsComponent },
+      { path: 'join/:shortLink', component: JoinRoomComponent},
+      { path: 'join', component: JoinRoomComponent}
     ])
   ],
   providers: [ConfirmationDialogService,BackendConnectionService,{provide: LocationStrategy, useClass: HashLocationStrategy}],

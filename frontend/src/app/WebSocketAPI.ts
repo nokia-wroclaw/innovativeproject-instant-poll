@@ -6,9 +6,9 @@ import { Question } from './question';
 
 export class WebSocketAPI {
     //Dwa serwery
-    //private webSocketEndPoint: string = 'http://localhost:8080/connect';
+    private webSocketEndPoint: string = 'http://localhost:8080/connect';
     //Jeden serwer
-    private webSocketEndPoint: string = '/connect';
+    //private webSocketEndPoint: string = '/connect';
     private stompClient: any;
     
     constructor(private pollroomComponent: PollroomComponent, private room: Room){}

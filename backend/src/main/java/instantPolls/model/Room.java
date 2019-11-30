@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class Room {
 	
 	private String id;
+	private String shortId;
 	private String token;
 	private String roomName;
 	private TimeZone timeZone;
@@ -124,5 +125,13 @@ public class Room {
 	
 	public int getNumberOfUsers() {
 		return users.stream().distinct().collect(Collectors.toList()).size();
+	}
+
+	public String getShortId() {
+		return shortId;
+	}
+
+	public void setShortId(String shortId) {
+		this.shortId = shortId;
 	}
 }

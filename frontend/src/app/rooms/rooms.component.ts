@@ -24,10 +24,11 @@ export class RoomsComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle("Instant Polls - Twoje pokoje");
-    var today = new Date();
-    var dd = String(today.getDate() + 1).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0');
-    var yyyy = today.getFullYear();
+    var date = new Date();
+    date.setDate(date.getDate() + 1);
+    var dd = String(date.getDate()).padStart(2, '0');
+    var mm = String(date.getMonth() + 1).padStart(2, '0');
+    var yyyy = date.getFullYear();
     this.dateString = yyyy + '-' + mm + '-' + dd;
     if (localStorage.getItem("rooms") !== null) {
       this.backendService.checkUserRoom(localStorage.getItem("rooms")).subscribe(response => {

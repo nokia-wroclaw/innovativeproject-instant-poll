@@ -9,4 +9,5 @@ public interface Storage {
 	Room findRoomById(String id);
 	int closeRoom(String id, String toke);
 	void deleteExpiredRooms();
+	String getFullId(String shortId);
 }

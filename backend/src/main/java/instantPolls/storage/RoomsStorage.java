@@ -14,9 +14,11 @@ import instantPolls.model.Room;
 public class RoomsStorage implements Storage {
 	
 	volatile private Map<String,Room> rooms;
+	volatile private Map<String,String> shortLinks;
 	
 	public RoomsStorage() {
 		rooms = new TreeMap<>();
+		shortLinks = new TreeMap<>();
 	}
 	
 	@Override
@@ -27,13 +29,31 @@ public class RoomsStorage implements Storage {
 			token = generateId();
 		}
 		new_room.setToken(token);
+		String shortLink = generateShortLink(generatedId); 
+		new_room.setShortId(shortLink);
 		rooms.put(generatedId, new_room);
+		shortLinks.put(shortLink,generatedId);
 		return new_room;
+	}
+	
+	private String generateShortLink(String roomId) {
+		String shortId = "";
+		for(int i = 5; i < roomId.length(); i++) {
+			shortId = roomId.substring(0,i);
+			if(!shortLinks.containsKey(shortId)) {
+				break;
+			}
+		}
+		return shortId;
 	}
 	
 	@Override
 	public Room findRoomById(String id) {
 		return rooms.get(id);
+	}
+	
+	public String getFullId(String shortId) {
+		return shortLinks.get(shortId);
 	}
 	
 	@Override
@@ -64,6 +84,7 @@ public class RoomsStorage implements Storage {
     		
     		if (room.getExpirationDate().isBefore(dateInRoomTimeZone)) {	
     			log.info("Room with id: " + room.getId() + "was deleted");
+    			shortLinks.remove(room.getShortId());
     			return true;
     		} else
     			return false;

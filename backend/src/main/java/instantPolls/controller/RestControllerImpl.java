@@ -72,7 +72,7 @@ public class RestControllerImpl {
 		if(room != null)
 			return ResponseEntity.ok(room);
 		else
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			return ResponseEntity.ok(null);
 	}
 	
 	@ResponseBody
@@ -97,5 +97,14 @@ public class RestControllerImpl {
 	public Map<String,String> getUserID() {
 		String id = UUID.randomUUID().toString();
 		return Collections.singletonMap("user_id", id);
+	}
+	
+	@ResponseBody
+	@GetMapping(value = "/shortLink/{shortLink}")
+	public HashMap<String,String> getRoomByShortLink(@PathVariable String shortLink) {
+		HashMap<String,String> response = new HashMap<>();
+		String room_id = roomStorage.getFullId(shortLink);
+		response.put("roomId", room_id);
+		return response;
 	}
 }

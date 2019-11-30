@@ -50,5 +50,9 @@ export class BackendConnectionService {
     
     public generateUserId() {
         return this.http.get("/userID");
-    }
+	}
+	
+	public getLongId(shortId: string) {
+		return this.http.get<string>("/shortLink/"+shortId);
+	}
 }
