@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { RouterModule } from "@angular/router";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { NgxQRCodeModule } from 'ngx-qrcode2';    
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { PollroomComponent } from './pollroom/pollroom.component';
@@ -17,6 +18,8 @@ import { RoomsComponent } from './rooms/rooms.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
 import { JoinRoomComponent } from './join-room/join-room.component';
+import { ImageDialogComponent } from './image-dialog/image-dialog.component';
+import { ImageDialogService } from './image-dialog/image-dialog.service';
 
 @NgModule({
   declarations: [
@@ -27,6 +30,7 @@ import { JoinRoomComponent } from './join-room/join-room.component';
     RoomsComponent,
     ConfirmationDialogComponent,
     JoinRoomComponent,
+    ImageDialogComponent,
   ],
   imports: [
     NgbModule,
@@ -34,6 +38,7 @@ import { JoinRoomComponent } from './join-room/join-room.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    NgxQRCodeModule,
     RouterModule.forRoot([
       { path: '', component: HomepageComponent },
       { path: 'pollroom/:id', component: PollroomComponent },
@@ -42,8 +47,8 @@ import { JoinRoomComponent } from './join-room/join-room.component';
       { path: 'join', component: JoinRoomComponent}
     ])
   ],
-  providers: [ConfirmationDialogService,BackendConnectionService,{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [ConfirmationDialogService,ImageDialogService,BackendConnectionService,{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
-  entryComponents: [ ConfirmationDialogComponent ]
+  entryComponents: [ ConfirmationDialogComponent, ImageDialogComponent ]
 })
 export class AppModule { }

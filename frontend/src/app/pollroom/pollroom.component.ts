@@ -5,9 +5,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Room } from '../room';
 import { WebSocketAPI } from '../WebSocketAPI';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+import { ImageDialogService } from '../image-dialog/image-dialog.service';
 import { Title } from "@angular/platform-browser";
 import { NgModel } from '@angular/forms';
 import { Question } from '../question';
+import { TouchSequence } from 'selenium-webdriver';
 
 @Component({
     selector: 'app-pollroom',
@@ -25,8 +27,13 @@ export class PollroomComponent implements OnInit, OnDestroy {
     private submitted = false;
     private ifConnecting = true;
     private questions: Array<Question>;
+    private shortLink: string;
 
-    constructor(private backendService: BackendConnectionService, private router: Router, private route: ActivatedRoute, private confirmationDialogService: ConfirmationDialogService, private titleService: Title) { }
+    constructor(private backendService: BackendConnectionService, 
+        private router: Router, private route: ActivatedRoute, 
+        private confirmationDialogService: ConfirmationDialogService, 
+        private imageDialogService: ImageDialogService, 
+        private titleService: Title) { }
 
     ngOnInit() {
         this.titleService.setTitle("Instant Polls - Pokój");
@@ -44,15 +51,15 @@ export class PollroomComponent implements OnInit, OnDestroy {
                     this.router.navigate(['/join']);
                     return;
                 }
+                this.generateShortLink(window.location.href)
                 document.getElementById("roomName").innerHTML = this.room.roomName;
                 document.getElementById("expire-date").innerHTML = "Pokój ważny do: " + this.room.expirationDate;
-                document.getElementById("shortLink").innerHTML = "Link: " + this.generateShortLink(window.location.href);
+                document.getElementById("shortLink").innerHTML = "Link: " + this.shortLink;
                 if (this.room.token === localStorage.getItem("token")) {
                     this.admin = true;
                 }
                 this.webSocketAPI = new WebSocketAPI(this, this.room);
                 this.webSocketAPI.connect();
-                
             });
         });
     }
@@ -139,6 +146,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
             this.webSocketAPI.sendAnswer(JSON.stringify(answer));
         }    
     }
+    
     receiveAnswer(answer: any) {
         this.questions.forEach(element => {
             if(element.id == answer.question_id) {
@@ -149,13 +157,17 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     addQuestions(listOfQuestion: Array<Question>) {
-        this.questions = listOfQuestion;
+        this.questions = listOfQuestion;    
     }
 
     generateShortLink(link: string) {
         var regex = new RegExp("pollroom\/.*$", "i");
         var regex2 = new RegExp(".*\/\/","i");
-        link = link.replace(regex,"join/"+this.room.shortId).replace(regex2,"");
-        return link;
+        this.shortLink = link.replace(regex,"join/"+this.room.shortId).replace(regex2,"");
+    }
+
+    showQr() {
+        var qrCode = document.getElementById("qr").getElementsByClassName("qrcode")[0].getElementsByTagName('img')[0].src;
+        this.imageDialogService.show('QR kod', qrCode);
     }
 }

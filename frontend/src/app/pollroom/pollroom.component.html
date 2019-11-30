@@ -9,7 +9,11 @@
     <div class="card-footer">
         <span [hidden]="!admin" class="text-card" id="expire-date"></span><br>
         <span class="text-card" id="users">Użytkowników w pokoju: 0</span><br>
-        <span class="text-card" id="shortLink"></span>
+        <span class="text-card" id="shortLink"></span><br>
+        <button (click)="showQr()" class="btn btn-success">Pokaż QR</button>
+        <div [hidden]="true" id="qr">
+            <ngx-qrcode (click)="showQr()" qrc-errorCorrectionLevel = "H" qrc-element-type="url" [qrc-value]="shortLink" ></ngx-qrcode>
+        </div>
         <button *ngIf="admin" type="button" id="back" (click)="questionPanel()" class="btn btn-success float-right" [disabled]="ifConnecting"><i class="fas fa-list-ul"></i> Utwórz pytanie</button>
     </div>
 </div>
