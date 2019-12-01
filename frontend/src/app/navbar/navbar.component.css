@@ -1,3 +1,14 @@
 nav {
     z-index: 1;
 }
+
+
+#room-name {
+  color: #ffffff;
+}
+
+@media(max-width: 350px) {
+  .navbar-brand-room{
+    visibility: hidden;
+  }
+}

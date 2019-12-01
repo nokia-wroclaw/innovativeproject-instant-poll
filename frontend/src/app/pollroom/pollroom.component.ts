@@ -10,6 +10,7 @@ import { Title } from "@angular/platform-browser";
 import { NgModel } from '@angular/forms';
 import { Question } from '../question';
 import { TouchSequence } from 'selenium-webdriver';
+import {NavbarTitleService} from "../navbar-title.service";
 
 @Component({
     selector: 'app-pollroom',
@@ -29,11 +30,12 @@ export class PollroomComponent implements OnInit, OnDestroy {
     private questions: Array<Question>;
     private shortLink: string;
 
-    constructor(private backendService: BackendConnectionService, 
-        private router: Router, private route: ActivatedRoute, 
-        private confirmationDialogService: ConfirmationDialogService, 
-        private imageDialogService: ImageDialogService, 
-        private titleService: Title) { }
+    constructor(private backendService: BackendConnectionService,
+        private router: Router, private route: ActivatedRoute,
+        private confirmationDialogService: ConfirmationDialogService,
+        private imageDialogService: ImageDialogService,
+        private titleService: Title,
+        private navbarTitleService: NavbarTitleService) { }
 
     ngOnInit() {
         this.titleService.setTitle("Instant Polls - Pokój");
@@ -60,6 +62,8 @@ export class PollroomComponent implements OnInit, OnDestroy {
                 }
                 this.webSocketAPI = new WebSocketAPI(this, this.room);
                 this.webSocketAPI.connect();
+
+                this.navbarTitleService.setNavbarTitle(this.room.roomName);
             });
         });
     }
@@ -110,7 +114,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
                 }).catch(() => { });
         }
     }
-    
+
     receiveQuestion(question: Question) {
         this.questions.push(question);
     }
@@ -123,7 +127,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
         } else {
             element.classList.replace("fa-angle-up","fa-angle-down");
         }
-        
+
     }
     deleteQuestion(question: Question) {
         this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz usunąć pytanie?', "Usuń pytanie", "Cofnij")
@@ -144,9 +148,9 @@ export class PollroomComponent implements OnInit, OnDestroy {
                 answer: question.selected
             }
             this.webSocketAPI.sendAnswer(JSON.stringify(answer));
-        }    
+        }
     }
-    
+
     receiveAnswer(answer: any) {
         this.questions.forEach(element => {
             if(element.id == answer.question_id) {
@@ -157,7 +161,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     addQuestions(listOfQuestion: Array<Question>) {
-        this.questions = listOfQuestion;    
+        this.questions = listOfQuestion;
     }
 
     generateShortLink(link: string) {
