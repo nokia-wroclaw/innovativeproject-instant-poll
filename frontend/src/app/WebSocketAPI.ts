@@ -2,6 +2,7 @@ import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { PollroomComponent } from './pollroom/pollroom.component';
 import { Room } from './room';
+import { Question } from './question';
 
 export class WebSocketAPI {
     //Dwa serwery
@@ -15,18 +16,43 @@ export class WebSocketAPI {
     connect() {
         let ws = new SockJS(this.webSocketEndPoint);
         this.stompClient = Stomp.over(ws);
+
         const _this = this;
-        _this.stompClient.connect({}, function (frame) {
+        
+        _this.stompClient.connect({}, function () {
             _this.stompClient.subscribe("/room/"+_this.room.id+"/users", function (message) {
                 _this.pollroomComponent.setNumberOfUsers(JSON.parse(message.body).content);
             });
-            _this.stompClient.send("/poll/poll/"+_this.room.id+"/enter",{},{});
+            _this.stompClient.subscribe("/question/"+_this.room.id, function (message) {
+                _this.pollroomComponent.receiveQuestion(JSON.parse(message.body));
+            });
+            _this.stompClient.subscribe("/answer/"+_this.room.id, function (message) {
+                _this.pollroomComponent.receiveAnswer(JSON.parse(message.body));
+            });
+            _this.stompClient.subscribe("/user/"+localStorage.getItem("user_id")+"/allQuestions", function (message) {
+                _this.pollroomComponent.addQuestions(JSON.parse(message.body));
+            });
+            _this.stompClient.send("/instant-polls/poll/"+_this.room.id+"/enter",{},JSON.stringify({userId: localStorage.getItem("user_id")}));
+            _this.stompClient.send("/instant-polls/poll/"+localStorage.getItem("user_id")+"/allQuestions",{},_this.room.id);
         }, this.errorCallBack);
     };
 
+    addQuestion(questionType : string, question : string, answers : Array<string>) {
+        if (this.stompClient !== null) {
+            var message = JSON.stringify({question: question, answers : answers});
+            this.stompClient.send("/instant-polls/poll/"+this.room.id+"/addQuestion/" + questionType,{},message);
+        }
+    }
+
+    sendAnswer(answer: string) {
+        if (this.stompClient !== null) {
+            this.stompClient.send("/instant-polls/poll/"+this.room.id+"/answer",{},answer);
+        }
+    }
+
     disconnect() {
         if (this.stompClient !== null) {
-            this.stompClient.send("/poll/poll/"+this.room.id+"/exit",{},{});
+            this.stompClient.send("/instant-polls/poll/"+this.room.id+"/exit",{},JSON.stringify({userId: localStorage.getItem("user_id")}));
             this.stompClient.disconnect();
         }
     }

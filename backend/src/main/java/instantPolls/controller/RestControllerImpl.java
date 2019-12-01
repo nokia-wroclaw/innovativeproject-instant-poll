@@ -10,12 +10,15 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -31,12 +34,6 @@ public class RestControllerImpl {
 	@Autowired
 	Storage roomStorage;
 	
-	@ResponseBody
-	@GetMapping(value = "/test")
-	public Map<String,String> testing() {
-		return Collections.singletonMap("response", "There is connection from Spring Server!");
-	}
-  
 	@ResponseBody
 	@PostMapping(value = "/room/created")
 	public List<Room> checkUserRoom(@RequestBody List<String> ids) {
@@ -70,18 +67,29 @@ public class RestControllerImpl {
 	
 	@ResponseBody
 	@GetMapping(value = "/room/{id}")
-	public Room getRoom(@PathVariable(value = "id") String id) {
+	public ResponseEntity<Room> getRoom(@PathVariable(value = "id") String id) {
 		Room room = roomStorage.findRoomById(id);
-		return room;
+		if(room != null)
+			return ResponseEntity.ok(room);
+		else
+			return ResponseEntity.ok(null);
 	}
 	
 	@ResponseBody
-	@DeleteMapping(value = "/room/{id}/{token}")
-	public Map<String,String> closeRoom(@PathVariable(value = "id") String id,@PathVariable(value = "token") String token) {
-		if(roomStorage.closeRoom(id, token))
-			return Collections.singletonMap("result", "success");
-		else
-			return Collections.singletonMap("result", "failed");
+	@DeleteMapping(value = "/room/{id}")
+	public ResponseEntity<Map<String, String>> closeRoom(@PathVariable(value = "id") String id, @RequestHeader("Authorization") String token) {
+		int result = roomStorage.closeRoom(id, token);
+		if(result == 200) 
+			return ResponseEntity.ok(Collections.singletonMap("result", "success"));
+		else {
+			Map<String, String> resultString = Collections.singletonMap("result", "fail");	
+			if (result == 404)
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resultString);
+			else if(result == 401)
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(resultString);
+			else
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(resultString);
+		}
 	}
 	
 	@ResponseBody
@@ -89,5 +97,14 @@ public class RestControllerImpl {
 	public Map<String,String> getUserID() {
 		String id = UUID.randomUUID().toString();
 		return Collections.singletonMap("user_id", id);
+	}
+	
+	@ResponseBody
+	@GetMapping(value = "/shortLink/{shortLink}")
+	public HashMap<String,String> getRoomByShortLink(@PathVariable String shortLink) {
+		HashMap<String,String> response = new HashMap<>();
+		String room_id = roomStorage.getFullId(shortLink);
+		response.put("roomId", room_id);
+		return response;
 	}
 }

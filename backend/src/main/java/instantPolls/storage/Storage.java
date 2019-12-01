@@ -7,6 +7,7 @@ import instantPolls.model.Room;
 public interface Storage {
 	Room createRoom(String name, String token, LocalDate date, String timeZone);
 	Room findRoomById(String id);
-	boolean closeRoom(String id, String toke);
+	int closeRoom(String id, String toke);
 	void deleteExpiredRooms();
+	String getFullId(String shortId);
 }

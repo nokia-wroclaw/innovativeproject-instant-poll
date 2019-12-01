@@ -3,4 +3,5 @@ export class Room {
   roomName: string;
   expirationDate: string;
   token: string;
+  shortId: string;
 }

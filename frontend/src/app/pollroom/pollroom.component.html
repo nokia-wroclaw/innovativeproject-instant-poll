@@ -1,40 +1,70 @@
 <div class="card bg-light mb-3">
-  <div class="card-header">
-    <button type="button" id="back" [routerLink]="['/rooms']" class="btn btn-warning float-left"><i class="fas fa-arrow-alt-circle-left"></i> Wyjdź z pokoju</button>
-    <button *ngIf="admin" type="button" class="btn btn-danger float-right" (click)="closeRoom()"><i class="fas fa-times-circle"></i> Zamknij pokój</button>
-  </div>
-  <div class="card-body">
-    <h1 class="text-center" id="roomName"></h1>
-  </div>
-  <div class="card-footer">
-    <p [hidden]="!admin" class="text-card" id="expire-date"></p>
-    <span class="text-card" id="users">Użytkowników w pokoju: 0</span>
-    <button *ngIf="admin" type="button" id="back" (click)="questionPanel()" class="btn btn-success float-right"><i class="fas fa-list-ul"></i> Utwórz pytanie</button>
-  </div>
+    <div class="card-header">
+        <button type="button" id="back" [routerLink]="['/rooms']" class="btn btn-warning float-left" [disabled]="ifConnecting"><i class="fas fa-arrow-alt-circle-left" ></i> Wyjdź z pokoju</button>
+        <button *ngIf="admin" type="button" class="btn btn-danger float-right" (click)="closeRoom()" [disabled]="ifConnecting"><i class="fas fa-times-circle" ></i> Zamknij pokój</button>
+    </div>
+    <div class="card-body">
+        <h1 class="text-center" id="roomName"></h1>
+    </div>
+    <div class="card-footer">
+        <span [hidden]="!admin" class="text-card" id="expire-date"></span><br>
+        <span class="text-card" id="users">Użytkowników w pokoju: 0</span><br>
+        <span class="text-card" id="shortLink"></span><br>
+        <button (click)="showQr()" class="btn btn-success">Pokaż QR</button>
+        <div [hidden]="true" id="qr">
+            <ngx-qrcode (click)="showQr()" qrc-errorCorrectionLevel = "H" qrc-element-type="url" [qrc-value]="shortLink" ></ngx-qrcode>
+        </div>
+        <button *ngIf="admin" type="button" id="back" (click)="questionPanel()" class="btn btn-success float-right" [disabled]="ifConnecting"><i class="fas fa-list-ul"></i> Utwórz pytanie</button>
+    </div>
 </div>
 
 <div *ngIf="opened" class="card bg-light mb-3" id="questionPanel">
-  <div class="card-header">
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link active" href="#">Tak/Nie</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Kilka odpowiedzi</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Ocena</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Pytanie otwarte</a>
-        </li>
-    </ul>
-  </div>
-  <div class="card-body">
-    <h5 class="card-title">Pytanie Tak/Nie</h5>
-    <input type="text" class="form-control" id="date" placeholder="Twoje pytanie"> <br>
-    <button type="button" class="btn btn-success" (click)="sendQuestion()"><i class="fas fa-check-circle"></i> Zadaj pytanie</button>
-  </div>
+    <div class="card-header">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Tak/Nie</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Kilka odpowiedzi</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Ocena</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Pytanie otwarte</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Pytanie Tak/Nie</h5>
+        <input type="text" class="form-control" id="question" placeholder="Twoje pytanie" required ngModel name="question" #question="ngModel">
+        <div *ngIf="question.invalid && submitted " class="alert alert-danger">
+            Puste pytanie!
+        </div>
+        <br>
+        <button type="button" class="btn btn-success" (click)="sendQuestion()"><i class="fas fa-check-circle"></i> Zadaj pytanie</button>
+    </div>
 </div>
+
+<div class="card bg-light mb-3" *ngFor="let element of questions">
+    <div class="card-header">
+        <span>{{element.question}}</span>
+        <button *ngIf="admin" type="button" class="btn btn-danger float-right" (click)="deleteQuestion()"><i class="fas fa-times-circle" ></i></button>
+        <button type="button" class="btn btn-success float-right" (click)="hideQuestion(element)"><i id={{element.id}} class="fas fa-angle-down"></i></button>
+    </div>
+    <div *ngIf="element.hidden" class="card-body">
+      <div *ngFor="let ans of element.answers" class="form-check">
+          <form>
+            <label>
+                <input type="radio" [(ngModel)]="element.selected" name="radiogroup" [value]="ans">
+                {{ans}}
+            </label>
+        </form>
+      </div>
+      <button (click)="sendAnswer(element)" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Wyślij odpowiedź!</button>
+      <br>
+      <span>{{element.numberOfVotes}}</span>
+    </div>
+  </div>
 
 <router-outlet></router-outlet>

@@ -3,6 +3,7 @@ package instantPolls.storage;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +14,11 @@ import instantPolls.model.Room;
 public class RoomsStorage implements Storage {
 	
 	volatile private Map<String,Room> rooms;
+	volatile private Map<String,String> shortLinks;
 	
 	public RoomsStorage() {
 		rooms = new TreeMap<>();
+		shortLinks = new TreeMap<>();
 	}
 	
 	@Override
@@ -26,8 +29,22 @@ public class RoomsStorage implements Storage {
 			token = generateId();
 		}
 		new_room.setToken(token);
+		String shortLink = generateShortLink(generatedId); 
+		new_room.setShortId(shortLink);
 		rooms.put(generatedId, new_room);
+		shortLinks.put(shortLink,generatedId);
 		return new_room;
+	}
+	
+	private String generateShortLink(String roomId) {
+		String shortId = "";
+		for(int i = 5; i < roomId.length(); i++) {
+			shortId = roomId.substring(0,i);
+			if(!shortLinks.containsKey(shortId)) {
+				break;
+			}
+		}
+		return shortId;
 	}
 	
 	@Override
@@ -35,14 +52,20 @@ public class RoomsStorage implements Storage {
 		return rooms.get(id);
 	}
 	
+	public String getFullId(String shortId) {
+		return shortLinks.get(shortId);
+	}
+	
 	@Override
-	public boolean closeRoom(String id, String token) {
+	public int closeRoom(String id, String token) {
 		Room room = rooms.get(id);
-		if(room != null && room.getToken().equals(token)) {
+		if(room == null)
+			return 404;
+		if(room.getToken().equals(token)) {
 			rooms.remove(id);
-			return true;
+			return 200;
 		} else
-			return false;
+			return 401;
 	}
 	
 	@Override
@@ -51,7 +74,7 @@ public class RoomsStorage implements Storage {
 		
 		TimeZone localTimeZone = TimeZone.getDefault();
 		int offSetLocalTimeZone = localTimeZone.getOffset(System.currentTimeMillis()) / 1000 / 60;	// server to UTC in minutes
-
+		
 		rooms.entrySet().removeIf(entry -> {
 			Room room = entry.getValue();
 			TimeZone timeZone = room.getTimeZone();
@@ -61,6 +84,7 @@ public class RoomsStorage implements Storage {
     		
     		if (room.getExpirationDate().isBefore(dateInRoomTimeZone)) {	
     			log.info("Room with id: " + room.getId() + "was deleted");
+    			shortLinks.remove(room.getShortId());
     			return true;
     		} else
     			return false;

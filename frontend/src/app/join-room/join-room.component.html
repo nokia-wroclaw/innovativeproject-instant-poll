@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-sm-12 col-md-4">
+        <div class="card bg-light mb-3">
+            <div class="card-header">
+                <h3>Dołącz do pokoju</h3>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="roomName">Kod pokoju</label>
+                    <input type="text" class="form-control" [(ngModel)]="shortLink" placeholder="Podaj kod">
+                </div>
+            </div>
+            <button (click)="joinRoom()" type="button" class="btn btn-success">Dołącz <i class="fas fa-sign-in-alt"></i></button>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-8">
+        <div class="card bg-light mb-3">
+            <div class="card-header">
+                <h3>Ostatnio odwiedzone pokoje</h3>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    <li *ngFor="let element of array" class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-8">
+                                <h4>{{element.roomName}}</h4>
+                            </div>
+                            <div class="col-sm-12 col-md-4">
+                                <button [routerLink]="['/pollroom/'+element.id]" type="button" class="btn-success btn">Wejdź do pokoju <i class="fas fa-sign-in-alt"></i></button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<router-outlet></router-outlet>
