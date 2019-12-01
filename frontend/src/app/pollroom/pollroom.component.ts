@@ -26,9 +26,10 @@ export class PollroomComponent implements OnInit, OnDestroy {
     private webSocketAPI: WebSocketAPI;
     private question: NgModel;
     private submitted = false;
-    private ifConnecting = true;
+    private ifConnecting = false;
     private questions: Array<Question>;
     private shortLink: string;
+    private numberOfUsers = '0';
 
     constructor(private backendService: BackendConnectionService,
         private router: Router, private route: ActivatedRoute,
@@ -54,9 +55,9 @@ export class PollroomComponent implements OnInit, OnDestroy {
                     return;
                 }
                 this.generateShortLink(window.location.href)
-                document.getElementById("roomName").innerHTML = this.room.roomName;
+                //document.getElementById("roomName").innerHTML = this.room.roomName;
                 document.getElementById("expire-date").innerHTML = "Pokój ważny do: " + this.room.expirationDate;
-                document.getElementById("shortLink").innerHTML = "Link: " + this.shortLink;
+                //document.getElementById("shortLink").innerHTML = "Link: " + this.shortLink;
                 if (this.room.token === localStorage.getItem("token")) {
                     this.admin = true;
                 }
@@ -66,6 +67,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
                 this.navbarTitleService.setNavbarTitle(this.room.roomName);
             });
         });
+
     }
 
     @HostListener('window:beforeunload', ['$event'])
@@ -79,6 +81,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
         if (this.room !== null && this.room !== undefined) {
             this.webSocketAPI.disconnect();
         }
+        this.navbarTitleService.setNavbarTitle('');
     }
 
     closeRoom() {
@@ -95,6 +98,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
 
     setNumberOfUsers(users: string) {
         document.getElementById("users").innerHTML = "Użytkowników w pokoju: " + users;
+        this.numberOfUsers = users;
         this.ifConnecting = false;
     }
 
@@ -172,6 +176,6 @@ export class PollroomComponent implements OnInit, OnDestroy {
 
     showQr() {
         var qrCode = document.getElementById("qr").getElementsByClassName("qrcode")[0].getElementsByTagName('img')[0].src;
-        this.imageDialogService.show('QR kod', qrCode);
+        this.imageDialogService.show(this.shortLink, qrCode);
     }
 }

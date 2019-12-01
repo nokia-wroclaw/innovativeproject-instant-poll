@@ -1,6 +1,27 @@
+.btn-group{
+  flex-wrap: wrap;
+}
+
+.card-header{
+  justify-content: space-between;
+}
+
+#voters{
+  background: transparent;
+  cursor: default;
+}
+
+.middle{
+  white-space: normal;
+}
+
+/*
 @media all and (max-width: 800px) {
     button {
         width: 100%;
         margin-top: 10px;
     }
 }
+*/
+
+
