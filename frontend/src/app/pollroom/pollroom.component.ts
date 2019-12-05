@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, Input } from '@angular/core';
 import { BackendConnectionService } from "../backend-connection.service";
 import { Observable } from 'rxjs/internal/Observable';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -26,7 +26,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
     private webSocketAPI: WebSocketAPI;
     private question: NgModel;
     private submitted = false;
-    private ifConnecting = false;
+    private ifConnecting = true;
     private questions: Array<Question>;
     private shortLink: string;
     private numberOfUsers = '0';
@@ -55,16 +55,13 @@ export class PollroomComponent implements OnInit, OnDestroy {
                     return;
                 }
                 this.generateShortLink(window.location.href)
-                //document.getElementById("roomName").innerHTML = this.room.roomName;
-                document.getElementById("expire-date").innerHTML = "Pokój ważny do: " + this.room.expirationDate;
-                //document.getElementById("shortLink").innerHTML = "Link: " + this.shortLink;
                 if (this.room.token === localStorage.getItem("token")) {
                     this.admin = true;
                 }
                 this.webSocketAPI = new WebSocketAPI(this, this.room);
                 this.webSocketAPI.connect();
-
                 this.navbarTitleService.setNavbarTitle(this.room.roomName);
+                
             });
         });
 
@@ -97,9 +94,9 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     setNumberOfUsers(users: string) {
-        document.getElementById("users").innerHTML = "Użytkowników w pokoju: " + users;
         this.numberOfUsers = users;
         this.ifConnecting = false;
+        this.navbarTitleService.setNavbarNumberOfUsers(this.numberOfUsers);
     }
 
     questionPanel() {

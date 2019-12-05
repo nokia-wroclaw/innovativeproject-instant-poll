@@ -6,12 +6,18 @@ import {Subject} from 'rxjs';
 })
 export class NavbarTitleService {
   private roomNameSource = new Subject<string>();
+  private numberOfUsersSource = new Subject<string>();
 
-  roomName$ = this.roomNameSource.asObservable();
+  roomName$ = this.roomNameSource.asObservable(); //style: naming Observable variables with $ 
+  numberOfUsers$ = this.numberOfUsersSource.asObservable();
 
   setNavbarTitle( roomName: string ) {
-    this.roomNameSource.next(roomName);
+    this.roomNameSource.next(roomName); //observable.next() === send new value to all subscribers 
   }
 
-  constructor() { }
+  setNavbarNumberOfUsers( numberOfUsers : string) {
+    this.numberOfUsersSource.next(numberOfUsers);
+  } 
+
+  constructor() {}
 }

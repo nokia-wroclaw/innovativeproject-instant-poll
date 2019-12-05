@@ -1,19 +1,33 @@
-.btn-group{
-  flex-wrap: wrap;
+.btn-group {
+    flex-wrap: wrap;
 }
 
-.card-header{
-  justify-content: space-between;
+.a {
+    margin-right: 0;
 }
 
-#voters{
-  background: transparent;
-  cursor: default;
+.back {
+    z-index: 10;
 }
 
-.middle{
-  white-space: normal;
+.card-header {
+    justify-content: space-between;
 }
+
+#voters {
+    background: transparent;
+    cursor: default;
+}
+
+.middle {
+    white-space: normal;
+}
+
+h2,
+h6 {
+    color: white;
+}
+
 
 /*
 @media all and (max-width: 800px) {
@@ -23,5 +37,3 @@
     }
 }
 */
-
-
