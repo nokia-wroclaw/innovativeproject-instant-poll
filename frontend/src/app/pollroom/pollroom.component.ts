@@ -106,7 +106,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
     sendQuestion() {
         this.submitted = true;
         if ((<HTMLInputElement>document.getElementById("question")).value.length !== 0) {
-            this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz zadać to pytanie?.', "Zadaj", "Cofnij")
+            this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz zadać to pytanie?', "Zadaj", "Cofnij")
                 .then((confirmed) => {
                     if (confirmed) {
                         var question = (<HTMLInputElement>document.getElementById("question")).value
