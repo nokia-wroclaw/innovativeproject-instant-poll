@@ -12,10 +12,20 @@
         </div>
     </div>
 </div>
-<br>
 <!-- end admin -->
 
-<div class="card bg-transparent m" *ngIf="ifConnecting || !(questions?.length > 0) ">
+<!-- client -->
+<div class="top">
+    <div id="adminButton" class="btn-group" role="group" *ngIf="!admin && !ifConnecting">
+        <button id="btnGroupDrop1" type="button" class="btn btn-secondary" (click)="showQr()">
+                    Udostępnij
+                  </button>
+    </div>
+</div>
+<br>
+<!-- end client -->
+
+<div id="mycard" class="card bg-transparent m" *ngIf="ifConnecting || !(questions?.length > 0) ">
     <div class="lds-roller" *ngIf="ifConnecting">
         <!-- hack zeby roller dzialal, nie usuwac -->
         <div></div>
@@ -29,6 +39,7 @@
     </div>
     <h2 *ngIf="!ifConnecting && !(questions?.length> 0)"> Nie ma jeszcze żadnych pytań...</h2>
 </div>
+
 
 <div [hidden]="true" id="qr">
     <ngx-qrcode (click)="showQr()" qrc-errorCorrectionLevel="H" qrc-element-type="url" [qrc-value]="shortLink"></ngx-qrcode>
