@@ -52,7 +52,7 @@ export class BackendConnectionService {
         return this.http.get("/userID");
 	}
 	
-	public getLongId(shortId: string) {
-		return this.http.get<string>("/shortLink/"+shortId);
+	public redirectToRoom(shortId: string) {
+		return this.http.get<string>("/"+shortId);
 	}
 }

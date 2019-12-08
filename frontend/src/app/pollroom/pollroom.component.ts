@@ -62,10 +62,10 @@ export class PollroomComponent implements OnInit, OnDestroy {
                 this.webSocketAPI = new WebSocketAPI(this, this.room);
                 this.webSocketAPI.connect();
                 this.navbarTitleService.setNavbarTitle(this.room.roomName);
-                
+                this.updateLatestJoinedRooms(this.room.id);
             });
         });
-
+        
     }
 
     @HostListener('window:beforeunload', ['$event'])
@@ -87,9 +87,10 @@ export class PollroomComponent implements OnInit, OnDestroy {
             .then((confirmed) => {
                 if (confirmed) {
                     var token = localStorage.getItem("token");
-                    this.backendService.closeRoom(this.room.id, token).subscribe();
-                    this.webSocketAPI.disconnect();
-                    this.router.navigate(['rooms']);
+                    this.backendService.closeRoom(this.room.id, token).subscribe(response => {
+                        this.webSocketAPI.disconnect();
+                        this.router.navigate(['rooms']);
+                    });
                 }
             }).catch(() => { });
     }
@@ -174,13 +175,28 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     generateShortLink(link: string) {
-        var regex = new RegExp("pollroom\/.*$", "i");
+        var regex = new RegExp("/#/pollroom\/.*$", "i");
         var regex2 = new RegExp(".*\/\/","i");
-        this.shortLink = link.replace(regex,"join/"+this.room.shortId).replace(regex2,"");
+        this.shortLink = link.replace(regex,"/"+this.room.shortId).replace(regex2,"");
     }
 
     showQr() {
         var qrCode = document.getElementById("qr").getElementsByClassName("qrcode")[0].getElementsByTagName('img')[0].src;
         this.imageDialogService.show(this.shortLink, qrCode);
+    }
+
+    updateLatestJoinedRooms(room_id: string) {
+        var latest = [];
+        if(localStorage.getItem("latests") === null) {
+            latest = [];
+        } else {
+            latest = Array.from(JSON.parse(localStorage.getItem("latests")));
+        }
+        latest = latest.filter(id => id !== room_id);
+        latest.push(room_id);
+        if(latest.length > 5) {
+            latest.shift();
+        }
+        localStorage.setItem("latests",JSON.stringify(latest));
     }
 }

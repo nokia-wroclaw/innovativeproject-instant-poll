@@ -44,7 +44,6 @@ import {NavbarTitleService} from "./navbar-title.service";
       { path: '', component: HomepageComponent },
       { path: 'pollroom/:id', component: PollroomComponent },
       { path: 'rooms', component: RoomsComponent },
-      { path: 'join/:shortLink', component: JoinRoomComponent},
       { path: 'join', component: JoinRoomComponent}
     ])
   ],
