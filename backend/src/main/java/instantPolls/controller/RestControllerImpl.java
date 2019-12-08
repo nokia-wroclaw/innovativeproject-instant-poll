@@ -96,7 +96,7 @@ public class RestControllerImpl {
 		return Collections.singletonMap("user_id", id);
 	}
 	
-	@GetMapping(value = "/{shortLink}")
+	@GetMapping(value = "/j/{shortLink}")
 	public String redirectToRoom(@PathVariable String shortLink) {
 		String room_id = roomStorage.getFullId(shortLink);
 		return "redirect:/#/pollroom/" + room_id;

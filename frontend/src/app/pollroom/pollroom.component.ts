@@ -177,7 +177,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
     generateShortLink(link: string) {
         var regex = new RegExp("/#/pollroom\/.*$", "i");
         var regex2 = new RegExp(".*\/\/","i");
-        this.shortLink = link.replace(regex,"/"+this.room.shortId).replace(regex2,"");
+        this.shortLink = link.replace(regex,"/j/"+this.room.shortId).replace(regex2,"");
     }
 
     showQr() {

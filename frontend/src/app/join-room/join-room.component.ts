@@ -37,7 +37,7 @@ export class JoinRoomComponent implements OnInit {
     if(this.shortLink != "") {
       this.route.params.subscribe(params => {
         const regex = new RegExp("/#/join", "i");
-        window.location.href = window.location.href.replace(regex,"/"+this.shortLink);
+        window.location.href = window.location.href.replace(regex,"/j/"+this.shortLink);
       });
     }
   }
