@@ -11,6 +11,7 @@ import { NgModel } from '@angular/forms';
 import { Question } from '../question';
 import { TouchSequence } from 'selenium-webdriver';
 import {NavbarTitleService} from "../navbar-title.service";
+import { isNgTemplate } from '@angular/compiler';
 
 @Component({
     selector: 'app-pollroom',
@@ -117,7 +118,14 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     receiveQuestion(question: Question) {
-        this.questions.push(question);
+        if(question.action === "delete") {
+            this.questions = this.questions.filter(function(item) {
+                return question.id !== item.id; 
+            });
+        } else {
+            this.questions.push(question);
+        }
+
     }
 
     hideQuestion(question: Question) {
@@ -134,7 +142,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
         this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz usunąć pytanie?', "Usuń pytanie", "Cofnij")
             .then((confirmed) => {
                 if (confirmed) {
-                    //usuwanie
+                    this.webSocketAPI.deleteQuestion(question.id);
                 }
             }).catch(() => { });
     }

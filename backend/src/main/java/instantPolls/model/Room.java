@@ -67,6 +67,14 @@ public class Room {
 		return null;
 	}
 
+	public void deleteQuestionById(int id) {
+		for(Question q : questions)
+			if(q.getId() == id) {
+				questions.remove(q);
+				return;
+			}
+	}
+	
 	public String getId() {
 		return id;
 	}

@@ -44,6 +44,14 @@ export class WebSocketAPI {
         }
     }
 
+    deleteQuestion(questionId : number) {
+        if (this.stompClient !== null) {
+            var id = questionId.toString();
+            var message = JSON.stringify({id: id, action : "delete"});
+            this.stompClient.send("/instant-polls/poll/"+this.room.id+"/"+localStorage.getItem("token")+"/deleteQuestion",{},message);
+        }
+    }
+
     sendAnswer(answer: string) {
         if (this.stompClient !== null) {
             this.stompClient.send("/instant-polls/poll/"+this.room.id+"/answer",{},answer);

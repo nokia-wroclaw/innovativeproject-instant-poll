@@ -80,4 +80,22 @@ public class WSController {
 		question.addAnswer(message.getAnswer(), message.getQuestion_id(), message.getUser_id());
 		return new NumberOfVotesMessage(question.getId(),question.getNumberOfVotes());
 	}
+	
+	@MessageMapping("/poll/{roomId}/{token}/deleteQuestion")
+	@SendTo("/question/{roomId}")
+	public QuestionMessage deleteQuestion(@DestinationVariable String roomId, @DestinationVariable String token, @Payload QuestionMessage message) {
+		QuestionMessage messageToSend = new QuestionMessage();
+		if(message.getAction().equals("delete")) {
+			Room room = roomStorage.findRoomById(roomId);
+			
+			if(room.getToken().equals(token)) {
+				int questionId = message.getId();
+				room.deleteQuestionById(questionId);
+				
+				messageToSend.setId(questionId);
+				messageToSend.setAction("delete");
+			}
+		}
+		return messageToSend;
+	}
 }
