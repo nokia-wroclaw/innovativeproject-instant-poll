@@ -19,5 +19,5 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/instant-polls");
         registry.enableSimpleBroker("/room","/question","/answer", "/user");
-    }
+    }  
 }

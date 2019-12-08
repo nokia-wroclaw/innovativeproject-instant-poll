@@ -68,17 +68,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
         
     }
 
-    @HostListener('window:beforeunload', ['$event'])
-    unloadHandler(event) {
-        if (this.room !== null && this.room !== undefined) {
-            this.webSocketAPI.disconnect();
-        }
-    }
-
     ngOnDestroy() {
-        if (this.room !== null && this.room !== undefined) {
-            this.webSocketAPI.disconnect();
-        }
         this.navbarTitleService.setNavbarTitle('');
     }
 

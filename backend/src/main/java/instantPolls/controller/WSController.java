@@ -4,12 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+
 import instantPolls.model.SimpleMessage;
 import instantPolls.model.YesNoQuestion;
 import instantPolls.model.AnswerMessage;
@@ -26,11 +32,16 @@ public class WSController {
 	@Autowired
 	Storage roomStorage;
 	
+	@Autowired
+	private SimpMessagingTemplate template;
+	
 	@MessageMapping("/poll/{roomId}/enter")
 	@SendTo("/room/{roomId}/users")
-    public SimpleMessage enter(@DestinationVariable String roomId, @Payload String userId) {
+    public SimpleMessage enter(@DestinationVariable String roomId, @Payload String userId, SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
 		Room room = roomStorage.findRoomById(roomId);
 		room.getUsers().add(userId);
+		simpMessageHeaderAccessor.getSessionAttributes().put("user_id", userId);
+		simpMessageHeaderAccessor.getSessionAttributes().put("room_id", roomId);
 		SimpleMessage message = new SimpleMessage(Integer.toString(room.getNumberOfUsers()));
         return message;
     }
@@ -42,17 +53,18 @@ public class WSController {
 		return room.getListOfQuestionsWithVotes(userId);
     }
 	
-	@MessageMapping("/poll/{roomId}/exit")
-	@SendTo("/room/{roomId}/users")
-	public SimpleMessage exit(@DestinationVariable String roomId, @Payload String userId) {
-		Room r = roomStorage.findRoomById(roomId);
-		SimpleMessage m = null;
-		if(r != null) {
-			r.getUsers().remove(userId);
-			m = new SimpleMessage(Integer.toString(r.getNumberOfUsers()));
+	@EventListener(SessionDisconnectEvent.class)
+    public void handleWebsocketDisconnectListner(SessionDisconnectEvent event) {
+    	StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+    	String user_id = headerAccessor.getSessionAttributes().get("user_id").toString();	
+    	String room_id = headerAccessor.getSessionAttributes().get("room_id").toString();	
+    	Room room = roomStorage.findRoomById(room_id);
+		if(room != null) {
+			room.getUsers().remove(user_id);
+			SimpleMessage message = new SimpleMessage(Integer.toString(room.getNumberOfUsers()));
+			this.template.convertAndSend("/room/"+room_id+"/users", message);
 		}
-        return m;
-	}
+    } 
 	
 	@MessageMapping("/poll/{roomId}/addQuestion/{questionType}")
 	@SendTo("/question/{roomId}")
