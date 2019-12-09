@@ -1,26 +1,10 @@
 .btn-group {
     flex-wrap: wrap;
+    float: left;
 }
 
 .a {
     margin-right: 0;
-}
-
-.back {
-    z-index: 10;
-}
-
-.card-header {
-    justify-content: space-between;
-}
-
-#voters {
-    background: transparent;
-    cursor: default;
-}
-
-.middle {
-    white-space: normal;
 }
 
 h2,
@@ -28,25 +12,10 @@ h6 {
     color: white;
 }
 
-#share {
-    width: auto;
-}
-
-
-/*
-@media all and (max-width: 800px) {
-    button {
-        width: 100%;
-        margin-top: 10px;
-    }
-}
-*/
-
 
 /*https://loading.io/css/ spinner:*/
 
 .lds-roller {
-    display: inline-block;
     position: relative;
     margin: 0 auto;
     width: 80px;

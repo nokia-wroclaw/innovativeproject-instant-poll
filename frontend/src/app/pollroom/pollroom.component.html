@@ -1,51 +1,52 @@
 <!-- admin -->
-<div class="sticky-top" *ngIf="admin">
-    <div id="adminButton" class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<div class="card border-0 bg-transparent sticky-top" *ngIf="admin">
+    <div class="card-body p-0">
+        <div id="adminButton" class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Admin
               </button>
-        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a class="dropdown-item" *ngIf="!ifConnecting" (click)="questionPanel()"><i class="fas fa-list-ul"></i> Utwórz pytanie</a>
-            <a class="dropdown-item" (click)="showQr()"><i class="fas fa-qrcode"></i> Udostępnij</a>
-            <a class="dropdown-item" *ngIf="!ifConnecting" (click)="closeRoom()"><i class="fas fa-times-circle"></i> Zamknij pokój</a>
-            <p class="dropdown-item" *ngIf="!ifConnecting"><i class="far fa-calendar-times"></i> {{room.expirationDate}}</p>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <a class="dropdown-item" *ngIf="!ifConnecting" (click)="questionPanel()"><i class="fas fa-list-ul"></i> Utwórz pytanie</a>
+                <a class="dropdown-item" (click)="showQr()"><i class="fas fa-qrcode"></i> Udostępnij</a>
+                <a class="dropdown-item" *ngIf="!ifConnecting" (click)="closeRoom()"><i class="fas fa-times-circle"></i> Zamknij pokój</a>
+                <p class="dropdown-item" *ngIf="!ifConnecting"><i class="far fa-calendar-times"></i> {{room.expirationDate}}</p>
+            </div>
         </div>
     </div>
 </div>
 <!-- end admin -->
 
 <!-- client -->
-<div class="top" *ngIf="!admin && !ifConnecting">
-    <div id="adminButton" class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn btn-secondary" (click)="showQr()">
+<div class="top card border-0 bg-transparent p-0" *ngIf="!admin && !ifConnecting">
+    <div class="card-body p-0">
+        <div id="adminButton" class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-secondary" (click)="showQr()">
                     Udostępnij
                   </button>
+        </div>
     </div>
 </div>
 <br>
 <!-- end client -->
 
-<div id="mycard" class="card bg-transparent border-0 m">
-    <div [hidden]="true" id="qr">
-        <ngx-qrcode (click)="showQr()" qrc-errorCorrectionLevel="H" qrc-element-type="url" [qrc-value]="shortLink"></ngx-qrcode>
-    </div>
-    <div class="lds-roller" *ngIf="ifConnecting">
-        <!-- hack zeby roller dzialal, nie usuwac -->
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-    <h2 *ngIf="!ifConnecting && !(questions?.length> 0)"> Nie ma jeszcze żadnych pytań...</h2>
+<div [hidden]="true" id="qr">
+    <ngx-qrcode (click)="showQr()" qrc-errorCorrectionLevel="H" qrc-element-type="url" [qrc-value]="shortLink"></ngx-qrcode>
 </div>
+<div class="lds-roller" *ngIf="ifConnecting">
+    <!-- hack zeby roller dzialal, nie usuwac -->
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+<h2 *ngIf="!ifConnecting && !(questions?.length> 0)"> Nie ma jeszcze żadnych pytań... <br></h2>
 
-<br>
-<div *ngIf="opened" class="card bg-light mb-3" id="questionPanel">
-    <div class="card-header">
+<div *ngIf="opened" class="my-card" id="questionPanel">
+    <div class="my-card-header">
         <ul class="nav">
             <li class="nav-item">
                 <a class="nav-link active" href="#">Tak/Nie</a>
@@ -69,12 +70,10 @@
         <button type="button" class="btn btn-success" (click)="sendQuestion()"><i class="fas fa-check-circle"></i> Zadaj pytanie</button>
         <button type="button" class="btn btn-light float-right" (click)="questionPanel()"><i class="fas fa-times-circle" ></i></button>
     </div>
-
 </div>
 
-<br>
-<div class="card bg-light mb-3" *ngFor="let element of questions">
-    <div class="card-header">
+<div class="my-card" *ngFor="let element of questions">
+    <div class="my-card-header">
         <span>{{element.question}}</span>
         <button *ngIf="admin" type="button" class="btn btn-danger float-right" (click)="deleteQuestion(element)"><i class="fas fa-times-circle" ></i></button>
         <button type="button" class="btn btn-success float-right" (click)="hideQuestion(element)"><i id={{element.id}} class="fas fa-angle-down"></i></button>
