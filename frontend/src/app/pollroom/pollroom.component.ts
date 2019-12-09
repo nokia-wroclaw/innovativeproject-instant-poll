@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, Input } from '@angular/core';
 import { BackendConnectionService } from "../backend-connection.service";
 import { Observable } from 'rxjs/internal/Observable';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -10,6 +10,8 @@ import { Title } from "@angular/platform-browser";
 import { NgModel } from '@angular/forms';
 import { Question } from '../question';
 import { TouchSequence } from 'selenium-webdriver';
+import {NavbarTitleService} from "../navbar-title.service";
+import { isNgTemplate } from '@angular/compiler';
 
 @Component({
     selector: 'app-pollroom',
@@ -28,12 +30,14 @@ export class PollroomComponent implements OnInit, OnDestroy {
     private ifConnecting = true;
     private questions: Array<Question>;
     private shortLink: string;
+    private numberOfUsers = '0';
 
-    constructor(private backendService: BackendConnectionService, 
-        private router: Router, private route: ActivatedRoute, 
-        private confirmationDialogService: ConfirmationDialogService, 
-        private imageDialogService: ImageDialogService, 
-        private titleService: Title) { }
+    constructor(private backendService: BackendConnectionService,
+        private router: Router, private route: ActivatedRoute,
+        private confirmationDialogService: ConfirmationDialogService,
+        private imageDialogService: ImageDialogService,
+        private titleService: Title,
+        private navbarTitleService: NavbarTitleService) { }
 
     ngOnInit() {
         this.titleService.setTitle("Instant Polls - Pokój");
@@ -52,29 +56,20 @@ export class PollroomComponent implements OnInit, OnDestroy {
                     return;
                 }
                 this.generateShortLink(window.location.href)
-                document.getElementById("roomName").innerHTML = this.room.roomName;
-                document.getElementById("expire-date").innerHTML = "Pokój ważny do: " + this.room.expirationDate;
-                document.getElementById("shortLink").innerHTML = "Link: " + this.shortLink;
                 if (this.room.token === localStorage.getItem("token")) {
                     this.admin = true;
                 }
                 this.webSocketAPI = new WebSocketAPI(this, this.room);
                 this.webSocketAPI.connect();
+                this.navbarTitleService.setNavbarTitle(this.room.roomName);
+                this.updateLatestJoinedRooms(this.room.id);
             });
         });
-    }
-
-    @HostListener('window:beforeunload', ['$event'])
-    unloadHandler(event) {
-        if (this.room !== null && this.room !== undefined) {
-            this.webSocketAPI.disconnect();
-        }
+        
     }
 
     ngOnDestroy() {
-        if (this.room !== null && this.room !== undefined) {
-            this.webSocketAPI.disconnect();
-        }
+        this.navbarTitleService.setNavbarTitle('');
     }
 
     closeRoom() {
@@ -82,16 +77,18 @@ export class PollroomComponent implements OnInit, OnDestroy {
             .then((confirmed) => {
                 if (confirmed) {
                     var token = localStorage.getItem("token");
-                    this.backendService.closeRoom(this.room.id, token).subscribe();
-                    this.webSocketAPI.disconnect();
-                    this.router.navigate(['rooms']);
+                    this.backendService.closeRoom(this.room.id, token).subscribe(response => {
+                        this.webSocketAPI.disconnect();
+                        this.router.navigate(['rooms']);
+                    });
                 }
             }).catch(() => { });
     }
 
     setNumberOfUsers(users: string) {
-        document.getElementById("users").innerHTML = "Użytkowników w pokoju: " + users;
+        this.numberOfUsers = users;
         this.ifConnecting = false;
+        this.navbarTitleService.setNavbarNumberOfUsers(this.numberOfUsers);
     }
 
     questionPanel() {
@@ -101,7 +98,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
     sendQuestion() {
         this.submitted = true;
         if ((<HTMLInputElement>document.getElementById("question")).value.length !== 0) {
-            this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz zadać to pytanie?.', "Zadaj", "Cofnij")
+            this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz zadać to pytanie?', "Zadaj", "Cofnij")
                 .then((confirmed) => {
                     if (confirmed) {
                         var question = (<HTMLInputElement>document.getElementById("question")).value
@@ -110,9 +107,16 @@ export class PollroomComponent implements OnInit, OnDestroy {
                 }).catch(() => { });
         }
     }
-    
+
     receiveQuestion(question: Question) {
-        this.questions.push(question);
+        if(question.action === "delete") {
+            this.questions = this.questions.filter(function(item) {
+                return question.id !== item.id; 
+            });
+        } else {
+            this.questions.push(question);
+        }
+
     }
 
     hideQuestion(question: Question) {
@@ -123,13 +127,13 @@ export class PollroomComponent implements OnInit, OnDestroy {
         } else {
             element.classList.replace("fa-angle-up","fa-angle-down");
         }
-        
+
     }
     deleteQuestion(question: Question) {
         this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz usunąć pytanie?', "Usuń pytanie", "Cofnij")
             .then((confirmed) => {
                 if (confirmed) {
-                    //usuwanie
+                    this.webSocketAPI.deleteQuestion(question.id);
                 }
             }).catch(() => { });
     }
@@ -144,9 +148,9 @@ export class PollroomComponent implements OnInit, OnDestroy {
                 answer: question.selected
             }
             this.webSocketAPI.sendAnswer(JSON.stringify(answer));
-        }    
+        }
     }
-    
+
     receiveAnswer(answer: any) {
         this.questions.forEach(element => {
             if(element.id == answer.question_id) {
@@ -157,17 +161,32 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     addQuestions(listOfQuestion: Array<Question>) {
-        this.questions = listOfQuestion;    
+        this.questions = listOfQuestion;
     }
 
     generateShortLink(link: string) {
-        var regex = new RegExp("pollroom\/.*$", "i");
+        var regex = new RegExp("/#/pollroom\/.*$", "i");
         var regex2 = new RegExp(".*\/\/","i");
-        this.shortLink = link.replace(regex,"join/"+this.room.shortId).replace(regex2,"");
+        this.shortLink = link.replace(regex,"/j/"+this.room.shortId).replace(regex2,"");
     }
 
     showQr() {
         var qrCode = document.getElementById("qr").getElementsByClassName("qrcode")[0].getElementsByTagName('img')[0].src;
-        this.imageDialogService.show('QR kod', qrCode);
+        this.imageDialogService.show(this.shortLink, qrCode);
+    }
+
+    updateLatestJoinedRooms(room_id: string) {
+        var latest = [];
+        if(localStorage.getItem("latests") === null) {
+            latest = [];
+        } else {
+            latest = Array.from(JSON.parse(localStorage.getItem("latests")));
+        }
+        latest = latest.filter(id => id !== room_id);
+        latest.push(room_id);
+        if(latest.length > 5) {
+            latest.shift();
+        }
+        localStorage.setItem("latests",JSON.stringify(latest));
     }
 }

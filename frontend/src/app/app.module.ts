@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { RouterModule } from "@angular/router";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { NgxQRCodeModule } from 'ngx-qrcode2';    
+import { NgxQRCodeModule } from 'ngx-qrcode2';
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { PollroomComponent } from './pollroom/pollroom.component';
@@ -20,6 +20,7 @@ import { ConfirmationDialogService } from './confirmation-dialog/confirmation-di
 import { JoinRoomComponent } from './join-room/join-room.component';
 import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 import { ImageDialogService } from './image-dialog/image-dialog.service';
+import {NavbarTitleService} from "./navbar-title.service";
 
 @NgModule({
   declarations: [
@@ -43,11 +44,10 @@ import { ImageDialogService } from './image-dialog/image-dialog.service';
       { path: '', component: HomepageComponent },
       { path: 'pollroom/:id', component: PollroomComponent },
       { path: 'rooms', component: RoomsComponent },
-      { path: 'join/:shortLink', component: JoinRoomComponent},
       { path: 'join', component: JoinRoomComponent}
     ])
   ],
-  providers: [ConfirmationDialogService,ImageDialogService,BackendConnectionService,{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [ConfirmationDialogService,ImageDialogService,NavbarTitleService,BackendConnectionService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
   entryComponents: [ ConfirmationDialogComponent, ImageDialogComponent ]
 })

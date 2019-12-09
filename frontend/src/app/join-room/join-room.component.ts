@@ -21,56 +21,25 @@ export class JoinRoomComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle( "Instant Polls - Dołącz do pokoju" );
-    this.shortLink = "";
-    this.route.params.subscribe(params => {
-      if(params['shortLink'] !== undefined) {
-        console.log("asd");
-        this.backendService.getLongId(params['shortLink']).subscribe(response => {
-          var roomId = response['roomId'];
-          if(roomId !== null) {
-            var storedRooms = JSON.parse(localStorage.getItem("latests"));
-            if(!storedRooms.includes(roomId)) {
-              storedRooms.push(roomId);
-              localStorage.setItem("latests", JSON.stringify(storedRooms));
-            }
-            this.router.navigate(['/pollroom/', roomId]);
-          } else {
-            this.router.navigate(['/join']);
-          }
-        });
-      }
-      if (localStorage.getItem("latests") !== null) {
-        this.backendService.checkUserRoom(localStorage.getItem("latests")).subscribe(response => {
-          this.array = response;
-          var rooms = [];
-          for (var i in response) {
-            rooms.push(response[i].id);
-            if(rooms.length > 5) {
-              rooms.shift();
-            }
-          }
-          localStorage.setItem("latests", JSON.stringify(rooms));
-        });
-      } else {
-        localStorage.setItem("latests", JSON.stringify([]));
-      }
-    });
+    if (localStorage.getItem("latests") !== null) {
+      this.backendService.checkUserRoom(localStorage.getItem("latests")).subscribe(response => {
+        this.array = response.reverse();
+        var rooms = [];
+        for (var i in response) {
+          rooms.push(response[i].id)
+        }
+        localStorage.setItem("latests", JSON.stringify(rooms));
+      });
+    } 
   }
 
   joinRoom() {
     if(this.shortLink != "") {
-        this.backendService.getLongId(this.shortLink).subscribe(response => {
-          var roomId = response['roomId'];
-          if(roomId !== null) {
-            var storedRooms = Array.from(JSON.parse(localStorage.getItem("latests")));
-            if(!storedRooms.includes(roomId)) {
-              storedRooms.push(roomId);
-              localStorage.setItem("latests", JSON.stringify(storedRooms));
-            }
-            this.router.navigate(['/pollroom/', roomId]);
-          }
-        });
-      }
+      this.route.params.subscribe(params => {
+        const regex = new RegExp("/#/join", "i");
+        window.location.href = window.location.href.replace(regex,"/j/"+this.shortLink);
+      });
     }
+  }
 
 }

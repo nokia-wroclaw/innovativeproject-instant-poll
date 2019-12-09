@@ -67,17 +67,14 @@ public class RestControllerImpl {
 	
 	@ResponseBody
 	@GetMapping(value = "/room/{id}")
-	public ResponseEntity<Room> getRoom(@PathVariable(value = "id") String id) {
+	public ResponseEntity<Room> getRoom(@PathVariable String id) {
 		Room room = roomStorage.findRoomById(id);
-		if(room != null)
-			return ResponseEntity.ok(room);
-		else
-			return ResponseEntity.ok(null);
+		return ResponseEntity.ok(room);
 	}
 	
 	@ResponseBody
 	@DeleteMapping(value = "/room/{id}")
-	public ResponseEntity<Map<String, String>> closeRoom(@PathVariable(value = "id") String id, @RequestHeader("Authorization") String token) {
+	public ResponseEntity<Map<String, String>> closeRoom(@PathVariable String id, @RequestHeader("Authorization") String token) {
 		int result = roomStorage.closeRoom(id, token);
 		if(result == 200) 
 			return ResponseEntity.ok(Collections.singletonMap("result", "success"));
@@ -99,12 +96,9 @@ public class RestControllerImpl {
 		return Collections.singletonMap("user_id", id);
 	}
 	
-	@ResponseBody
-	@GetMapping(value = "/shortLink/{shortLink}")
-	public HashMap<String,String> getRoomByShortLink(@PathVariable String shortLink) {
-		HashMap<String,String> response = new HashMap<>();
+	@GetMapping(value = "/j/{shortLink}")
+	public String redirectToRoom(@PathVariable String shortLink) {
 		String room_id = roomStorage.getFullId(shortLink);
-		response.put("roomId", room_id);
-		return response;
+		return "redirect:/#/pollroom/" + room_id;
 	}
 }

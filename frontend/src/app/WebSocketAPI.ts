@@ -32,7 +32,7 @@ export class WebSocketAPI {
             _this.stompClient.subscribe("/user/"+localStorage.getItem("user_id")+"/allQuestions", function (message) {
                 _this.pollroomComponent.addQuestions(JSON.parse(message.body));
             });
-            _this.stompClient.send("/instant-polls/poll/"+_this.room.id+"/enter",{},JSON.stringify({userId: localStorage.getItem("user_id")}));
+            _this.stompClient.send("/instant-polls/poll/"+_this.room.id+"/enter",{},localStorage.getItem("user_id"));
             _this.stompClient.send("/instant-polls/poll/"+localStorage.getItem("user_id")+"/allQuestions",{},_this.room.id);
         }, this.errorCallBack);
     };
@@ -44,6 +44,14 @@ export class WebSocketAPI {
         }
     }
 
+    deleteQuestion(questionId : number) {
+        if (this.stompClient !== null) {
+            var id = questionId.toString();
+            var message = JSON.stringify({id: id, action : "delete"});
+            this.stompClient.send("/instant-polls/poll/"+this.room.id+"/"+localStorage.getItem("token")+"/deleteQuestion",{},message);
+        }
+    }
+
     sendAnswer(answer: string) {
         if (this.stompClient !== null) {
             this.stompClient.send("/instant-polls/poll/"+this.room.id+"/answer",{},answer);
@@ -52,7 +60,6 @@ export class WebSocketAPI {
 
     disconnect() {
         if (this.stompClient !== null) {
-            this.stompClient.send("/instant-polls/poll/"+this.room.id+"/exit",{},JSON.stringify({userId: localStorage.getItem("user_id")}));
             this.stompClient.disconnect();
         }
     }

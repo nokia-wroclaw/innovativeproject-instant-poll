@@ -1,3 +1,25 @@
 nav {
     z-index: 1;
 }
+
+#room-name {
+    color: #ffffff;
+    width: auto;
+}
+
+#room-users {
+    color: #ffffff;
+    width: auto;
+    right: 0;
+    margin-right: 15px;
+}
+
+#fas {
+    color: #ffffff;
+}
+
+@media(max-width: 450px) {
+    .navbar-brand-room {
+        display: none;
+    }
+}

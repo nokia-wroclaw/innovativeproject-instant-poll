@@ -1,20 +1,51 @@
-<nav class="navbar navbar-dark  navbar-expand-md" style="background-color: #000000;">
-    <a class="navbar-brand" href="/">Instant Polls</a>
+<nav class="navbar navbar-dark" *ngIf="roomName; else outsideRoom" style="background-color: #000000;">
+    <a class="navbar-brand navbar-brand-room" href="/">Instant Polls</a>
+    <a id="back" *ngIf="numberOfUsers !== '0'" class="navbar-text ml-0" href="/#/rooms "><i class="fas fa-arrow-alt-circle-left " ></i></a>
+    <a id="room-name" class="navbar-text mx-auto ">{{roomName}}</a>
+    <a id="room-users" class="navbar-text ">{{numberOfUsers}}<i class="fas fa-user-circle " ></i> </a>
 
-    <button class="navbar-toggler" type="button" (click)="toggleNavbar()">
-    <span class="navbar-toggler-icon"></span>
+    <button class="navbar-toggler " type="button " (click)="toggleNavbar() ">
+    <span class="navbar-toggler-icon "></span>
   </button>
 
-    <div class="collapse navbar-collapse" [ngClass]="{ 'show': navbarOpen }">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/#/rooms">Stworzone pokoje</a>
+
+    <div class="collapse navbar-collapse " [ngClass]="{ 'show': navbarOpen } ">
+        <ul class="navbar-nav mr-auto ">
+
+            <li class="nav-item ">
+                <a class="nav-link " href="/#/rooms ">Stworzone pokoje</a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="/#/join">Dołącz do pokoju</a>
+            <li class="nav-item ">
+                <a class="nav-link " href="/#/join ">Dołącz do pokoju</a>
             </li>
+
         </ul>
     </div>
 
 </nav>
+
+<ng-template #outsideRoom>
+    <nav class="navbar navbar-dark navbar-expand-md " style="background-color: #000000; ">
+        <a class="navbar-brand " href="/ ">Instant Polls</a>
+
+        <button class="navbar-toggler " type="button " (click)="toggleNavbar() ">
+    <span class="navbar-toggler-icon "></span>
+  </button>
+
+
+        <div class="collapse navbar-collapse " [ngClass]="{ 'show': navbarOpen } ">
+            <ul class="navbar-nav mr-auto ">
+
+                <li class="nav-item ">
+                    <a class="nav-link " href="/#/rooms ">Stworzone pokoje</a>
+                </li>
+
+                <li class="nav-item ">
+                    <a class="nav-link " href="/#/join ">Dołącz do pokoju</a>
+                </li>
+            </ul>
+        </div>
+
+    </nav>
+</ng-template>

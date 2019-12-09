@@ -6,8 +6,10 @@ public class QuestionMessage {
 	private int id;
 	private String type;
 	private String question;
+	private String action; // question add or remove
 	private ArrayList<String> answers;
 	private ArrayList<Integer> numberOfVotes;
+	
 	
 	public QuestionMessage() {
 		
@@ -58,4 +60,13 @@ public class QuestionMessage {
 	public void setNumberOfVotes(ArrayList<Integer> numberOfVotes) {
 		this.numberOfVotes = numberOfVotes;
 	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+	
 }
