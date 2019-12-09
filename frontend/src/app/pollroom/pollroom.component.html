@@ -1,6 +1,6 @@
 <!-- admin -->
-<div class="sticky-top">
-    <div id="adminButton" class="btn-group" role="group" *ngIf="admin">
+<div class="sticky-top" *ngIf="admin">
+    <div id="adminButton" class="btn-group" role="group">
         <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Admin
               </button>
@@ -15,8 +15,8 @@
 <!-- end admin -->
 
 <!-- client -->
-<div class="top">
-    <div id="adminButton" class="btn-group" role="group" *ngIf="!admin && !ifConnecting">
+<div class="top" *ngIf="!admin && !ifConnecting">
+    <div id="adminButton" class="btn-group" role="group">
         <button id="btnGroupDrop1" type="button" class="btn btn-secondary" (click)="showQr()">
                     Udostępnij
                   </button>
@@ -25,7 +25,10 @@
 <br>
 <!-- end client -->
 
-<div id="mycard" class="card bg-transparent m" *ngIf="ifConnecting || !(questions?.length > 0) ">
+<div id="mycard" class="card bg-transparent border-0 m">
+    <div [hidden]="true" id="qr">
+        <ngx-qrcode (click)="showQr()" qrc-errorCorrectionLevel="H" qrc-element-type="url" [qrc-value]="shortLink"></ngx-qrcode>
+    </div>
     <div class="lds-roller" *ngIf="ifConnecting">
         <!-- hack zeby roller dzialal, nie usuwac -->
         <div></div>
@@ -38,11 +41,6 @@
         <div></div>
     </div>
     <h2 *ngIf="!ifConnecting && !(questions?.length> 0)"> Nie ma jeszcze żadnych pytań...</h2>
-</div>
-
-
-<div [hidden]="true" id="qr">
-    <ngx-qrcode (click)="showQr()" qrc-errorCorrectionLevel="H" qrc-element-type="url" [qrc-value]="shortLink"></ngx-qrcode>
 </div>
 
 <br>
