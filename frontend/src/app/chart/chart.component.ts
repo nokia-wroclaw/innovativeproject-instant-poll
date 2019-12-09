@@ -14,14 +14,14 @@ export class ChartComponent implements OnInit, OnChanges {
 
   public chartType: ChartType = 'pie';
   private chartOptions: ChartOptions = {
-
     responsive: true,
     legend: {
       reverse: true,
     },
     title: {
       display: true
-    }
+    },
+
   };
   private chartLegend = true;
   private chartPlugins = [];
@@ -31,11 +31,25 @@ export class ChartComponent implements OnInit, OnChanges {
 
   private chartLabels: Label[] = [];
 
+  // bar chart needs data in another format to work as I wanted
+  private barChartData: ChartDataSets[] = [
+    { data: [0], label: '' },
+    { data: [0], label: '' }
+  ];
 
-  public changeType = () => {
+  private barChartLabels: Label[] = ['Odpowiedzi'];
+  private setBarChartData() {
+    for (let i = 0; i < this.question.answers.length; i++) {
+      this.barChartData[i].data = [this.question.numberOfVotes[i]];
+      this.barChartData[i].label = this.question.answers[i];
+    }
+  }
+
+  private changeType = () => {
     const types: ChartType[] = ['pie', 'doughnut', 'bar', 'line'];
     const i = types.indexOf(this.chartType);
     this.chartType = types[(i + 1) % types.length];
+    this.updateChart();
   }
 
   constructor() { }
@@ -45,10 +59,21 @@ export class ChartComponent implements OnInit, OnChanges {
     this.chartOptions.title.text = this.question.question;
     this.chartLabels = this.question.answers;
     this.chartData[0].data = this.question.numberOfVotes;
+    this.setBarChartData();
+  }
+
+  private updateChart() {
+    if (this.chartType === 'bar') {
+      this.setBarChartData();
+      this.chartOptions.legend.reverse = false;
+    } else {
+      this.chartData[0].data = this.question.numberOfVotes;
+      this.chartOptions.legend.reverse = true;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.chartData[0].data = this.question.numberOfVotes;
+    this.updateChart();
   }
 
 }
