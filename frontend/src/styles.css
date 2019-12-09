@@ -1,14 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
-
-img.bg {
-    /* Set rules to fill background */
-    min-height: 100%;
-    min-width: 100%;
-    /* Set up proportionate scaling */
-    width: 100%;
-    height: auto;
-    /* Set up positioning */
+body:before {
+    content: "";
+    display: block;
+    min-height: 100vh;
+    min-width: 100vw;
     position: fixed;
-    top: 0;
     left: 0;
+    top: 0;
+    width: 100vw;
+    height: auto;
+    z-index: -10;
+    background: url(assets/images/background.jpg) no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
