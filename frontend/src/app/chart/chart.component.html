@@ -1,0 +1,11 @@
+<div class="chart" >
+  <button (click)="changeType()">Change</button>
+  <canvas baseChart
+          [datasets]="chartData"
+          [labels]="chartLabels"
+          [options]="chartOptions"
+          [legend]="chartLegend"
+          [chartType]="chartType"
+          [plugins]="chartPlugins">
+  </canvas>
+</div>

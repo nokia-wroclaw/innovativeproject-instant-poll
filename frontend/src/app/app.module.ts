@@ -10,6 +10,7 @@ import { RouterModule } from "@angular/router";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
+import { ChartsModule } from 'ng2-charts';
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { PollroomComponent } from './pollroom/pollroom.component';
@@ -21,6 +22,7 @@ import { JoinRoomComponent } from './join-room/join-room.component';
 import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 import { ImageDialogService } from './image-dialog/image-dialog.service';
 import {NavbarTitleService} from "./navbar-title.service";
+import { ChartComponent } from './chart/chart.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import {NavbarTitleService} from "./navbar-title.service";
     ConfirmationDialogComponent,
     JoinRoomComponent,
     ImageDialogComponent,
+    ChartComponent,
   ],
   imports: [
     NgbModule,
@@ -39,6 +42,7 @@ import {NavbarTitleService} from "./navbar-title.service";
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ChartsModule,
     NgxQRCodeModule,
     RouterModule.forRoot([
       { path: '', component: HomepageComponent },
