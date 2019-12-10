@@ -31,6 +31,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
     private questions: Array<Question>;
     private shortLink: string;
     private numberOfUsers = '0';
+    private chartTrigger = 0;
 
     constructor(private backendService: BackendConnectionService,
         private router: Router, private route: ActivatedRoute,
@@ -65,7 +66,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
                 this.updateLatestJoinedRooms(this.room.id);
             });
         });
-        
+
     }
 
     ngOnDestroy() {
@@ -111,7 +112,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
     receiveQuestion(question: Question) {
         if(question.action === "delete") {
             this.questions = this.questions.filter(function(item) {
-                return question.id !== item.id; 
+                return question.id !== item.id;
             });
         } else {
             this.questions.push(question);
@@ -158,6 +159,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
                 return;
             }
         });
+        this.chartTrigger++;
     }
 
     addQuestions(listOfQuestion: Array<Question>) {

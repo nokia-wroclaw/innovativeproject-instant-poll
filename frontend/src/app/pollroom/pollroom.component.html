@@ -92,6 +92,8 @@
         <button (click)="sendAnswer(element)" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Wyślij odpowiedź!</button>
         <br>
         <span>{{element.numberOfVotes}}</span>
+
+        <app-chart [question]=element [chartTrigger]="chartTrigger"> </app-chart>
     </div>
 </div>
 
