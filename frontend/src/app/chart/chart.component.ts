@@ -21,7 +21,6 @@ export class ChartComponent implements OnInit, OnChanges {
     title: {
       display: true
     },
-
   };
   private chartLegend = true;
   private chartPlugins = [];
@@ -63,6 +62,19 @@ export class ChartComponent implements OnInit, OnChanges {
   }
 
   private updateChart() {
+    // scaling from zero
+    if (this.chartType === 'bar' || this.chartType === 'line') {
+      this.chartOptions.scales = {
+        yAxes: [{
+          ticks: {
+            min: 0
+          }
+        }]
+      };
+    } else {
+      this.chartOptions.scales = {};
+    }
+    // different datatype for bar chart,
     if (this.chartType === 'bar') {
       this.setBarChartData();
       this.chartOptions.legend.reverse = false;
