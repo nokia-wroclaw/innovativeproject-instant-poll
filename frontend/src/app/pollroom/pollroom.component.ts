@@ -86,6 +86,9 @@ export class PollroomComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.navbarTitleService.setNavbarTitle('');
+        if(this.webSocketAPI !== null && this.webSocketAPI !== undefined) {
+            this.webSocketAPI.disconnect();
+        }
     }
 
     closeRoom() {
