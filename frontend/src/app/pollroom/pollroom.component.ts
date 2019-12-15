@@ -32,13 +32,17 @@ export class PollroomComponent implements OnInit, OnDestroy {
     private shortLink: string;
     private numberOfUsers = '0';
     private chartTrigger = 0;
+    private ifQuestionsReceived = false;
+    private ifUsersInfoReceived = false;
 
     constructor(private backendService: BackendConnectionService,
         private router: Router, private route: ActivatedRoute,
         private confirmationDialogService: ConfirmationDialogService,
         private imageDialogService: ImageDialogService,
         private titleService: Title,
-        private navbarTitleService: NavbarTitleService) { }
+        private navbarTitleService: NavbarTitleService,
+        ) { }
+
 
     ngOnInit() {
         this.titleService.setTitle("Instant Polls - Pokój");
@@ -67,6 +71,17 @@ export class PollroomComponent implements OnInit, OnDestroy {
             });
         });
 
+        var _this = this;
+        const time = setInterval(function() {
+            if(_this.ifQuestionsReceived && _this.ifUsersInfoReceived)
+                clearInterval(time)
+            else {
+                if(!_this.ifQuestionsReceived) 
+                    _this.webSocketAPI.getQuestions();     
+                if(!_this.ifUsersInfoReceived)
+                    _this.webSocketAPI.getNumberOfUsers();
+            } 
+        }, 1000);
     }
 
     ngOnDestroy() {
@@ -87,6 +102,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     setNumberOfUsers(users: string) {
+        this.ifUsersInfoReceived = true;  
         this.numberOfUsers = users;
         this.ifConnecting = false;
         this.navbarTitleService.setNavbarNumberOfUsers(this.numberOfUsers);
@@ -164,6 +180,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
 
     addQuestions(listOfQuestion: Array<Question>) {
         this.questions = listOfQuestion;
+        this.ifQuestionsReceived = true; 
     }
 
     generateShortLink(link: string) {

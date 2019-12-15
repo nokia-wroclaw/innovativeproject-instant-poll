@@ -1,21 +1,9 @@
-<div class="chart" >
-  <button (click)="changeType()">Change</button>
-  <canvas baseChart *ngIf="this.chartType !=='bar' "
-          [datasets]="chartData"
-          [labels]="chartLabels"
-          [options]="chartOptions"
-          [legend]="chartLegend"
-          [chartType]="chartType"
-          [plugins]="chartPlugins">
-  </canvas>
-  <canvas baseChart *ngIf="this.chartType ==='bar' "
-          [datasets]="barChartData"
-          [labels]="barChartLabels"
-          [options]="chartOptions"
-          [legend]="chartLegend"
-          [chartType]="chartType"
-          [plugins]="chartPlugins">
-  </canvas>
+<div class="chart">
 
+    <canvas baseChart *ngIf="this.chartType !=='bar' " [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend" [chartType]="chartType" [plugins]="chartPlugins">
+  </canvas>
+    <canvas baseChart *ngIf="this.chartType ==='bar' " [datasets]="barChartData" [labels]="barChartLabels" [options]="chartOptions" [legend]="chartLegend" [chartType]="chartType" [plugins]="chartPlugins">
+  </canvas>
+    <button (click)="changeType()">Change</button>
 
 </div>
