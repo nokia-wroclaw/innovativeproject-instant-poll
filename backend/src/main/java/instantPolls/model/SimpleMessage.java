@@ -8,6 +8,8 @@ public class SimpleMessage {
 		this.content = content;
 	}
 	
+	public SimpleMessage() {}
+	
 	public String getContent() {
 		return content;
 	}

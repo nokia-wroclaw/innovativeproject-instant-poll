@@ -46,6 +46,17 @@ public class WSController {
         return message;
     }
 	
+	@MessageMapping("/poll/{roomId}/getNumberOfUsers")
+	@SendTo("/room/{roomId}/users")
+    public SimpleMessage getNumberOfUsers(@DestinationVariable String roomId, @Payload String userId, SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
+		Room room = roomStorage.findRoomById(roomId);
+		SimpleMessage message = new SimpleMessage();
+		if(room != null) {
+			message.setContent(Integer.toString(room.getNumberOfUsers()));
+		} 
+        return message;
+    }
+	
 	@MessageMapping("/poll/{userId}/allQuestions")
 	@SendTo("/user/{userId}/allQuestions")
     public ArrayList<HashMap<String,Object>> sendQuestions(@DestinationVariable String userId,@Payload String roomId) {
@@ -56,6 +67,9 @@ public class WSController {
 	@EventListener(SessionDisconnectEvent.class)
     public void handleWebsocketDisconnectListner(SessionDisconnectEvent event) {
     	StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+    	if(headerAccessor == null) {
+    		return;
+    	}
     	String user_id = headerAccessor.getSessionAttributes().get("user_id").toString();	
     	String room_id = headerAccessor.getSessionAttributes().get("room_id").toString();	
     	Room room = roomStorage.findRoomById(room_id);
@@ -65,6 +79,18 @@ public class WSController {
 			this.template.convertAndSend("/room/"+room_id+"/users", message);
 		}
     } 
+	
+	@MessageMapping("/poll/{roomId}/exit")
+	@SendTo("/room/{roomId}/users")
+	public SimpleMessage exit(@DestinationVariable String roomId, @Payload String userId) {
+		Room r = roomStorage.findRoomById(roomId);
+		SimpleMessage m = null;
+		if(r != null) {
+			r.getUsers().remove(userId);
+			m = new SimpleMessage(Integer.toString(r.getNumberOfUsers()));
+		}
+        return m;
+	}
 	
 	@MessageMapping("/poll/{roomId}/addQuestion/{questionType}")
 	@SendTo("/question/{roomId}")
