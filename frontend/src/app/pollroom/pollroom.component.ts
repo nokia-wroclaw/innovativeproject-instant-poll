@@ -76,12 +76,17 @@ export class PollroomComponent implements OnInit, OnDestroy {
                     if(this.room != null &&_this.ifQuestionsReceived && _this.ifUsersInfoReceived)
                         clearInterval(time)
                     else {
-                        if(!_this.ifQuestionsReceived) 
-                            _this.webSocketAPI.getQuestions();     
+                        if(!_this.ifQuestionsReceived) {
+                            _this.webSocketAPI.getQuestions();
+                            if(_this.admin)
+                                _this.showQr();
+                        }     
                         if(!_this.ifUsersInfoReceived)
                             _this.webSocketAPI.getNumberOfUsers();
                     } 
                 }, 1000);
+
+                
             });
         });
 
@@ -117,6 +122,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
 
     questionPanel() {
         this.opened = !this.opened;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     sendQuestion() {
