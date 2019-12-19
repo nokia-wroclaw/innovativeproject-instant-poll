@@ -57,7 +57,9 @@ export class PollroomComponent implements OnInit, OnDestroy {
             this.backendService.getRoom(params['id']).subscribe(r => {
                 this.room = r;
                 if (this.room === null) {
-                    this.router.navigate(['/join']);
+                    this.router.navigate(['/join'], { 
+                        state: { error: "Pokój nie istnieje" } 
+                      });
                     return;
                 }
                 this.generateShortLink(window.location.href)
@@ -68,20 +70,27 @@ export class PollroomComponent implements OnInit, OnDestroy {
                 this.webSocketAPI.connect();
                 this.navbarTitleService.setNavbarTitle(this.room.roomName);
                 this.updateLatestJoinedRooms(this.room.id);
+
+                var _this = this;
+                const time = setInterval(function() {
+                    if(this.room != null &&_this.ifQuestionsReceived && _this.ifUsersInfoReceived)
+                        clearInterval(time)
+                    else {
+                        if(!_this.ifQuestionsReceived) {
+                            _this.webSocketAPI.getQuestions();
+                            if(_this.admin)
+                                _this.showQr();
+                        }     
+                        if(!_this.ifUsersInfoReceived)
+                            _this.webSocketAPI.getNumberOfUsers();
+                    } 
+                }, 1000);
+
+                
             });
         });
 
-        var _this = this;
-        const time = setInterval(function() {
-            if(_this.ifQuestionsReceived && _this.ifUsersInfoReceived)
-                clearInterval(time)
-            else {
-                if(!_this.ifQuestionsReceived) 
-                    _this.webSocketAPI.getQuestions();     
-                if(!_this.ifUsersInfoReceived)
-                    _this.webSocketAPI.getNumberOfUsers();
-            } 
-        }, 1000);
+
     }
 
     ngOnDestroy() {
@@ -113,6 +122,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
 
     questionPanel() {
         this.opened = !this.opened;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     sendQuestion() {
@@ -123,6 +133,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
                     if (confirmed) {
                         var question = (<HTMLInputElement>document.getElementById("question")).value
                         this.webSocketAPI.addQuestion("yesNo",question,[]);
+                        (<HTMLInputElement>document.getElementById("question")).value = ""; 
                     }
                 }).catch(() => { });
         }

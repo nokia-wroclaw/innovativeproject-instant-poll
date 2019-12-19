@@ -10,6 +10,61 @@ public class QuestionMessage {
 	private ArrayList<String> answers;
 	private ArrayList<Integer> numberOfVotes;
 	
+	public static final class Builder {
+		private int id;
+		private String type;
+		private String question;
+		private String action; // question add or remove
+		private ArrayList<String> answers;
+		private ArrayList<Integer> numberOfVotes;
+		
+		public Builder id(int id) {
+			this.id = id;
+			return this;
+		}
+		
+		public Builder type(String type) {
+			this.type = type;
+			return this;
+		}
+		
+		public Builder question(String question) {
+			this.question = question;
+			return this;
+		}
+		
+		public Builder action(String action) {
+			this.action = action;
+			return this;
+		}
+		
+		public Builder answers(ArrayList<String> answers) {
+			this.answers = answers;
+			return this;
+		}
+		
+		public Builder numberOfVotes(ArrayList<Integer> numberOfVotes) {
+			this.numberOfVotes = numberOfVotes;
+			return this;
+		}
+		
+		public QuestionMessage build() {
+			QuestionMessage questionMessage = new QuestionMessage();
+			questionMessage.id = this.id;
+			questionMessage.type = this.type;
+			questionMessage.question = this.question;
+			questionMessage.action = this.action;
+			questionMessage.answers = this.answers;
+			questionMessage.numberOfVotes = this.numberOfVotes;
+			
+			return questionMessage;
+		}
+		
+	}
+	
+	public static Builder builder() {
+	    return new Builder();
+	}
 	
 	public QuestionMessage() {
 		

@@ -7,6 +7,8 @@ import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import instantPolls.model.Room;
 
@@ -57,15 +59,16 @@ public class RoomsStorage implements Storage {
 	}
 	
 	@Override
-	public int closeRoom(String id, String token) {
+	public HttpStatus closeRoom(String id, String token) {
 		Room room = rooms.get(id);
 		if(room == null)
-			return 404;
+			return HttpStatus.NOT_FOUND;
 		if(room.getToken().equals(token)) {
 			rooms.remove(id);
-			return 200;
+			return  HttpStatus.OK;
 		} else
-			return 401;
+			return HttpStatus.UNAUTHORIZED;
+
 	}
 	
 	@Override

@@ -76,7 +76,7 @@
     <div class="my-card-header">
         <span>{{element.question}}</span>
         <button *ngIf="admin" type="button" class="btn btn-danger float-right" (click)="deleteQuestion(element)"><i class="fas fa-times-circle" ></i></button>
-        <button type="button" class="btn btn-success float-right" (click)="hideQuestion(element)"><i id={{element.id}} class="fas fa-angle-down"></i></button>
+        <a type="button" class="btn btn-success float-right" (click)="hideQuestion(element)" href="{{'#chart-' + element.id}}"><i id={{element.id}} class="fas fa-angle-down"></i></a>
     </div>
 
     <div *ngIf="element.hidden" class="card-body">
@@ -91,7 +91,7 @@
 
         <button (click)="sendAnswer(element)" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Wyślij odpowiedź!</button>
 
-        <app-chart [question]=element [chartTrigger]="chartTrigger"> </app-chart>
+        <app-chart id="{{'chart-' + element.id}}" [question]=element [chartTrigger]="chartTrigger"> </app-chart>
     </div>
 </div>
 

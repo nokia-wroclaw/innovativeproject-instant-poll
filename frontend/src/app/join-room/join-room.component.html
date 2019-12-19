@@ -6,8 +6,14 @@
             </div>
             <div class="card-body">
                 <div class="form-group">
-                    <label for="roomName">Kod pokoju</label>
-                    <input type="text" class="form-control" [(ngModel)]="shortLink" placeholder="Podaj kod">
+                    <label for="roomName">Podaj kod pokoju z końca shortlinka:</label>
+
+                    <div class="inline">
+                        {{url}}
+                        <input type="text" class="form-control" [(ngModel)]="shortLink" placeholder="kod">
+                    </div>
+                    <div *ngIf="(shortLink == undefined || shortLink == '') && submitted" class="error alert alert-danger">Pusty kod!</div>
+                    <div *ngIf="error != null" class="error alert alert-danger">{{error}}</div>
                 </div>
             </div>
             <button (click)="joinRoom()" type="button" class="btn btn-success">Dołącz <i class="fas fa-sign-in-alt"></i></button>

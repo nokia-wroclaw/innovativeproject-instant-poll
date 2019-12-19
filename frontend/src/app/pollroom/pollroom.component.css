@@ -12,6 +12,10 @@ h6 {
     color: white;
 }
 
+body {
+    scroll-behavior: smooth;
+}
+
 
 /*https://loading.io/css/ spinner:*/
 

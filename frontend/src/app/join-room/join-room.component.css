@@ -1,4 +1,15 @@
 button {
-    margin-bottom:10px;
+    margin-bottom: 10px;
     width: 100%;
+}
+
+.inline {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.error {
+    margin-top: 10px;
 }
