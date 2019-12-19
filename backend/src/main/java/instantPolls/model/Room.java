@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
@@ -28,26 +30,26 @@ public class Room {
 		this.timeZone = TimeZone.getTimeZone(timeZoneName);
 		this.expirationDate = expirationDate;
 		expirationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-		questions = new ArrayList<Question>();
+		questions = new ArrayList<>();
 		users = new ArrayList<>();
 	}
 	
-	public ArrayList<HashMap<String,Object>> getListOfQuestionsWithVotes(String userId) {
-		ArrayList<HashMap<String,Object>> list = new ArrayList<>();
-		questions.forEach(question -> {
-			HashMap<String,Object> q = new HashMap<>();
-			q.put("id", question.getId());
-			q.put("type", question.getType());
-			q.put("question", question.getQuestion());
-			q.put("answers", question.getOptions());
-			q.put("numberOfVotes", question.getNumberOfVotes());
-			question.getAnswers().forEach(answer -> {
+	public List<Map<String, Object>> getListOfQuestionsWithVotes(String userId) {
+		List<Map<String, Object>> list = new ArrayList<>();
+		questions.forEach(element -> {
+			HashMap<String,Object> questionJson = new HashMap<>();
+			questionJson.put("id", element.getId());
+			questionJson.put("type", element.getType());
+			questionJson.put("question", element.getQuestion());
+			questionJson.put("answers", element.getOptions());
+			questionJson.put("numberOfVotes", element.getNumberOfVotes());
+			element.getAnswers().forEach(answer -> {
 				if(answer.getUsersVoted().contains(userId)) {
-					q.put("selected", answer.getAnswer());
+					questionJson.put("selected", answer.getAnswer());
 					return;
 				}
 			});
-			list.add(q);
+			list.add(questionJson);
 		});
 		return list;
 	}
@@ -59,12 +61,11 @@ public class Room {
 	}
 	
 	public Question getQuestionById(int id) {
-		for(Question q: questions) {
-			if(q.getId() == id) {
-				return q;
-			}
-		}
-		return null;
+		return questions
+				.stream()
+				.filter(q -> q.getId() == id)
+				.findFirst()
+				.orElse(null);
 	}
 
 	public void deleteQuestionById(int id) {
@@ -132,7 +133,7 @@ public class Room {
 	}
 	
 	public int getNumberOfUsers() {
-		return users.stream().distinct().collect(Collectors.toList()).size();
+		return (int) users.stream().distinct().count();
 	}
 
 	public String getShortId() {

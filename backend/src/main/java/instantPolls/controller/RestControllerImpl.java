@@ -75,18 +75,11 @@ public class RestControllerImpl {
 	@ResponseBody
 	@DeleteMapping(value = "/room/{id}")
 	public ResponseEntity<Map<String, String>> closeRoom(@PathVariable String id, @RequestHeader("Authorization") String token) {
-		int result = roomStorage.closeRoom(id, token);
-		if(result == 200) 
+		HttpStatus status = roomStorage.closeRoom(id, token); 
+		if(status == HttpStatus.OK) 
 			return ResponseEntity.ok(Collections.singletonMap("result", "success"));
-		else {
-			Map<String, String> resultString = Collections.singletonMap("result", "fail");	
-			if (result == 404)
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resultString);
-			else if(result == 401)
-				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(resultString);
-			else
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(resultString);
-		}
+		else
+			return ResponseEntity.status(status).body(Collections.singletonMap("result", "fail"));
 	}
 	
 	@ResponseBody

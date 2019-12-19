@@ -2,6 +2,8 @@ package instantPolls.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -59,7 +61,7 @@ public class WSController {
 	
 	@MessageMapping("/poll/{userId}/allQuestions")
 	@SendTo("/user/{userId}/allQuestions")
-    public ArrayList<HashMap<String,Object>> sendQuestions(@DestinationVariable String userId,@Payload String roomId) {
+    public List<Map<String, Object>> sendQuestions(@DestinationVariable String userId,@Payload String roomId) {
 		Room room = roomStorage.findRoomById(roomId);
 		return room.getListOfQuestionsWithVotes(userId);
     }
@@ -96,18 +98,24 @@ public class WSController {
 	@SendTo("/question/{roomId}")
 	public QuestionMessage addQuestion(@DestinationVariable String roomId, @DestinationVariable String questionType, @Payload QuestionMessage message) {
 		Question question = null;
-		QuestionMessage messageToSend = new QuestionMessage();
-		if(questionType.equals("yesNo")) {
+		
+		if(questionType.equals("yesNo")) { //convert to enum when more types of questions
 			question = new YesNoQuestion(message.getQuestion());
-			messageToSend.setQuestion(question.getQuestion());
-			messageToSend.setType("yesNo");
-			messageToSend.setAnswers(question.getOptions());
-			messageToSend.setNumberOfVotes(question.getNumberOfVotes());
-		} 
 			
-		roomStorage.findRoomById(roomId).addQuestion(question);
-		messageToSend.setId(question.getId());
-		return messageToSend;
+			QuestionMessage messageToSend = QuestionMessage.builder()
+					.type("yesNo")
+					.question(question.getQuestion())
+					.answers(question.getOptions())
+					.numberOfVotes(question.getNumberOfVotes())
+					.build();
+
+			roomStorage.findRoomById(roomId).addQuestion(question);
+			messageToSend.setId(question.getId());
+			return messageToSend;
+		} 
+		
+		return null;
+	
 	}
 	
 	@MessageMapping("/poll/{roomId}/answer")
