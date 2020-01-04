@@ -139,5 +139,4 @@ public class QuestionMessage {
 	public void setSelected(ArrayList<Integer> selected) {
 		this.selected = selected;
 	}
-	
 }

@@ -26,6 +26,7 @@ import instantPolls.model.MultipleAnswersQuestion;
 import instantPolls.model.NumberOfVotesMessage;
 import instantPolls.model.Question;
 import instantPolls.model.QuestionMessage;
+import instantPolls.model.RateQuestion;
 import instantPolls.model.Room;
 import instantPolls.storage.Storage;
 
@@ -142,6 +143,21 @@ public class WSController {
 			
 			roomStorage.findRoomById(roomId).addQuestion(question);
 			messageToSend.setId(question.getId());
+			return messageToSend;
+		} else if(questionType.equals("rate")) {
+			RateQuestion que = new RateQuestion(message.getQuestion(),message.getAnswers());
+			ArrayList<Integer> selected = new ArrayList<Integer>();
+			selected.add(que.getFrom());
+			QuestionMessage messageToSend = QuestionMessage.builder()
+					.type(que.getType())
+					.question(que.getQuestion())
+					.answers(que.getOptions())
+					.numberOfVotes(que.getNumberOfVotes())
+					.selected(selected)
+					.build();
+			
+			roomStorage.findRoomById(roomId).addQuestion(que);
+			messageToSend.setId(que.getId());
 			return messageToSend;
 		}
 		return null;

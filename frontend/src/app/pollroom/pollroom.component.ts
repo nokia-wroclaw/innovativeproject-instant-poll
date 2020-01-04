@@ -37,6 +37,8 @@ export class PollroomComponent implements OnInit, OnDestroy {
     private ifUsersInfoReceived = false;
     private type = 1;
     private answers = [];
+    private from = 0;
+    private to = 10;
 
 
     constructor(private backendService: BackendConnectionService,
@@ -156,7 +158,13 @@ export class PollroomComponent implements OnInit, OnDestroy {
                             (<HTMLInputElement>document.getElementById("question")).value = ""; 
                             this.notEnoughtAnswers = false;
                         } else if(confirmed && this.type == 3) {
-    
+                            if(this.to >= this.from) {
+                                var question = (<HTMLInputElement>document.getElementById("question")).value;
+                                this.webSocketAPI.addQuestion("rate",question,[(this.from).toString(),(this.to).toString()]);
+                                this.from = 0;
+                                this.to = 10;
+                                (<HTMLInputElement>document.getElementById("question")).value = ""; 
+                            }
                         }
                     }).catch(() => { });
             } else {

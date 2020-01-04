@@ -104,6 +104,14 @@
         <div *ngIf="emptyQuestion" class="alert alert-danger">
             Puste pytanie!
         </div>
+        <br>
+        <p>Minimalna wartość: {{from}}</p>
+        <input type="range" min="0" max="20" [(ngModel)]="from" class="slider" id="from">
+        <p>Maksymalna wartość:  {{to}}</p>
+        <input type="range" min="0" max="20" [(ngModel)]="to" class="slider" id="to">
+        <div *ngIf="to < from" class="alert alert-danger">
+            Niepoprawny zakres oceny!
+        </div>
     </div>
 
     <div class="card-footer">
@@ -119,7 +127,7 @@
         <a type="button" class="btn btn-success float-right" (click)="hideQuestion(element)" href="{{'#chart-' + element.id}}"><i id={{element.id}} class="fas fa-angle-down"></i></a>
     </div>
 
-    <div *ngIf="element.hidden" class="card-body">
+    <div *ngIf="element.hidden && element.type != 'rate'" class="card-body">
         <div *ngFor="let ans of element.answers; let i = index" class="form-check">
             <form>
                 <label>
@@ -133,6 +141,17 @@
 
         <app-chart id="{{'chart-' + element.id}}" [question]=element [chartTrigger]="chartTrigger"> </app-chart>
     </div>
+    
+    <div *ngIf="element.hidden && element.type == 'rate'" class="card-body">
+        <p>Twoja odpoweidź: {{element.selected[0]}}</p>
+        <input type="range" min="{{element.answers[0]}}" max="{{element.answers[element.answers.length-1]}}" 
+            [(ngModel)]="element.selected[0]" class="slider">
+
+        <button (click)="sendAnswer(element)" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Wyślij odpowiedź!</button>
+
+        <app-chart id="{{'chart-' + element.id}}" [question]=element [chartTrigger]="chartTrigger"> </app-chart>
+    </div>
+
 </div>
 
 <router-outlet></router-outlet>
