@@ -120,10 +120,10 @@
     </div>
 
     <div *ngIf="element.hidden" class="card-body">
-        <div *ngFor="let ans of element.answers" class="form-check">
+        <div *ngFor="let ans of element.answers; let i = index" class="form-check">
             <form>
                 <label>
-                <input type="radio" [(ngModel)]="element.selected" name="radiogroup" [value]="ans">
+                <input type="radio" [checked]="element.selected.includes(i)" (click)="selectAnswer(element,i)" name="radiogroup" [value]="i">
                 {{ans}}
             </label>
             </form>

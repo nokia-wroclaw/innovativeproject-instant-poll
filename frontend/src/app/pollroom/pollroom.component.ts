@@ -38,6 +38,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
     private type = 1;
     private answers = [];
 
+
     constructor(private backendService: BackendConnectionService,
         private router: Router, private route: ActivatedRoute,
         private confirmationDialogService: ConfirmationDialogService,
@@ -81,15 +82,13 @@ export class PollroomComponent implements OnInit, OnDestroy {
                     else {
                         if(!_this.ifQuestionsReceived) {
                             _this.webSocketAPI.getQuestions();
-                            //if(_this.admin)
-                               // _this.showQr();
+                            if(_this.admin)
+                                _this.showQr();
                         }     
                         if(!_this.ifUsersInfoReceived)
                             _this.webSocketAPI.getNumberOfUsers();
                     } 
                 }, 1000);
-
-                this.opened = true;
             });
         });
 
@@ -149,7 +148,11 @@ export class PollroomComponent implements OnInit, OnDestroy {
                                 answersToSend.push(answer.answer);
                             });
                             this.answers = [];
-                            this.webSocketAPI.addQuestion("options",question,answersToSend);
+                            if((<HTMLInputElement>document.getElementById("multiple")).checked) {
+                                this.webSocketAPI.addQuestion("optionsMultiple",question,answersToSend);
+                            } else {
+                                this.webSocketAPI.addQuestion("optionsSingle",question,answersToSend);
+                            }
                             (<HTMLInputElement>document.getElementById("question")).value = ""; 
                             this.notEnoughtAnswers = false;
                         } else if(confirmed && this.type == 3) {
@@ -203,6 +206,19 @@ export class PollroomComponent implements OnInit, OnDestroy {
             }
             this.webSocketAPI.sendAnswer(JSON.stringify(answer));
         }
+    }
+
+    selectAnswer(question: Question, id: number) {
+        if(question.type === "optionsMultiple") {
+            if(question.selected.includes(id)) {
+                question.selected.splice(question.selected.indexOf(id), 1);
+            } else {
+                question.selected.push(id);
+            }
+        } else {
+            question.selected = [id];
+        }
+        
     }
 
     receiveAnswer(answer: any) {

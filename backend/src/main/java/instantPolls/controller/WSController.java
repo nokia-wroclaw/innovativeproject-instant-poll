@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import instantPolls.model.SimpleMessage;
+import instantPolls.model.SingleAnswerQuestion;
 import instantPolls.model.YesNoQuestion;
 import instantPolls.model.AnswerMessage;
+import instantPolls.model.MultipleAnswersQuestion;
 import instantPolls.model.NumberOfVotesMessage;
 import instantPolls.model.Question;
 import instantPolls.model.QuestionMessage;
@@ -103,17 +105,45 @@ public class WSController {
 			question = new YesNoQuestion(message.getQuestion());
 			
 			QuestionMessage messageToSend = QuestionMessage.builder()
-					.type("yesNo")
+					.type(question.getType())
 					.question(question.getQuestion())
 					.answers(question.getOptions())
 					.numberOfVotes(question.getNumberOfVotes())
+					.selected(new ArrayList<Integer>())
 					.build();
 
 			roomStorage.findRoomById(roomId).addQuestion(question);
 			messageToSend.setId(question.getId());
 			return messageToSend;
-		} 
-		
+		} else if(questionType.equals("optionsMultiple")) {
+			
+			question = new MultipleAnswersQuestion(message.getQuestion(),message.getAnswers());
+			
+			QuestionMessage messageToSend = QuestionMessage.builder()
+					.type(question.getType())
+					.question(question.getQuestion())
+					.answers(question.getOptions())
+					.numberOfVotes(question.getNumberOfVotes())
+					.selected(new ArrayList<Integer>())
+					.build();
+			
+			roomStorage.findRoomById(roomId).addQuestion(question);
+			messageToSend.setId(question.getId());
+			return messageToSend;
+		} else if(questionType.equals("optionsSingle")) {
+			question = new SingleAnswerQuestion(message.getQuestion(),message.getAnswers());
+			QuestionMessage messageToSend = QuestionMessage.builder()
+					.type(question.getType())
+					.question(question.getQuestion())
+					.answers(question.getOptions())
+					.numberOfVotes(question.getNumberOfVotes())
+					.selected(new ArrayList<Integer>())
+					.build();
+			
+			roomStorage.findRoomById(roomId).addQuestion(question);
+			messageToSend.setId(question.getId());
+			return messageToSend;
+		}
 		return null;
 	
 	}

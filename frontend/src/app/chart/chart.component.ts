@@ -31,16 +31,14 @@ export class ChartComponent implements OnInit, OnChanges {
   private chartLabels: Label[] = [];
 
   // bar chart needs data in another format to work as I wanted
-  private barChartData: ChartDataSets[] = [
-    { data: [0], label: '' },
-    { data: [0], label: '' }
-  ];
+  private barChartData: ChartDataSets[] = [];
 
   private barChartLabels: Label[] = ['Odpowiedzi'];
   private setBarChartData() {
+    this.barChartData = [];
     for (let i = 0; i < this.question.answers.length; i++) {
-      this.barChartData[i].data = [this.question.numberOfVotes[i]];
-      this.barChartData[i].label = this.question.answers[i];
+      var data = {data:[this.question.numberOfVotes[i]], label: this.question.answers[i]};
+      this.barChartData.push(data);
     }
   }
 
