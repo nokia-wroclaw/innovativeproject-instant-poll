@@ -12,9 +12,40 @@ import { Question } from '../question';
 import { TouchSequence } from 'selenium-webdriver';
 import {NavbarTitleService} from "../navbar-title.service";
 import { isNgTemplate } from '@angular/compiler';
+import { trigger, style, animate, transition } from '@angular/animations';
 
 @Component({
     selector: 'app-pollroom',
+    animations: [
+        trigger(
+          'inOutAnimationDetails', 
+          [
+            transition(
+              ':enter', [
+                style({opacity: 0}),
+                animate('500ms', style({opacity: 1}))
+              ]
+            )
+          ]
+        ),
+        trigger(
+            'inOutAnimation', 
+            [
+              transition(
+                ':enter', [
+                  style({transform: 'translateY(100%)', opacity: 0}),
+                  animate('500ms', style({transform: 'translateY(0%)',opacity: 1}))
+                ]
+              ),
+              transition(
+                  ':leave', [
+                  style({transform: 'translateY(0%)', opacity: 1}),
+                  animate('500ms', style({transform: 'translateY(100%)',opacity: 0}))
+                  ]
+              )
+            ]
+        ),
+      ],
     templateUrl: './pollroom.component.html',
     styleUrls: ['./pollroom.component.css']
 })
@@ -85,7 +116,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
                         if(!_this.ifQuestionsReceived) {
                             _this.webSocketAPI.getQuestions();
                             if(_this.admin)
-                                _this.showQr();
+                               _this.showQr();
                         }     
                         if(!_this.ifUsersInfoReceived)
                             _this.webSocketAPI.getNumberOfUsers();
@@ -125,6 +156,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     questionPanel() {
+        this.type = 1;
         this.emptyQuestion = false;
         this.opened = !this.opened;
         window.scrollTo({ top: 0, behavior: 'smooth' });

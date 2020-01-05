@@ -45,7 +45,7 @@
 </div>
 <h2 *ngIf="!ifConnecting && !(questions?.length> 0)"> Nie ma jeszcze żadnych pytań... <br></h2>
 
-<div *ngIf="opened" class="my-card" id="questionPanel">
+<div *ngIf="opened" class="my-card" id="questionPanel" [@inOutAnimation]>
     <div class="my-card-header">
         <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
@@ -120,29 +120,26 @@
     </div>
 </div>
 
-<div class="my-card" *ngFor="let element of questions">
+<div class="my-card" *ngFor="let element of questions" [@inOutAnimation]>
     <div class="my-card-header">
         <span>{{element.question}}</span>
         <button *ngIf="admin" type="button" class="btn btn-danger float-right" (click)="deleteQuestion(element)"><i class="fas fa-times-circle" ></i></button>
         <a type="button" class="btn btn-success float-right" (click)="hideQuestion(element)" href="{{'#chart-' + element.id}}"><i id={{element.id}} class="fas fa-angle-down"></i></a>
     </div>
 
-    <div *ngIf="element.hidden && element.type != 'rate'" class="card-body">
-        <div *ngFor="let ans of element.answers; let i = index" class="form-check">
+    <div *ngIf="element.hidden && element.type != 'rate'" [@inOutAnimationDetails] class="card-body">
+        <div *ngFor="let ans of element.answers; let i = index" class="form-check" (click)="selectAnswer(element,i)">
             <form>
-                <label>
-                <input type="radio" [checked]="element.selected.includes(i)" (click)="selectAnswer(element,i)" name="radiogroup" [value]="i">
-                {{ans}}
-            </label>
+                <label><input class="form-radio" type="radio" [checked]="element.selected.includes(i)" name="radiogroup" [value]="i">{{ans}}</label>
             </form>
         </div>
-
+        <br>
         <button (click)="sendAnswer(element)" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Wyślij odpowiedź!</button>
 
         <app-chart id="{{'chart-' + element.id}}" [question]=element [chartTrigger]="chartTrigger"> </app-chart>
     </div>
     
-    <div *ngIf="element.hidden && element.type == 'rate'" class="card-body">
+    <div *ngIf="element.hidden && element.type == 'rate'" [@inOutAnimationDetails] class="card-body">
         <p>Twoja odpoweidź: {{element.selected[0]}}</p>
         <input type="range" min="{{element.answers[0]}}" max="{{element.answers[element.answers.length-1]}}" 
             [(ngModel)]="element.selected[0]" class="slider">
