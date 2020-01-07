@@ -1,10 +1,12 @@
 package instantPolls.model;
 
+import java.util.List;
+
 public class AnswerMessage {
 	
 	private String user_id;
 	private int question_id; 
-	private String answer;
+	private List<Integer> answer;
 
 
 	public String getUser_id() {
@@ -19,10 +21,10 @@ public class AnswerMessage {
 	public void setQuestion_id(int question_id) {
 		this.question_id = question_id;
 	}
-	public String getAnswer() {
+	public List<Integer> getAnswer() {
 		return answer;
 	}
-	public void setAnswer(String answer) {
+	public void setAnswer(List<Integer> answer) {
 		this.answer = answer;
 	}
 }

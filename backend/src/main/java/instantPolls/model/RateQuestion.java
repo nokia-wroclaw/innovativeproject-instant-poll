@@ -3,20 +3,24 @@ package instantPolls.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class YesNoQuestion implements Question {
-	
+public class RateQuestion implements Question{
 	private int id;
 	private String question;
 	private ArrayList<Answer> listOfAnswers;
 	private String type;
+	private int from;
+	private int to;
 	
 	
-	public YesNoQuestion(String question) {
+	public RateQuestion(String question,List<String> answers) {
 		this.question = question;
 		this.listOfAnswers = new ArrayList<>();
-		this.listOfAnswers.add(new Answer("Tak"));
-		this.listOfAnswers.add(new Answer("Nie"));
-		this.type = "yesNo";
+		this.from = Integer.parseInt(answers.get(0));
+		this.to = Integer.parseInt(answers.get(1));
+		for(int i = from; i <= to; i++) {
+			listOfAnswers.add(new Answer(Integer.toString(i)));
+		}
+		this.type = "rate";
 	}
 	
 	public void addAnswer(List<Integer> answer, int question_id, String user_id) {
@@ -25,7 +29,7 @@ public class YesNoQuestion implements Question {
 				a.getUsersVoted().remove(user_id);
 			}
 		});
-		listOfAnswers.get(answer.get(0)).getUsersVoted().add(user_id);
+		listOfAnswers.get(answer.get(0)-from).getUsersVoted().add(user_id);
 	}
 	
 	public ArrayList<Integer> getNumberOfVotes() {
@@ -74,5 +78,21 @@ public class YesNoQuestion implements Question {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public int getFrom() {
+		return from;
+	}
+
+	public void setFrom(int from) {
+		this.from = from;
+	}
+
+	public int getTo() {
+		return to;
+	}
+
+	public void setTo(int to) {
+		this.to = to;
 	}
 }

@@ -45,54 +45,110 @@
 </div>
 <h2 *ngIf="!ifConnecting && !(questions?.length> 0)"> Nie ma jeszcze żadnych pytań... <br></h2>
 
-<div *ngIf="opened" class="my-card" id="questionPanel">
+<div *ngIf="opened" class="my-card" id="questionPanel" [@inOutAnimation]>
     <div class="my-card-header">
-        <ul class="nav">
+        <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-                <a class="nav-link active" href="#">Tak/Nie</a>
+                <a class="nav-link active" style="cursor: pointer; color: blue;" (click)="changeType(1)" id="yesNo">Tak/Nie</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Kilka odpowiedzi</a>
+                <a class="nav-link" style="cursor: pointer; color: blue;" (click)="changeType(2)" id="options">Kilka odpowiedzi</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Ocena</a>
+                <a class="nav-link" style="cursor: pointer; color: blue;" (click)="changeType(3)" id="rate">Ocena</a>
             </li>
         </ul>
     </div>
 
-    <div class="card-body">
+    <div class="card-body" *ngIf="type == 1">
         <h5 class="card-title">Pytanie Tak/Nie</h5>
-        <input type="text" class="form-control" id="question" placeholder="Twoje pytanie" required ngModel name="question" #question="ngModel">
-        <div *ngIf="question.invalid && submitted " class="alert alert-danger">
+        <input type="text" class="form-control" id="question" placeholder="Twoje pytanie">
+        <div *ngIf="emptyQuestion" class="alert alert-danger">
+            Puste pytanie!
+        </div>        
+    </div>
+
+    <div class="card-body" *ngIf="type == 2">
+        <h5 class="card-title">Kilka odpowiedzi</h5>
+        <input type="text" class="form-control" id="question" placeholder="Twoje pytanie">
+        <div *ngIf="emptyQuestion" class="alert alert-danger">
+            Puste pytanie!
+        </div>   
+        <br>
+        <h5 class="card-title">Odpowiedzi</h5>
+        <ul class="list-group" id="answerList">
+            <li *ngFor="let ans of answers" (click)="removeAnswer(ans.id)" class="list-group-item list-group-item-action" style="cursor: pointer;">{{ans.answer}}</li>
+            <div *ngIf="notEnoughtAnswers" class="alert alert-danger">
+                Musisz dodać co najmniej dwie odpowiedzi!
+            </div>
+        </ul>
+        <div class="input-group" style="margin-top: 10px;">
+            <input type="text" class="form-control" id="answer" placeholder="Odpowiedź">
+            <span class="input-group-addon input-group-addon-btn bg-white">
+                <button class="btn px-9" (click)="addAnswer()"><i class="fas fa-plus-circle"></i></button>
+            </span> 
+        </div>
+        <div *ngIf="emptyAnswer" class="alert alert-danger">
+            Pusta odpowiedź!
+        </div>
+        <br>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="multiple">
+            <label class="form-check-label" for="multiple">Wielokrotny wybór</label>
+        </div>
+    </div>
+
+    <div class="card-body" *ngIf="type == 3">
+        <h5 class="card-title">Ocena</h5>
+        <input type="text" class="form-control" id="question" placeholder="Twoje pytanie">
+        <div *ngIf="emptyQuestion" class="alert alert-danger">
             Puste pytanie!
         </div>
         <br>
+        <p>Minimalna wartość: {{from}}</p>
+        <input type="range" min="0" max="20" [(ngModel)]="from" class="slider" id="from">
+        <p>Maksymalna wartość:  {{to}}</p>
+        <input type="range" min="0" max="20" [(ngModel)]="to" class="slider" id="to">
+        <div *ngIf="to < from" class="alert alert-danger">
+            Niepoprawny zakres oceny!
+        </div>
+    </div>
+
+    <div class="card-footer">
         <button type="button" class="btn btn-success" (click)="sendQuestion()"><i class="fas fa-check-circle"></i> Zadaj pytanie</button>
         <button type="button" class="btn btn-light float-right" (click)="questionPanel()"><i class="fas fa-times-circle" ></i></button>
     </div>
 </div>
 
-<div class="my-card" *ngFor="let element of questions">
+<div class="my-card" *ngFor="let element of questions" [@inOutAnimation]>
     <div class="my-card-header">
         <span>{{element.question}}</span>
         <button *ngIf="admin" type="button" class="btn btn-danger float-right" (click)="deleteQuestion(element)"><i class="fas fa-times-circle" ></i></button>
         <a type="button" class="btn btn-success float-right" (click)="hideQuestion(element)" href="{{'#chart-' + element.id}}"><i id={{element.id}} class="fas fa-angle-down"></i></a>
     </div>
 
-    <div *ngIf="element.hidden" class="card-body">
-        <div *ngFor="let ans of element.answers" class="form-check">
+    <div *ngIf="element.hidden && element.type != 'rate'" [@inOutAnimationDetails] class="card-body">
+        <div *ngFor="let ans of element.answers; let i = index" class="form-check" (click)="selectAnswer(element,i)">
             <form>
-                <label>
-                <input type="radio" [(ngModel)]="element.selected" name="radiogroup" [value]="ans">
-                {{ans}}
-            </label>
+                <label><input class="form-radio" type="radio" [checked]="element.selected.includes(i)" name="radiogroup" [value]="i">{{ans}}</label>
             </form>
         </div>
+        <br>
+        <button (click)="sendAnswer(element)" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Wyślij odpowiedź!</button>
+
+        <app-chart id="{{'chart-' + element.id}}" [question]=element [chartTrigger]="chartTrigger"> </app-chart>
+    </div>
+    
+    <div *ngIf="element.hidden && element.type == 'rate'" [@inOutAnimationDetails] class="card-body">
+        <p>Twoja odpoweidź: {{element.selected[0]}}</p>
+        <input type="range" min="{{element.answers[0]}}" max="{{element.answers[element.answers.length-1]}}" 
+            [(ngModel)]="element.selected[0]" class="slider">
 
         <button (click)="sendAnswer(element)" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Wyślij odpowiedź!</button>
 
         <app-chart id="{{'chart-' + element.id}}" [question]=element [chartTrigger]="chartTrigger"> </app-chart>
     </div>
+
 </div>
 
 <router-outlet></router-outlet>

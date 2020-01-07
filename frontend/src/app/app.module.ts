@@ -24,6 +24,8 @@ import { ImageDialogService } from './image-dialog/image-dialog.service';
 import {NavbarTitleService} from "./navbar-title.service";
 import { ChartComponent } from './chart/chart.component';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +41,7 @@ import { ChartComponent } from './chart/chart.component';
   imports: [
     NgbModule,
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
