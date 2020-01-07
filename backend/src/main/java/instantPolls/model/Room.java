@@ -43,12 +43,13 @@ public class Room {
 			questionJson.put("question", element.getQuestion());
 			questionJson.put("answers", element.getOptions());
 			questionJson.put("numberOfVotes", element.getNumberOfVotes());
-			element.getAnswers().forEach(answer -> {
-				if(answer.getUsersVoted().contains(userId)) {
-					questionJson.put("selected", answer.getAnswer());
-					return;
+			ArrayList<Integer> ans = new ArrayList<>();
+			for(int i = 0; i < element.getAnswers().size(); i++) {
+				if(element.getAnswers().get(i).getUsersVoted().contains(userId)) {
+					ans.add(i);
 				}
-			});
+			}
+			questionJson.put("selected", ans);
 			list.add(questionJson);
 		});
 		return list;

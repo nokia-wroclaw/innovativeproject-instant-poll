@@ -12,9 +12,40 @@ import { Question } from '../question';
 import { TouchSequence } from 'selenium-webdriver';
 import {NavbarTitleService} from "../navbar-title.service";
 import { isNgTemplate } from '@angular/compiler';
+import { trigger, style, animate, transition } from '@angular/animations';
 
 @Component({
     selector: 'app-pollroom',
+    animations: [
+        trigger(
+          'inOutAnimationDetails', 
+          [
+            transition(
+              ':enter', [
+                style({opacity: 0}),
+                animate('500ms', style({opacity: 1}))
+              ]
+            )
+          ]
+        ),
+        trigger(
+            'inOutAnimation', 
+            [
+              transition(
+                ':enter', [
+                  style({transform: 'translateY(100%)', opacity: 0}),
+                  animate('500ms', style({transform: 'translateY(0%)',opacity: 1}))
+                ]
+              ),
+              transition(
+                  ':leave', [
+                  style({transform: 'translateY(0%)', opacity: 1}),
+                  animate('500ms', style({transform: 'translateY(100%)',opacity: 0}))
+                  ]
+              )
+            ]
+        ),
+      ],
     templateUrl: './pollroom.component.html',
     styleUrls: ['./pollroom.component.css']
 })
@@ -25,8 +56,9 @@ export class PollroomComponent implements OnInit, OnDestroy {
     private admin: boolean;
     private opened: boolean;
     private webSocketAPI: WebSocketAPI;
-    private question: NgModel;
-    private submitted = false;
+    private emptyQuestion = false;
+    private emptyAnswer = false;
+    private notEnoughtAnswers = false;
     private ifConnecting = true;
     private questions: Array<Question>;
     private shortLink: string;
@@ -34,6 +66,11 @@ export class PollroomComponent implements OnInit, OnDestroy {
     private chartTrigger = 0;
     private ifQuestionsReceived = false;
     private ifUsersInfoReceived = false;
+    private type = 1;
+    private answers = [];
+    private from = 0;
+    private to = 10;
+
 
     constructor(private backendService: BackendConnectionService,
         private router: Router, private route: ActivatedRoute,
@@ -79,14 +116,12 @@ export class PollroomComponent implements OnInit, OnDestroy {
                         if(!_this.ifQuestionsReceived) {
                             _this.webSocketAPI.getQuestions();
                             if(_this.admin)
-                                _this.showQr();
+                               _this.showQr();
                         }     
                         if(!_this.ifUsersInfoReceived)
                             _this.webSocketAPI.getNumberOfUsers();
                     } 
                 }, 1000);
-
-                
             });
         });
 
@@ -121,21 +156,52 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     questionPanel() {
+        this.type = 1;
+        this.emptyQuestion = false;
         this.opened = !this.opened;
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     sendQuestion() {
-        this.submitted = true;
-        if ((<HTMLInputElement>document.getElementById("question")).value.length !== 0) {
-            this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz zadać to pytanie?', "Zadaj", "Cofnij")
-                .then((confirmed) => {
-                    if (confirmed) {
-                        var question = (<HTMLInputElement>document.getElementById("question")).value
-                        this.webSocketAPI.addQuestion("yesNo",question,[]);
-                        (<HTMLInputElement>document.getElementById("question")).value = ""; 
-                    }
-                }).catch(() => { });
+        if(this.type == 2 && this.answers.length < 2) {
+            this.notEnoughtAnswers = true;
+        } else {
+            if ((<HTMLInputElement>document.getElementById("question")).value.length !== 0) {
+                this.emptyQuestion = false;
+                this.emptyAnswer = false;
+                this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz zadać to pytanie?', "Zadaj", "Cofnij")
+                    .then((confirmed) => {
+                        if (confirmed && this.type == 1) {
+                            var question = (<HTMLInputElement>document.getElementById("question")).value;
+                            this.webSocketAPI.addQuestion("yesNo",question,[]);
+                            (<HTMLInputElement>document.getElementById("question")).value = ""; 
+                        } else if(confirmed && this.type == 2) {
+                            var question = (<HTMLInputElement>document.getElementById("question")).value;
+                            var answersToSend = [];
+                            this.answers.forEach( answer => {
+                                answersToSend.push(answer.answer);
+                            });
+                            this.answers = [];
+                            if((<HTMLInputElement>document.getElementById("multiple")).checked) {
+                                this.webSocketAPI.addQuestion("optionsMultiple",question,answersToSend);
+                            } else {
+                                this.webSocketAPI.addQuestion("optionsSingle",question,answersToSend);
+                            }
+                            (<HTMLInputElement>document.getElementById("question")).value = ""; 
+                            this.notEnoughtAnswers = false;
+                        } else if(confirmed && this.type == 3) {
+                            if(this.to >= this.from) {
+                                var question = (<HTMLInputElement>document.getElementById("question")).value;
+                                this.webSocketAPI.addQuestion("rate",question,[(this.from).toString(),(this.to).toString()]);
+                                this.from = 0;
+                                this.to = 10;
+                                (<HTMLInputElement>document.getElementById("question")).value = ""; 
+                            }
+                        }
+                    }).catch(() => { });
+            } else {
+                this.emptyQuestion = true;
+            }
         }
     }
 
@@ -182,6 +248,19 @@ export class PollroomComponent implements OnInit, OnDestroy {
         }
     }
 
+    selectAnswer(question: Question, id: number) {
+        if(question.type === "optionsMultiple") {
+            if(question.selected.includes(id)) {
+                question.selected.splice(question.selected.indexOf(id), 1);
+            } else {
+                question.selected.push(id);
+            }
+        } else {
+            question.selected = [id];
+        }
+        
+    }
+
     receiveAnswer(answer: any) {
         this.questions.forEach(element => {
             if(element.id == answer.question_id) {
@@ -221,5 +300,51 @@ export class PollroomComponent implements OnInit, OnDestroy {
             latest.shift();
         }
         localStorage.setItem("latests",JSON.stringify(latest));
+    }
+
+    changeType(type: number) {
+        this.type = type;
+        this.emptyQuestion = false;
+        this.emptyAnswer = false;
+        switch(type) {
+            case 1:
+                document.getElementById("yesNo").classList.add("active");
+                document.getElementById("options").classList.remove("active");
+                document.getElementById("rate").classList.remove("active");
+            break;
+            case 2:
+                document.getElementById("yesNo").classList.remove("active");
+                document.getElementById("options").classList.add("active");
+                document.getElementById("rate").classList.remove("active");
+            break;
+            case 3:
+                document.getElementById("yesNo").classList.remove("active");
+                document.getElementById("options").classList.remove("active");
+                document.getElementById("rate").classList.add("active");
+            break;
+        }
+    }
+
+    removeAnswer(id: number) {
+        this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz usunąć tą odpowiedź?', "Usuń odpowiedź", "Cofnij")
+            .then((confirmed) => {
+                if (confirmed) {
+                    this.answers = this.answers.filter( function(answer) {
+                        return id != answer.id; 
+                    });
+                }
+            }).catch(() => { });
+    }
+
+    addAnswer() {
+        this.notEnoughtAnswers = false;
+        if((<HTMLInputElement>document.getElementById("answer")).value.length != 0) {
+            this.emptyAnswer = false;
+            var ans = {"id":this.answers.length,"answer":(<HTMLInputElement>document.getElementById("answer")).value};
+            this.answers.push(ans);
+            (<HTMLInputElement>document.getElementById("answer")).value = ""; 
+        } else{
+            this.emptyAnswer = true;
+        }
     }
 }

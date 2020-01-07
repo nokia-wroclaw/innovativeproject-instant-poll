@@ -6,5 +6,5 @@ export class Question {
     answers: Array<string>;
     numberOfVotes: Array<number>;
     hidden: boolean;
-    selected: string;
+    selected: Array<number> = [];
 }

@@ -9,6 +9,7 @@ public class QuestionMessage {
 	private String action; // question add or remove
 	private ArrayList<String> answers;
 	private ArrayList<Integer> numberOfVotes;
+	private ArrayList<Integer> selected;
 	
 	public static final class Builder {
 		private int id;
@@ -17,6 +18,7 @@ public class QuestionMessage {
 		private String action; // question add or remove
 		private ArrayList<String> answers;
 		private ArrayList<Integer> numberOfVotes;
+		private ArrayList<Integer> selected;
 		
 		public Builder id(int id) {
 			this.id = id;
@@ -48,6 +50,11 @@ public class QuestionMessage {
 			return this;
 		}
 		
+		public Builder selected(ArrayList<Integer> selected) {
+			this.selected = selected;
+			return this;
+		}
+		
 		public QuestionMessage build() {
 			QuestionMessage questionMessage = new QuestionMessage();
 			questionMessage.id = this.id;
@@ -56,6 +63,7 @@ public class QuestionMessage {
 			questionMessage.action = this.action;
 			questionMessage.answers = this.answers;
 			questionMessage.numberOfVotes = this.numberOfVotes;
+			questionMessage.selected = this.selected;
 			
 			return questionMessage;
 		}
@@ -123,5 +131,12 @@ public class QuestionMessage {
 	public void setAction(String action) {
 		this.action = action;
 	}
-	
+
+	public ArrayList<Integer> getSelected() {
+		return selected;
+	}
+
+	public void setSelected(ArrayList<Integer> selected) {
+		this.selected = selected;
+	}
 }

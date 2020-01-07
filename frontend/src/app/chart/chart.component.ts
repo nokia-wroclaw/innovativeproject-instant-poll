@@ -31,17 +31,49 @@ export class ChartComponent implements OnInit, OnChanges {
   private chartLabels: Label[] = [];
 
   // bar chart needs data in another format to work as I wanted
-  private barChartData: ChartDataSets[] = [
-    { data: [0], label: '' },
-    { data: [0], label: '' }
-  ];
+  private barChartData: ChartDataSets[] = [];
 
   private barChartLabels: Label[] = ['Odpowiedzi'];
   private setBarChartData() {
-    for (let i = 0; i < this.question.answers.length; i++) {
-      this.barChartData[i].data = [this.question.numberOfVotes[i]];
-      this.barChartData[i].label = this.question.answers[i];
+    if(this.question.type === 'rate') {
+      var average = this.computeAverage();
+      this.barChartData = [{data:[average],label:"Średnia"}];
+      this.chartOptions.scales = {
+        yAxes: [{
+          ticks: {
+            min: parseInt(this.question.answers[0]),
+            max: parseInt(this.question.answers[this.question.answers.length-1])
+          }
+        }]
+      };
+    } else {
+      this.barChartData = [];
+      for (let i = 0; i < this.question.answers.length; i++) {
+        var data = {data:[this.question.numberOfVotes[i]], label: this.question.answers[i]};
+        this.barChartData.push(data);
+      }
     }
+  }
+
+  private computeAverage() {
+    var sum = 0;
+    var votes = 0;
+    for(let i = 0; i < this.question.answers.length; i++) {
+      sum += parseInt(this.question.answers[i]) * this.question.numberOfVotes[i];
+      votes += this.question.numberOfVotes[i];
+    }
+    if(votes === 0) {
+      return 0;
+    } else {
+      return sum / votes;
+    }
+  }
+  private computeNumberOfVoters() {
+    var votes = 0;
+    for(let i = 0; i < this.question.answers.length; i++) {
+      votes += this.question.numberOfVotes[i];
+    }
+    return votes;
   }
 
   private changeType = () => {
@@ -56,8 +88,11 @@ export class ChartComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.chartData[0].label = this.question.question;
     this.chartOptions.title.text = this.question.question;
-    this.chartLabels = this.question.answers;
+    if(this.question.type === 'rate') {
+      this.chartType = "bar";
+    }
     this.chartData[0].data = this.question.numberOfVotes;
+    this.chartLabels = this.question.answers;
     this.setBarChartData();
   }
 
