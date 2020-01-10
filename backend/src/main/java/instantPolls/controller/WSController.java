@@ -21,6 +21,7 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import instantPolls.model.SimpleMessage;
 import instantPolls.model.SingleAnswerQuestion;
 import instantPolls.model.YesNoQuestion;
+import instantPolls.model.ActionMessage;
 import instantPolls.model.AnswerMessage;
 import instantPolls.model.MultipleAnswersQuestion;
 import instantPolls.model.NumberOfVotesMessage;
@@ -112,7 +113,8 @@ public class WSController {
 					.numberOfVotes(question.getNumberOfVotes())
 					.selected(new ArrayList<Integer>())
 					.build();
-
+			System.out.print(messageToSend.isActive());
+			System.out.print(messageToSend.isHiddenResults());
 			roomStorage.findRoomById(roomId).addQuestion(question);
 			messageToSend.setId(question.getId());
 			return messageToSend;
@@ -169,7 +171,9 @@ public class WSController {
 	public NumberOfVotesMessage getAnswer(@DestinationVariable String roomId, @Payload AnswerMessage message) {
 		Room room = roomStorage.findRoomById(roomId);
 		Question question = room.getQuestionById(message.getQuestion_id());
-		question.addAnswer(message.getAnswer(), message.getQuestion_id(), message.getUser_id());
+		if(question.isActive())
+			question.addAnswer(message.getAnswer(), message.getQuestion_id(), message.getUser_id());
+		
 		return new NumberOfVotesMessage(question.getId(),question.getNumberOfVotes());
 	}
 	
@@ -190,4 +194,17 @@ public class WSController {
 		}
 		return messageToSend;
 	}
+	
+	@MessageMapping("/poll/{roomId}/{token}/action")
+	@SendTo("/action/{roomId}")
+	public ActionMessage freezeQuestion(@DestinationVariable String roomId, @DestinationVariable String token, @Payload ActionMessage message) {
+		Room room = roomStorage.findRoomById(roomId);
+		if(room.getToken().equals(token)) {
+			Question question = room.getQuestionById(message.getQuestionId());
+			if((message.isActive() && !question.isActive()) ||(!message.isActive() && question.isActive() ))
+				question.setActive(message.isActive());
+		}
+		return message;
+	}
+	
 }

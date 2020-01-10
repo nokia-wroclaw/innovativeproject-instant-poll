@@ -8,6 +8,8 @@ public class SingleAnswerQuestion implements Question {
 	private String question;
 	private ArrayList<Answer> listOfAnswers;
 	private String type;
+	private boolean active;
+	private boolean hiddenResults;
 	
 	public SingleAnswerQuestion(String question, List<String> answers) {
 		this.question = question;
@@ -17,6 +19,8 @@ public class SingleAnswerQuestion implements Question {
 			Answer answer = new Answer(answerText);
 			this.listOfAnswers.add(answer);
 		});
+		this.active = true;
+		this.hiddenResults = false;
 	}
 	
 	@Override
@@ -82,5 +86,21 @@ public class SingleAnswerQuestion implements Question {
 	
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public boolean isHiddenResults() {
+		return hiddenResults;
+	}
+
+	public void setHiddenResults(boolean hiddenResults) {
+		this.hiddenResults = hiddenResults;
 	}
 }

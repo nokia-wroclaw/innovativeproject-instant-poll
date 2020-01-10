@@ -9,8 +9,9 @@ import { ImageDialogService } from '../image-dialog/image-dialog.service';
 import { Title } from "@angular/platform-browser";
 import { NgModel } from '@angular/forms';
 import { Question } from '../question';
+import { Action } from '../action';
 import { TouchSequence } from 'selenium-webdriver';
-import {NavbarTitleService} from "../navbar-title.service";
+import { NavbarTitleService } from "../navbar-title.service";
 import { isNgTemplate } from '@angular/compiler';
 import { trigger, style, animate, transition } from '@angular/animations';
 
@@ -18,34 +19,34 @@ import { trigger, style, animate, transition } from '@angular/animations';
     selector: 'app-pollroom',
     animations: [
         trigger(
-          'inOutAnimationDetails', 
-          [
-            transition(
-              ':enter', [
-                style({opacity: 0}),
-                animate('500ms', style({opacity: 1}))
-              ]
-            )
-          ]
-        ),
-        trigger(
-            'inOutAnimation', 
+            'inOutAnimationDetails',
             [
-              transition(
-                ':enter', [
-                  style({transform: 'translateY(100%)', opacity: 0}),
-                  animate('500ms', style({transform: 'translateY(0%)',opacity: 1}))
+                transition(
+                    ':enter', [
+                    style({ opacity: 0 }),
+                    animate('500ms', style({ opacity: 1 }))
                 ]
-              ),
-              transition(
-                  ':leave', [
-                  style({transform: 'translateY(0%)', opacity: 1}),
-                  animate('500ms', style({transform: 'translateY(100%)',opacity: 0}))
-                  ]
-              )
+                )
             ]
         ),
-      ],
+        trigger(
+            'inOutAnimation',
+            [
+                transition(
+                    ':enter', [
+                    style({ transform: 'translateY(100%)', opacity: 0 }),
+                    animate('500ms', style({ transform: 'translateY(0%)', opacity: 1 }))
+                ]
+                ),
+                transition(
+                    ':leave', [
+                    style({ transform: 'translateY(0%)', opacity: 1 }),
+                    animate('500ms', style({ transform: 'translateY(100%)', opacity: 0 }))
+                ]
+                )
+            ]
+        ),
+    ],
     templateUrl: './pollroom.component.html',
     styleUrls: ['./pollroom.component.css']
 })
@@ -78,7 +79,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
         private imageDialogService: ImageDialogService,
         private titleService: Title,
         private navbarTitleService: NavbarTitleService,
-        ) { }
+    ) { }
 
 
     ngOnInit() {
@@ -94,9 +95,9 @@ export class PollroomComponent implements OnInit, OnDestroy {
             this.backendService.getRoom(params['id']).subscribe(r => {
                 this.room = r;
                 if (this.room === null) {
-                    this.router.navigate(['/join'], { 
-                        state: { error: "Pokój nie istnieje" } 
-                      });
+                    this.router.navigate(['/join'], {
+                        state: { error: "Pokój nie istnieje" }
+                    });
                     return;
                 }
                 this.generateShortLink(window.location.href)
@@ -109,18 +110,18 @@ export class PollroomComponent implements OnInit, OnDestroy {
                 this.updateLatestJoinedRooms(this.room.id);
 
                 var _this = this;
-                const time = setInterval(function() {
-                    if(this.room != null &&_this.ifQuestionsReceived && _this.ifUsersInfoReceived)
+                const time = setInterval(function () {
+                    if (this.room != null && _this.ifQuestionsReceived && _this.ifUsersInfoReceived)
                         clearInterval(time)
                     else {
-                        if(!_this.ifQuestionsReceived) {
+                        if (!_this.ifQuestionsReceived) {
                             _this.webSocketAPI.getQuestions();
-                            if(_this.admin)
-                               _this.showQr();
-                        }     
-                        if(!_this.ifUsersInfoReceived)
+                            if (_this.admin)
+                                _this.showQr();
+                        }
+                        if (!_this.ifUsersInfoReceived)
                             _this.webSocketAPI.getNumberOfUsers();
-                    } 
+                    }
                 }, 1000);
             });
         });
@@ -130,7 +131,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.navbarTitleService.setNavbarTitle('');
-        if(this.webSocketAPI !== null && this.webSocketAPI !== undefined) {
+        if (this.webSocketAPI !== null && this.webSocketAPI !== undefined) {
             this.webSocketAPI.disconnect();
         }
     }
@@ -149,7 +150,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     setNumberOfUsers(users: string) {
-        this.ifUsersInfoReceived = true;  
+        this.ifUsersInfoReceived = true;
         this.numberOfUsers = users;
         this.ifConnecting = false;
         this.navbarTitleService.setNavbarNumberOfUsers(this.numberOfUsers);
@@ -163,7 +164,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     sendQuestion() {
-        if(this.type == 2 && this.answers.length < 2) {
+        if (this.type == 2 && this.answers.length < 2) {
             this.notEnoughtAnswers = true;
         } else {
             if ((<HTMLInputElement>document.getElementById("question")).value.length !== 0) {
@@ -173,29 +174,29 @@ export class PollroomComponent implements OnInit, OnDestroy {
                     .then((confirmed) => {
                         if (confirmed && this.type == 1) {
                             var question = (<HTMLInputElement>document.getElementById("question")).value;
-                            this.webSocketAPI.addQuestion("yesNo",question,[]);
-                            (<HTMLInputElement>document.getElementById("question")).value = ""; 
-                        } else if(confirmed && this.type == 2) {
+                            this.webSocketAPI.addQuestion("yesNo", question, []);
+                            (<HTMLInputElement>document.getElementById("question")).value = "";
+                        } else if (confirmed && this.type == 2) {
                             var question = (<HTMLInputElement>document.getElementById("question")).value;
                             var answersToSend = [];
-                            this.answers.forEach( answer => {
+                            this.answers.forEach(answer => {
                                 answersToSend.push(answer.answer);
                             });
                             this.answers = [];
-                            if((<HTMLInputElement>document.getElementById("multiple")).checked) {
-                                this.webSocketAPI.addQuestion("optionsMultiple",question,answersToSend);
+                            if ((<HTMLInputElement>document.getElementById("multiple")).checked) {
+                                this.webSocketAPI.addQuestion("optionsMultiple", question, answersToSend);
                             } else {
-                                this.webSocketAPI.addQuestion("optionsSingle",question,answersToSend);
+                                this.webSocketAPI.addQuestion("optionsSingle", question, answersToSend);
                             }
-                            (<HTMLInputElement>document.getElementById("question")).value = ""; 
+                            (<HTMLInputElement>document.getElementById("question")).value = "";
                             this.notEnoughtAnswers = false;
-                        } else if(confirmed && this.type == 3) {
-                            if(this.to >= this.from) {
+                        } else if (confirmed && this.type == 3) {
+                            if (this.to >= this.from) {
                                 var question = (<HTMLInputElement>document.getElementById("question")).value;
-                                this.webSocketAPI.addQuestion("rate",question,[(this.from).toString(),(this.to).toString()]);
+                                this.webSocketAPI.addQuestion("rate", question, [(this.from).toString(), (this.to).toString()]);
                                 this.from = 0;
                                 this.to = 10;
-                                (<HTMLInputElement>document.getElementById("question")).value = ""; 
+                                (<HTMLInputElement>document.getElementById("question")).value = "";
                             }
                         }
                     }).catch(() => { });
@@ -205,12 +206,33 @@ export class PollroomComponent implements OnInit, OnDestroy {
         }
     }
 
+    freezeQuestion(question: Question) {
+        var action = {
+            questionId: question.id,
+            hiddenResults: question.hiddenResults,
+            active: !question.active
+        }
+        this.webSocketAPI.sendAction(action);
+        question.active = !question.active;
+    }
+
+    receiveAction(action: Action) {
+        var question = this.questions.find(function (item) {
+            return action.questionId == item.id;
+        });
+
+        question.active = action.active
+        question.hiddenResults = action.hiddenResults
+    }
+
     receiveQuestion(question: Question) {
-        if(question.action === "delete") {
-            this.questions = this.questions.filter(function(item) {
+        if (question.action === "delete") {
+            this.questions = this.questions.filter(function (item) {
                 return question.id !== item.id;
             });
         } else {
+            question.active = true;
+            question.hiddenResults = false;
             this.questions.push(question);
         }
 
@@ -218,14 +240,15 @@ export class PollroomComponent implements OnInit, OnDestroy {
 
     hideQuestion(question: Question) {
         question.hidden = !question.hidden;
-        var element = document.getElementById(question.id+"");
-        if(question.hidden) {
-            element.classList.replace("fa-angle-down","fa-angle-up");
+        var element = document.getElementById(question.id + "");
+        if (question.hidden) {
+            element.classList.replace("fa-angle-down", "fa-angle-up");
         } else {
-            element.classList.replace("fa-angle-up","fa-angle-down");
+            element.classList.replace("fa-angle-up", "fa-angle-down");
         }
 
     }
+
     deleteQuestion(question: Question) {
         this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz usunąć pytanie?', "Usuń pytanie", "Cofnij")
             .then((confirmed) => {
@@ -236,7 +259,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     sendAnswer(question: Question) {
-        if(question.selected === undefined) {
+        if (question.selected === undefined) {
             alert("Nie udzielono odpowiedzi!");
         } else {
             var answer = {
@@ -249,8 +272,8 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     selectAnswer(question: Question, id: number) {
-        if(question.type === "optionsMultiple") {
-            if(question.selected.includes(id)) {
+        if (question.type === "optionsMultiple") {
+            if (question.selected.includes(id)) {
                 question.selected.splice(question.selected.indexOf(id), 1);
             } else {
                 question.selected.push(id);
@@ -258,12 +281,12 @@ export class PollroomComponent implements OnInit, OnDestroy {
         } else {
             question.selected = [id];
         }
-        
+
     }
 
     receiveAnswer(answer: any) {
         this.questions.forEach(element => {
-            if(element.id == answer.question_id) {
+            if (element.id == answer.question_id) {
                 element.numberOfVotes = answer.numberOfVotes;
                 return;
             }
@@ -273,13 +296,13 @@ export class PollroomComponent implements OnInit, OnDestroy {
 
     addQuestions(listOfQuestion: Array<Question>) {
         this.questions = listOfQuestion;
-        this.ifQuestionsReceived = true; 
+        this.ifQuestionsReceived = true;
     }
 
     generateShortLink(link: string) {
         var regex = new RegExp("/#/pollroom\/.*$", "i");
-        var regex2 = new RegExp(".*\/\/","i");
-        this.shortLink = link.replace(regex,"/j/"+this.room.shortId).replace(regex2,"");
+        var regex2 = new RegExp(".*\/\/", "i");
+        this.shortLink = link.replace(regex, "/j/" + this.room.shortId).replace(regex2, "");
     }
 
     showQr() {
@@ -289,39 +312,39 @@ export class PollroomComponent implements OnInit, OnDestroy {
 
     updateLatestJoinedRooms(room_id: string) {
         var latest = [];
-        if(localStorage.getItem("latests") === null) {
+        if (localStorage.getItem("latests") === null) {
             latest = [];
         } else {
             latest = Array.from(JSON.parse(localStorage.getItem("latests")));
         }
         latest = latest.filter(id => id !== room_id);
         latest.push(room_id);
-        if(latest.length > 5) {
+        if (latest.length > 5) {
             latest.shift();
         }
-        localStorage.setItem("latests",JSON.stringify(latest));
+        localStorage.setItem("latests", JSON.stringify(latest));
     }
 
     changeType(type: number) {
         this.type = type;
         this.emptyQuestion = false;
         this.emptyAnswer = false;
-        switch(type) {
+        switch (type) {
             case 1:
                 document.getElementById("yesNo").classList.add("active");
                 document.getElementById("options").classList.remove("active");
                 document.getElementById("rate").classList.remove("active");
-            break;
+                break;
             case 2:
                 document.getElementById("yesNo").classList.remove("active");
                 document.getElementById("options").classList.add("active");
                 document.getElementById("rate").classList.remove("active");
-            break;
+                break;
             case 3:
                 document.getElementById("yesNo").classList.remove("active");
                 document.getElementById("options").classList.remove("active");
                 document.getElementById("rate").classList.add("active");
-            break;
+                break;
         }
     }
 
@@ -329,8 +352,8 @@ export class PollroomComponent implements OnInit, OnDestroy {
         this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz usunąć tą odpowiedź?', "Usuń odpowiedź", "Cofnij")
             .then((confirmed) => {
                 if (confirmed) {
-                    this.answers = this.answers.filter( function(answer) {
-                        return id != answer.id; 
+                    this.answers = this.answers.filter(function (answer) {
+                        return id != answer.id;
                     });
                 }
             }).catch(() => { });
@@ -338,12 +361,12 @@ export class PollroomComponent implements OnInit, OnDestroy {
 
     addAnswer() {
         this.notEnoughtAnswers = false;
-        if((<HTMLInputElement>document.getElementById("answer")).value.length != 0) {
+        if ((<HTMLInputElement>document.getElementById("answer")).value.length != 0) {
             this.emptyAnswer = false;
-            var ans = {"id":this.answers.length,"answer":(<HTMLInputElement>document.getElementById("answer")).value};
+            var ans = { "id": this.answers.length, "answer": (<HTMLInputElement>document.getElementById("answer")).value };
             this.answers.push(ans);
-            (<HTMLInputElement>document.getElementById("answer")).value = ""; 
-        } else{
+            (<HTMLInputElement>document.getElementById("answer")).value = "";
+        } else {
             this.emptyAnswer = true;
         }
     }

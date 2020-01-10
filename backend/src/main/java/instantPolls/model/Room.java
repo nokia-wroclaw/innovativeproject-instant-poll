@@ -51,6 +51,8 @@ public class Room {
 			}
 			questionJson.put("selected", ans);
 			list.add(questionJson);
+			questionJson.put("hiddenResults", element.isHiddenResults());
+			questionJson.put("active", element.isActive());
 		});
 		return list;
 	}

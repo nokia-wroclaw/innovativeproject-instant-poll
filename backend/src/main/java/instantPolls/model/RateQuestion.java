@@ -10,7 +10,8 @@ public class RateQuestion implements Question{
 	private String type;
 	private int from;
 	private int to;
-	
+	private boolean active;
+	private boolean hiddenResults;
 	
 	public RateQuestion(String question,List<String> answers) {
 		this.question = question;
@@ -21,6 +22,8 @@ public class RateQuestion implements Question{
 			listOfAnswers.add(new Answer(Integer.toString(i)));
 		}
 		this.type = "rate";
+		this.active = true;
+		this.hiddenResults = false;
 	}
 	
 	public void addAnswer(List<Integer> answer, int question_id, String user_id) {
@@ -94,5 +97,21 @@ public class RateQuestion implements Question{
 
 	public void setTo(int to) {
 		this.to = to;
+	}
+	
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public boolean isHiddenResults() {
+		return hiddenResults;
+	}
+
+	public void setHiddenResults(boolean hiddenResults) {
+		this.hiddenResults = hiddenResults;
 	}
 }

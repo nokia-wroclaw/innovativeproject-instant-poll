@@ -5,6 +5,8 @@ export class Question {
     action: string;
     answers: Array<string>;
     numberOfVotes: Array<number>;
-    hidden: boolean;
     selected: Array<number> = [];
+    hidden: boolean;
+    hiddenResults: boolean;
+    active: boolean;
 }

@@ -9,7 +9,8 @@ public class YesNoQuestion implements Question {
 	private String question;
 	private ArrayList<Answer> listOfAnswers;
 	private String type;
-	
+	private boolean active;
+	private boolean hiddenResults;
 	
 	public YesNoQuestion(String question) {
 		this.question = question;
@@ -17,6 +18,8 @@ public class YesNoQuestion implements Question {
 		this.listOfAnswers.add(new Answer("Tak"));
 		this.listOfAnswers.add(new Answer("Nie"));
 		this.type = "yesNo";
+		this.active = true;
+		this.hiddenResults = false;
 	}
 	
 	public void addAnswer(List<Integer> answer, int question_id, String user_id) {
@@ -75,4 +78,30 @@ public class YesNoQuestion implements Question {
 	public void setType(String type) {
 		this.type = type;
 	}
+
+	public ArrayList<Answer> getListOfAnswers() {
+		return listOfAnswers;
+	}
+
+	public void setListOfAnswers(ArrayList<Answer> listOfAnswers) {
+		this.listOfAnswers = listOfAnswers;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public boolean isHiddenResults() {
+		return hiddenResults;
+	}
+
+	public void setHiddenResults(boolean hiddenResults) {
+		this.hiddenResults = hiddenResults;
+	}
+	
+	
 }

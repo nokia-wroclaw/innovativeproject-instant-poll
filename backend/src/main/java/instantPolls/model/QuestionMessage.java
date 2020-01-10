@@ -10,6 +10,8 @@ public class QuestionMessage {
 	private ArrayList<String> answers;
 	private ArrayList<Integer> numberOfVotes;
 	private ArrayList<Integer> selected;
+	private boolean active;
+	private boolean hiddenResults;
 	
 	public static final class Builder {
 		private int id;
@@ -64,7 +66,7 @@ public class QuestionMessage {
 			questionMessage.answers = this.answers;
 			questionMessage.numberOfVotes = this.numberOfVotes;
 			questionMessage.selected = this.selected;
-			
+		
 			return questionMessage;
 		}
 		
@@ -75,7 +77,8 @@ public class QuestionMessage {
 	}
 	
 	public QuestionMessage() {
-		
+		this.active = true;
+		this.hiddenResults = false;
 	}
 	
 	public QuestionMessage(String type, String question, ArrayList<String> answers) {
@@ -139,4 +142,21 @@ public class QuestionMessage {
 	public void setSelected(ArrayList<Integer> selected) {
 		this.selected = selected;
 	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public boolean isHiddenResults() {
+		return hiddenResults;
+	}
+
+	public void setHiddenResults(boolean hiddenResults) {
+		this.hiddenResults = hiddenResults;
+	}
+	
 }
