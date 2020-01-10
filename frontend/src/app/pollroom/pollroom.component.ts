@@ -206,11 +206,22 @@ export class PollroomComponent implements OnInit, OnDestroy {
         }
     }
 
+    hideResults(question: Question) {
+        var action = {
+            questionId: question.id,
+            hiddenResults: !question.hiddenResults,
+            active: question.active,
+            numberOfVotes: []
+        }
+        this.webSocketAPI.sendAction(action);
+    }
+
     freezeQuestion(question: Question) {
         var action = {
             questionId: question.id,
             hiddenResults: question.hiddenResults,
-            active: !question.active
+            active: !question.active,
+            numberOfVotes: []
         }
         this.webSocketAPI.sendAction(action);
         question.active = !question.active;
@@ -221,8 +232,12 @@ export class PollroomComponent implements OnInit, OnDestroy {
             return action.questionId == item.id;
         });
 
+        if(!action.hiddenResults && question.hiddenResults)
+            question.numberOfVotes = action.numberOfVotes;
+
         question.active = action.active
         question.hiddenResults = action.hiddenResults
+
     }
 
     receiveQuestion(question: Question) {

@@ -1,6 +1,7 @@
 package instantPolls.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class YesNoQuestion implements Question {
@@ -33,9 +34,17 @@ public class YesNoQuestion implements Question {
 	
 	public ArrayList<Integer> getNumberOfVotes() {
 		ArrayList<Integer> votes = new ArrayList<>();
-		for(Answer a : listOfAnswers) {
-			votes.add(a.getUsersVoted().size());
+		if(hiddenResults) {
+			votes = new ArrayList<Integer>(Collections.nCopies(listOfAnswers.size(), 0));
+			int numberOfVoters = 0;
+			for(Answer a : listOfAnswers)
+				numberOfVoters += a.getUsersVoted().size();
+			votes.set(0, numberOfVoters);
 		}
+		else 
+			for(Answer a : listOfAnswers)
+				votes.add(a.getUsersVoted().size());
+		
 		return votes;
 	}
 	

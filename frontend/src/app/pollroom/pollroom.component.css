@@ -16,12 +16,10 @@ body {
     scroll-behavior: smooth;
 }
 
-.active {
-    color: red;
-}
-
-.notActive {
-    color: black;
+@media only screen and (max-width: 600px) {
+    .sendAns {
+        text-align: center;
+    }
 }
 
 

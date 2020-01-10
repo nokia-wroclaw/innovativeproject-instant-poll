@@ -1,10 +1,13 @@
 package instantPolls.model;
 
+import java.util.ArrayList;
+
 public class ActionMessage {
 
 	private int questionId;
 	private boolean active;
 	private boolean hiddenResults;
+	private ArrayList<Integer> numberOfVotes;
 	
 	public ActionMessage(int questionId, boolean active, boolean hiddenResults) {
 		this.questionId = questionId;
@@ -29,6 +32,14 @@ public class ActionMessage {
 	}
 	public void setHiddenResults(boolean hiddenResults) {
 		this.hiddenResults = hiddenResults;
+	}
+
+	public ArrayList<Integer> getNumberOfVotes() {
+		return numberOfVotes;
+	}
+
+	public void setNumberOfVotes(ArrayList<Integer> numberOfVotes) {
+		this.numberOfVotes = numberOfVotes;
 	}
 	
 	
