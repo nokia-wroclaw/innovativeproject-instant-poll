@@ -59,6 +59,7 @@ export class ChartComponent implements OnInit, OnChanges {
     var sum = 0;
     var votes = 0;
     for(let i = 0; i < this.question.answers.length; i++) {
+
       sum += parseInt(this.question.answers[i]) * this.question.numberOfVotes[i];
       votes += this.question.numberOfVotes[i];
     }

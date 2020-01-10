@@ -21,6 +21,7 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import instantPolls.model.SimpleMessage;
 import instantPolls.model.SingleAnswerQuestion;
 import instantPolls.model.YesNoQuestion;
+import instantPolls.model.ActionMessage;
 import instantPolls.model.AnswerMessage;
 import instantPolls.model.MultipleAnswersQuestion;
 import instantPolls.model.NumberOfVotesMessage;
@@ -104,7 +105,6 @@ public class WSController {
 		
 		if(questionType.equals("yesNo")) { //convert to enum when more types of questions
 			question = new YesNoQuestion(message.getQuestion());
-			
 			QuestionMessage messageToSend = QuestionMessage.builder()
 					.type(question.getType())
 					.question(question.getQuestion())
@@ -116,10 +116,9 @@ public class WSController {
 			roomStorage.findRoomById(roomId).addQuestion(question);
 			messageToSend.setId(question.getId());
 			return messageToSend;
+			
 		} else if(questionType.equals("optionsMultiple")) {
-			
 			question = new MultipleAnswersQuestion(message.getQuestion(),message.getAnswers());
-			
 			QuestionMessage messageToSend = QuestionMessage.builder()
 					.type(question.getType())
 					.question(question.getQuestion())
@@ -131,6 +130,7 @@ public class WSController {
 			roomStorage.findRoomById(roomId).addQuestion(question);
 			messageToSend.setId(question.getId());
 			return messageToSend;
+			
 		} else if(questionType.equals("optionsSingle")) {
 			question = new SingleAnswerQuestion(message.getQuestion(),message.getAnswers());
 			QuestionMessage messageToSend = QuestionMessage.builder()
@@ -140,11 +140,11 @@ public class WSController {
 					.numberOfVotes(question.getNumberOfVotes())
 					.selected(new ArrayList<Integer>())
 					.build();
-			
 			roomStorage.findRoomById(roomId).addQuestion(question);
 			messageToSend.setId(question.getId());
 			return messageToSend;
-		} else if(questionType.equals("rate")) {
+			
+		} else if(questionType.equals("rate")) {			
 			RateQuestion que = new RateQuestion(message.getQuestion(),message.getAnswers());
 			ArrayList<Integer> selected = new ArrayList<Integer>();
 			selected.add(que.getFrom());
@@ -169,7 +169,9 @@ public class WSController {
 	public NumberOfVotesMessage getAnswer(@DestinationVariable String roomId, @Payload AnswerMessage message) {
 		Room room = roomStorage.findRoomById(roomId);
 		Question question = room.getQuestionById(message.getQuestion_id());
-		question.addAnswer(message.getAnswer(), message.getQuestion_id(), message.getUser_id());
+		if(question.isActive())
+			question.addAnswer(message.getAnswer(), message.getQuestion_id(), message.getUser_id());
+		
 		return new NumberOfVotesMessage(question.getId(),question.getNumberOfVotes());
 	}
 	
@@ -190,4 +192,23 @@ public class WSController {
 		}
 		return messageToSend;
 	}
+	
+	@MessageMapping("/poll/{roomId}/{token}/action")
+	@SendTo("/action/{roomId}")
+	public ActionMessage doAction(@DestinationVariable String roomId, @DestinationVariable String token, @Payload ActionMessage message) {
+		Room room = roomStorage.findRoomById(roomId);
+		if(room.getToken().equals(token)) {
+			Question question = room.getQuestionById(message.getQuestionId());
+			if((message.isActive() && !question.isActive()) ||(!message.isActive() && question.isActive() ))
+				question.setActive(message.isActive());
+			if((message.isHiddenResults() && !question.isHiddenResults()) ||(!message.isHiddenResults() && question.isHiddenResults() )) {
+				question.setHiddenResults(message.isHiddenResults());
+				if(!question.isHiddenResults()) {
+					message.setNumberOfVotes(question.getNumberOfVotes());
+				}
+			}
+		}
+		return message;
+	}
+
 }

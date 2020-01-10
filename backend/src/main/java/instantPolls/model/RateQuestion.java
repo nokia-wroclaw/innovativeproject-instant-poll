@@ -1,6 +1,7 @@
 package instantPolls.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RateQuestion implements Question{
@@ -10,7 +11,8 @@ public class RateQuestion implements Question{
 	private String type;
 	private int from;
 	private int to;
-	
+	private boolean active;
+	private boolean hiddenResults;
 	
 	public RateQuestion(String question,List<String> answers) {
 		this.question = question;
@@ -21,6 +23,8 @@ public class RateQuestion implements Question{
 			listOfAnswers.add(new Answer(Integer.toString(i)));
 		}
 		this.type = "rate";
+		this.active = true;
+		this.hiddenResults = false;
 	}
 	
 	public void addAnswer(List<Integer> answer, int question_id, String user_id) {
@@ -34,9 +38,17 @@ public class RateQuestion implements Question{
 	
 	public ArrayList<Integer> getNumberOfVotes() {
 		ArrayList<Integer> votes = new ArrayList<>();
-		for(Answer a : listOfAnswers) {
-			votes.add(a.getUsersVoted().size());
+		if(hiddenResults) {
+			votes = new ArrayList<Integer>(Collections.nCopies(listOfAnswers.size(), 0));
+			int numberOfVoters = 0;
+			for(Answer a : listOfAnswers)
+				numberOfVoters += a.getUsersVoted().size();
+			votes.set(0, numberOfVoters);
 		}
+		else 
+			for(Answer a : listOfAnswers)
+				votes.add(a.getUsersVoted().size());
+		
 		return votes;
 	}
 	
@@ -94,5 +106,21 @@ public class RateQuestion implements Question{
 
 	public void setTo(int to) {
 		this.to = to;
+	}
+	
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public boolean isHiddenResults() {
+		return hiddenResults;
+	}
+
+	public void setHiddenResults(boolean hiddenResults) {
+		this.hiddenResults = hiddenResults;
 	}
 }
