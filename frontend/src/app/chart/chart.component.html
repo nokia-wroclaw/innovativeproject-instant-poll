@@ -4,7 +4,9 @@
   </canvas>
     <canvas baseChart *ngIf="this.chartType ==='bar' " [datasets]="barChartData" [labels]="barChartLabels" [options]="chartOptions" [legend]="chartLegend" [chartType]="chartType" [plugins]="chartPlugins">
   </canvas>
-    <button *ngIf="question.type != 'rate'" class="btn btn-success" (click)="changeType()">Zmień typ wykresu</button>
-  <p *ngIf="question.type == 'rate'">Liczba głosujących: {{computeNumberOfVoters()}}</p>
+    <div class="changeChart">
+        <button *ngIf="question.type != 'rate'" class="btn btn-success" (click)="changeType()">Zmień typ wykresu</button>
+    </div>
+    <p *ngIf="question.type == 'rate'">Liczba głosujących: {{computeNumberOfVoters()}}</p>
 
 </div>

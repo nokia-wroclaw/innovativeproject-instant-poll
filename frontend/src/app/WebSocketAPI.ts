@@ -3,6 +3,7 @@ import * as SockJS from 'sockjs-client';
 import { PollroomComponent } from './pollroom/pollroom.component';
 import { Room } from './room';
 import { Question } from './question';
+import {Action} from './action';
 
 export class WebSocketAPI {
     //Dwa serwery
@@ -32,10 +33,20 @@ export class WebSocketAPI {
             _this.stompClient.subscribe("/user/"+localStorage.getItem("user_id")+"/allQuestions", function (message) {
                 _this.pollroomComponent.addQuestions(JSON.parse(message.body));
             });
+            _this.stompClient.subscribe("/action/"+_this.room.id, function (message) {
+                _this.pollroomComponent.receiveAction(JSON.parse(message.body));
+            });
             _this.stompClient.send("/instant-polls/poll/"+_this.room.id+"/enter",{},localStorage.getItem("user_id"));
         }, this.errorCallBack);
     };
 
+    sendAction(action : Action) {
+        if(this.stompClient != null) {
+            var message = JSON.stringify(action);
+            this.stompClient.send("/instant-polls/poll/"+this.room.id+"/"+localStorage.getItem("token")+"/action",{},message);
+
+        }
+    }
 
     addQuestion(questionType : string, question : string, answers : Array<string>) {
         if (this.stompClient !== null) {

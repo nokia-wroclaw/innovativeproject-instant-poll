@@ -12,4 +12,8 @@ public interface Question {
 	ArrayList<Answer> getAnswers();
 	ArrayList<Integer> getNumberOfVotes();
 	String getType();
+	boolean isActive();
+	void setActive(boolean active);
+	boolean isHiddenResults();
+	void setHiddenResults(boolean active);
 }

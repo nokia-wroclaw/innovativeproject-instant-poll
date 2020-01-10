@@ -18,6 +18,6 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/instant-polls");
-        registry.enableSimpleBroker("/room","/question","/answer", "/user");
+        registry.enableSimpleBroker("/room","/question","/answer", "/user","/action");
     }  
 }
