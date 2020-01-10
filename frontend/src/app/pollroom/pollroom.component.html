@@ -85,7 +85,7 @@
         <div class="input-group" style="margin-top: 10px;">
             <input type="text" class="form-control" id="answer" placeholder="Odpowiedź">
             <span class="input-group-addon input-group-addon-btn bg-white">
-                <button class="btn px-9" (click)="addAnswer()"><i class="fas fa-plus-circle"></i></button>
+                <button class="btn px-9 bg-white" (click)="addAnswer()"><i class="fas fa-plus-circle"></i></button>
             </span>
         </div>
         <div *ngIf="emptyAnswer" class="alert alert-danger">
@@ -126,8 +126,8 @@
         <button *ngIf="admin" type="button" class="btn btn-light float-right" (click)="deleteQuestion(element)" title="Usuń pytanie"><i color= "red" class="fas fa-times-circle" ></i></button>
         <button *ngIf="admin && element.active" type="button" class="btn btn-light float-right" title="Wstrzymaj możliwość odpowiadania" (click)="freezeQuestion(element)"><i class="far fa-pause-circle"></i></button>
         <button *ngIf="admin && !element.active" type="button" class="btn btn-light float-right" title="Odblokuj możliwość odpowiadania" (click)="freezeQuestion(element)"><i color ='green' class="far fa-pause-circle"></i></button>
-        <button *ngIf="admin && element.hiddenResults" type="button" class="btn btn-light float-right" title="Odkryj wyniki dla osób odpowiadających" (click)="hideResults(element)"><i color ='green' class="fas fa-eye-slash"></i></button>
-        <button *ngIf="admin && !element.hiddenResults" type="button" class="btn btn-light float-right" title="Ukryj wyniki dla osób odpowiadających" (click)="hideResults(element)"><i class="fas fa-eye-slash"></i></button>
+        <button *ngIf="admin && element.hiddenResults" type="button" class="btn btn-light float-right" title="Odkryj wyniki" (click)="hideResults(element)"><i color ='green' class="fas fa-eye-slash"></i></button>
+        <button *ngIf="admin && !element.hiddenResults" type="button" class="btn btn-light float-right" title="Ukryj wyniki" (click)="hideResults(element)"><i class="fas fa-eye-slash"></i></button>
         <a type="button" class="btn btn-light float-right" (click)="hideQuestion(element)" href="{{'#chart-' + element.id}}" title="Rozwiń"><i id={{element.id}} class="fas fa-angle-down"></i></a>
     </div>
 

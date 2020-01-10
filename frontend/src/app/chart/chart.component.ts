@@ -38,14 +38,31 @@ export class ChartComponent implements OnInit, OnChanges {
     if(this.question.type === 'rate') {
       var average = this.computeAverage();
       this.barChartData = [{data:[average],label:"Średnia"}];
+      var maxRate = parseInt(this.question.answers[0]);
+      var minRate = parseInt(this.question.answers[this.question.answers.length-1]);
+      
+      if(this.detectMobile()) {
       this.chartOptions.scales = {
         yAxes: [{
           ticks: {
-            min: parseInt(this.question.answers[0]),
-            max: parseInt(this.question.answers[this.question.answers.length-1])
+            min: minRate,
+            max: maxRate,
+            maxTicksLimit: 3
           }
         }]
       };
+    } else {
+      this.chartOptions.scales = {
+        yAxes: [{
+          ticks: {
+            min: minRate,
+            max: maxRate,
+            stepSize: Math.round((maxRate-minRate)/this.question.answers.length)
+          }
+        }]
+      };
+    }
+
     } else {
       this.barChartData = [];
       for (let i = 0; i < this.question.answers.length; i++) {
@@ -69,6 +86,7 @@ export class ChartComponent implements OnInit, OnChanges {
       return sum / votes;
     }
   }
+
   private computeNumberOfVoters() {
     var votes = 0;
     for(let i = 0; i < this.question.answers.length; i++) {
@@ -100,13 +118,25 @@ export class ChartComponent implements OnInit, OnChanges {
   private updateChart() {
     // scaling from zero
     if (this.chartType === 'bar' || this.chartType === 'line') {
-      this.chartOptions.scales = {
-        yAxes: [{
-          ticks: {
-            min: 0
-          }
-        }]
-      };
+      if(this.detectMobile()) {
+        this.chartOptions.scales = {
+          yAxes: [{
+            ticks: {
+              min: 0,
+              maxTicksLimit: 3
+            }
+          }]
+        };
+      } else {
+        this.chartOptions.scales = {
+          yAxes: [{
+            ticks: {
+              min: 0
+            }
+          }]
+        };
+      }
+
     } else {
       this.chartOptions.scales = {};
     }
@@ -120,6 +150,13 @@ export class ChartComponent implements OnInit, OnChanges {
     }
   }
 
+  private detectMobile() {
+    if(window.innerWidth <= 800 && window.innerHeight <= 600) {
+      return true;
+    } else {
+      return false;
+    }
+ }
   ngOnChanges(changes: SimpleChanges) {
     this.updateChart();
   }

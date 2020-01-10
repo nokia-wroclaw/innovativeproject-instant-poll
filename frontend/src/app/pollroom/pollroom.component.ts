@@ -234,7 +234,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
 
         if(!action.hiddenResults && question.hiddenResults)
             question.numberOfVotes = action.numberOfVotes;
-
+  
         question.active = action.active
         question.hiddenResults = action.hiddenResults
 
