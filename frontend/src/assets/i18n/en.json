@@ -1,0 +1,15 @@
+{
+    "main-page": {
+        "title": "Create instant live polls! ",
+        "description": "No more tedious printing of ballots or counting raised hands. It's time for Instant Polls. Instant Polls is a great solution for a meeting or lecture. Use wherever the ease and speed of collecting opinions is very important.",
+        "create-butt": "Create room",
+        "create-desc": "Create your own room with poll, share it with QR code or shortlink and relish live view of incoming answers and poll question results",
+        "join-butt": "Join room",
+        "join-desc": "Join already created room via code from shortlink"
+    },
+
+    "navbar": {
+        "rooms": "Created rooms",
+        "join": "Join room"
+    }
+}

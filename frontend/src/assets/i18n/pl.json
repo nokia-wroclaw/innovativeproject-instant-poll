@@ -1,0 +1,15 @@
+{
+    "main-page": {
+        "title": "Twórz ankiety w czasie rzeczywistym! ",
+        "description": "Koniec ze żmudnym drukowaniem kartek czy liczeniem rąk w górze. Nadszedł czas na Instant Polls. Instant Polls jest świetnym rozwiązaniem na zebraniu lub wykładzie. Korzystaj wszędzie tam gdzie łatwość i szybkość zbierania opinii jest bardzo ważna.",
+        "create-butt": "Stwórz nowy pokój",
+        "create-desc": "Stwórz swój własny pokój z ankietą, udostęnij go za pomocą short linka lub QR kodu i na żywo obserwuj jak zmieniają się wyniki.",
+        "join-butt": "Dołącz do pokoju",
+        "join-desc": "Dołącz za pomocą short linka do już stworzonego pokoju z ankietą."
+    },
+
+    "navbar": {
+        "rooms": "Stworzone pokoje",
+        "join": "Dołącz do pokoju"
+    }
+}
