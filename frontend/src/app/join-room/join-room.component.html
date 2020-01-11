@@ -2,27 +2,27 @@
     <div class="col-sm-12 col-md-4">
         <div class="my-card">
             <div class="my-card-header">
-                <h3>Dołącz do pokoju</h3>
+                <h3>{{'join-room.title' | translate}}</h3>
             </div>
             <div class="card-body">
                 <div class="form-group">
-                    <label for="roomName">Podaj kod pokoju z końca shortlinka:</label>
+                    <label for="roomName">{{'join-room.join-desc' | translate}}</label>
 
                     <div>
                         {{url}}
-                        <input type="text" class="form-control" [(ngModel)]="shortLink" placeholder="kod">
+                        <input type="text" class="form-control" [(ngModel)]="shortLink" placeholder="{{ 'join-room.join-butt' | translate}}">
                     </div>
-                    <div *ngIf="(shortLink == undefined || shortLink == '') && submitted" class="error alert alert-danger">Pusty kod!</div>
-                    <div *ngIf="error != null" class="error alert alert-danger">{{error}}</div>
+                    <div *ngIf="(shortLink == undefined || shortLink == '') && submitted" class="error alert alert-danger">{{'join-room.error.empty' | translate}}</div>
+                    <div *ngIf="error != null" class="error alert alert-danger">{{'join-room.error.notFound' | translate}}</div>
                 </div>
             </div>
-            <button (click)="joinRoom()" type="button" class="btn btn-success">Dołącz <i class="fas fa-sign-in-alt"></i></button>
+            <button (click)="joinRoom()" type="button" class="btn btn-success">{{'join-room.join-butt' | translate}} <i class="fas fa-sign-in-alt"></i></button>
         </div>
     </div>
     <div class="col-sm-12 col-md-8">
         <div class="my-card">
             <div class="my-card-header">
-                <h3>Ostatnio odwiedzone pokoje</h3>
+                <h3>{{'join-room.last' | translate}}</h3>
             </div>
             <div class="card-body">
                 <ul class="list-group">
@@ -32,7 +32,7 @@
                                 <h4>{{element.roomName}}</h4>
                             </div>
                             <div class="col-sm-12 col-md-4">
-                                <button [routerLink]="['/pollroom/'+element.id]" type="button" class="btn-success btn">Wejdź do pokoju <i class="fas fa-sign-in-alt"></i></button>
+                                <button [routerLink]="['/pollroom/'+element.id]" type="button" class="btn-success btn">{{'join-room.go' | translate}} <i class="fas fa-sign-in-alt"></i></button>
                             </div>
                         </div>
                     </li>

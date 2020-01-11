@@ -14,6 +14,7 @@ import { TouchSequence } from 'selenium-webdriver';
 import { NavbarTitleService } from "../navbar-title.service";
 import { isNgTemplate } from '@angular/compiler';
 import { trigger, style, animate, transition } from '@angular/animations';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-pollroom',
@@ -79,6 +80,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
         private imageDialogService: ImageDialogService,
         private titleService: Title,
         private navbarTitleService: NavbarTitleService,
+        private translate: TranslateService
     ) { }
 
 
@@ -137,7 +139,12 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     closeRoom() {
-        this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz zamknąć pokój? Stracisz wszystkie niezapisane dane i nie będziesz mógł wrócić  do pokoju.', "Zamknij pokój", "Cofnij")
+        var title, message, yesButton, noButton;
+        this.translate.get('image-dialog.title').subscribe(res => { title = res; });
+        this.translate.get('image-dialog.close-message').subscribe(res => { message = res; });
+        this.translate.get('image-dialog.yes-button').subscribe(res => { yesButton = res; });
+        this.translate.get('image-dialog.no-button').subscribe(res => { noButton = res; });
+        this.confirmationDialogService.confirm(title, message, yesButton, noButton)
             .then((confirmed) => {
                 if (confirmed) {
                     var token = localStorage.getItem("token");
@@ -170,7 +177,13 @@ export class PollroomComponent implements OnInit, OnDestroy {
             if ((<HTMLInputElement>document.getElementById("question")).value.length !== 0) {
                 this.emptyQuestion = false;
                 this.emptyAnswer = false;
-                this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz zadać to pytanie?', "Zadaj", "Cofnij")
+
+                var title, message, yesButton, noButton;
+                this.translate.get('image-dialog.title').subscribe(res => { title = res; });
+                this.translate.get('image-dialog.ask-message').subscribe(res => { message = res; });
+                this.translate.get('image-dialog.ask').subscribe(res => { yesButton = res; });
+                this.translate.get('image-dialog.no-button').subscribe(res => { noButton = res; });
+                this.confirmationDialogService.confirm(title, message, yesButton, noButton)
                     .then((confirmed) => {
                         if (confirmed && this.type == 1) {
                             var question = (<HTMLInputElement>document.getElementById("question")).value;
@@ -256,6 +269,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
     hideQuestion(question: Question) {
         question.hidden = !question.hidden;
         var element = document.getElementById(question.id + "");
+
         if (question.hidden) {
             element.classList.replace("fa-angle-down", "fa-angle-up");
         } else {
@@ -265,7 +279,12 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     deleteQuestion(question: Question) {
-        this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz usunąć pytanie?', "Usuń pytanie", "Cofnij")
+        var title, message, yesButton, noButton;
+        this.translate.get('image-dialog.title').subscribe(res => { title = res; });
+        this.translate.get('image-dialog.delete-message').subscribe(res => { message = res; });
+        this.translate.get('image-dialog.delete').subscribe(res => { yesButton = res; });
+        this.translate.get('image-dialog.no-button').subscribe(res => { noButton = res; });
+        this.confirmationDialogService.confirm(title, message, yesButton, noButton)
             .then((confirmed) => {
                 if (confirmed) {
                     this.webSocketAPI.deleteQuestion(question.id);
@@ -364,7 +383,12 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     removeAnswer(id: number) {
-        this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz usunąć tą odpowiedź?', "Usuń odpowiedź", "Cofnij")
+        var title, message, yesButton, noButton;
+        this.translate.get('image-dialog.title').subscribe(res => { title = res; });
+        this.translate.get('image-dialog.ans-message').subscribe(res => { message = res; });
+        this.translate.get('image-dialog.deleteAns').subscribe(res => { yesButton = res; });
+        this.translate.get('image-dialog.no-button').subscribe(res => { noButton = res; });
+        this.confirmationDialogService.confirm(title, message, yesButton, noButton)
             .then((confirmed) => {
                 if (confirmed) {
                     this.answers = this.answers.filter(function (answer) {

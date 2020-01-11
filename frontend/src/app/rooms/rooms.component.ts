@@ -6,6 +6,7 @@ import { Room } from '../room';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 import { Title } from "@angular/platform-browser";
 import { FormControl } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-rooms',
@@ -20,7 +21,8 @@ export class RoomsComponent implements OnInit {
   private dateError = false;
 
   constructor(private backendService: BackendConnectionService, private router: Router,
-    private confirmationDialogService: ConfirmationDialogService, private titleService: Title) { }
+    private confirmationDialogService: ConfirmationDialogService, private titleService: Title,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.titleService.setTitle("Instant Polls - Twoje pokoje");
@@ -67,7 +69,12 @@ export class RoomsComponent implements OnInit {
   }
 
   deleteRoom(id: string) {
-    this.confirmationDialogService.confirm('Potwierdzenie', 'Czy na pewno chcesz zamknąć pokój? Stracisz wszystkie niezapisane dane i nie będziesz mógł wrócić  do pokoju.', "Zamknij pokój", "Cofnij")
+    var title, message, yesButton, noButton;
+    this.translate.get('image-dialog.title').subscribe(res => { title = res; });
+    this.translate.get('image-dialog.close-message').subscribe(res => { message = res; });
+    this.translate.get('image-dialog.yes-button').subscribe(res => { yesButton = res; });
+    this.translate.get('image-dialog.no-button').subscribe(res => { noButton = res; });
+    this.confirmationDialogService.confirm(title, message, yesButton, noButton)
       .then((confirmed) => {
         if (confirmed) {
           var token = localStorage.getItem("token");

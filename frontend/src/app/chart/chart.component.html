@@ -5,8 +5,8 @@
     <canvas baseChart *ngIf="this.chartType ==='bar' " [datasets]="barChartData" [labels]="barChartLabels" [options]="chartOptions" [legend]="chartLegend" [chartType]="chartType" [plugins]="chartPlugins">
   </canvas>
     <div class="changeChart">
-        <button *ngIf="question.type != 'rate'" class="btn btn-success" (click)="changeType()">Zmień typ wykresu</button>
+        <button *ngIf="question.type != 'rate'" class="btn btn-success" (click)="changeType()">{{'chart.button' | translate}}</button>
     </div>
-    <p *ngIf="question.type == 'rate'">Liczba głosujących: {{computeNumberOfVoters()}}</p>
+    <p *ngIf="question.type == 'rate'">{{'chart.voters' | translate}}: {{computeNumberOfVoters()}}</p>
 
 </div>

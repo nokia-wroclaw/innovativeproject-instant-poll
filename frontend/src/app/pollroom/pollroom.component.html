@@ -3,12 +3,12 @@
     <div class="card-body p-0">
         <div id="adminButton" class="btn-group" role="group">
             <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Admin
+                {{'pollroom.admin.butt' | translate}}
               </button>
             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                <a class="dropdown-item" *ngIf="!ifConnecting" (click)="questionPanel()"><i class="fas fa-list-ul"></i> Utwórz pytanie</a>
-                <a class="dropdown-item" (click)="showQr()"><i class="fas fa-qrcode"></i> Udostępnij</a>
-                <a class="dropdown-item" *ngIf="!ifConnecting" (click)="closeRoom()"><i class="fas fa-times-circle"></i> Zamknij pokój</a>
+                <a class="dropdown-item" *ngIf="!ifConnecting" (click)="questionPanel()"><i class="fas fa-list-ul"></i> {{'pollroom.admin.create' | translate}}</a>
+                <a class="dropdown-item" (click)="showQr()"><i class="fas fa-qrcode"></i> {{'pollroom.admin.share' | translate}}</a>
+                <a class="dropdown-item" *ngIf="!ifConnecting" (click)="closeRoom()"><i class="fas fa-times-circle"></i> {{'pollroom.admin.close' | translate}}</a>
                 <p class="dropdown-item" *ngIf="!ifConnecting"><i class="far fa-calendar-times"></i> {{room.expirationDate}}</p>
             </div>
         </div>
@@ -21,7 +21,7 @@
     <div class="card-body p-0">
         <div id="adminButton" class="btn-group" role="group">
             <button id="btnGroupDrop1" type="button" class="btn btn-secondary" (click)="showQr()">
-                    Udostępnij
+                {{'pollroom.admin.share' | translate}}
                   </button>
         </div>
     </div>
@@ -43,79 +43,79 @@
     <div></div>
     <div></div>
 </div>
-<h2 *ngIf="!ifConnecting && !(questions?.length> 0)"> Nie ma jeszcze żadnych pytań... <br></h2>
+<h2 *ngIf="!ifConnecting && !(questions?.length> 0)">{{'pollroom.noquestion' | translate}} <br></h2>
 
 <div *ngIf="opened" class="my-card" id="questionPanel" [@inOutAnimation]>
     <div class="my-card-header">
         <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-                <a class="nav-link active" style="cursor: pointer; color: blue;" (click)="changeType(1)" id="yesNo">Tak/Nie</a>
+                <a class="nav-link active" style="cursor: pointer; color: blue;" (click)="changeType(1)" id="yesNo">{{'pollroom.questions.yesNo' | translate}}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" style="cursor: pointer; color: blue;" (click)="changeType(2)" id="options">Kilka odpowiedzi</a>
+                <a class="nav-link" style="cursor: pointer; color: blue;" (click)="changeType(2)" id="options">{{'pollroom.questions.multi' | translate}}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" style="cursor: pointer; color: blue;" (click)="changeType(3)" id="rate">Ocena</a>
+                <a class="nav-link" style="cursor: pointer; color: blue;" (click)="changeType(3)" id="rate">{{'pollroom.questions.rate' | translate}}</a>
             </li>
         </ul>
     </div>
 
     <div class="card-body" *ngIf="type == 1">
-        <h5 class="card-title">Pytanie Tak/Nie</h5>
-        <input type="text" class="form-control" id="question" placeholder="Twoje pytanie">
+        <h5 class="card-title">{{'pollroom.questions.yesNo' | translate}}</h5>
+        <input type="text" class="form-control" id="question" placeholder="{{'pollroom.questions.placeHolder' | translate}}">
         <div *ngIf="emptyQuestion" class="alert alert-danger">
-            Puste pytanie!
+            {{'pollroom.errors.empty' | translate}}
         </div>
     </div>
 
     <div class="card-body" *ngIf="type == 2">
-        <h5 class="card-title">Kilka odpowiedzi</h5>
-        <input type="text" class="form-control" id="question" placeholder="Twoje pytanie">
+        <h5 class="card-title">{{'pollroom.questions.multi' | translate}}</h5>
+        <input type="text" class="form-control" id="question" placeholder="{{'pollroom.questions.placeHolder' | translate}}">
         <div *ngIf="emptyQuestion" class="alert alert-danger">
-            Puste pytanie!
+            {{'pollroom.errors.empty' | translate}}
         </div>
         <br>
-        <h5 class="card-title">Odpowiedzi</h5>
+        <h5 class="card-title">{{'pollroom.ans' | translate}}</h5>
         <ul class="list-group" id="answerList">
             <li *ngFor="let ans of answers" (click)="removeAnswer(ans.id)" class="list-group-item list-group-item-action" style="cursor: pointer;">{{ans.answer}}</li>
             <div *ngIf="notEnoughtAnswers" class="alert alert-danger">
-                Musisz dodać co najmniej dwie odpowiedzi!
+                {{'pollroom.errors.min2' | translate}}
             </div>
         </ul>
         <div class="input-group" style="margin-top: 10px;">
-            <input type="text" class="form-control" id="answer" placeholder="Odpowiedź">
+            <input type="text" class="form-control" id="answer" placeholder="{{'pollroom.placeHolder' | translate}}">
             <span class="input-group-addon input-group-addon-btn bg-white">
                 <button class="btn px-9 bg-white" (click)="addAnswer()"><i class="fas fa-plus-circle"></i></button>
             </span>
         </div>
         <div *ngIf="emptyAnswer" class="alert alert-danger">
-            Pusta odpowiedź!
+            {{'pollroom.errors.empty' | translate}}
         </div>
         <br>
         <div class="form-check">
             <input type="checkbox" class="form-check-input" id="multiple">
-            <label class="form-check-label" for="multiple">Wielokrotny wybór</label>
+            <label class="form-check-label" for="multiple">{{'pollroom.questions.multiAns' | translate}}</label>
         </div>
     </div>
 
     <div class="card-body" *ngIf="type == 3">
-        <h5 class="card-title">Ocena</h5>
-        <input type="text" class="form-control" id="question" placeholder="Twoje pytanie">
+        <h5 class="card-title">{{'pollroom.questions.rate' | translate}}</h5>
+        <input type="text" class="form-control" id="question" placeholder="{{'pollroom.questions.placeHolder' | translate}}">
         <div *ngIf="emptyQuestion" class="alert alert-danger">
-            Puste pytanie!
+            {{'pollroom.errors.empty' | translate}}
         </div>
         <br>
-        <p>Minimalna wartość: {{from}}</p>
+        <p>{{'pollroom.questions.min' | translate}}: {{from}}</p>
         <input type="range" min="0" max="20" [(ngModel)]="from" class="slider" id="from">
-        <p>Maksymalna wartość: {{to}}</p>
+        <p>{{'pollroom.questions.max' | translate}}: {{to}}</p>
         <input type="range" min="0" max="20" [(ngModel)]="to" class="slider" id="to">
         <div *ngIf="to < from" class="alert alert-danger">
-            Niepoprawny zakres oceny!
+            {{'pollroom.errors.range' | translate}}
         </div>
     </div>
 
     <div class="card-footer">
-        <button type="button" class="btn btn-success" (click)="sendQuestion()"><i class="fas fa-check-circle"></i> Zadaj pytanie</button>
+        <button type="button" class="btn btn-success" (click)="sendQuestion()"><i class="fas fa-check-circle"></i>{{'pollroom.questions.butt' | translate}}</button>
         <button type="button" class="btn btn-light float-right" (click)="questionPanel()"><i class="fas fa-times-circle" ></i></button>
     </div>
 </div>
@@ -123,12 +123,12 @@
 <div class="my-card" *ngFor="let element of questions" [@inOutAnimation]>
     <div class="my-card-header">
         <span>{{element.question}}</span>
-        <button *ngIf="admin" type="button" class="btn btn-light float-right" (click)="deleteQuestion(element)" title="Usuń pytanie"><i color= "red" class="fas fa-times-circle" ></i></button>
-        <button *ngIf="admin && element.active" type="button" class="btn btn-light float-right" title="Wstrzymaj możliwość odpowiadania" (click)="freezeQuestion(element)"><i class="far fa-pause-circle"></i></button>
-        <button *ngIf="admin && !element.active" type="button" class="btn btn-light float-right" title="Odblokuj możliwość odpowiadania" (click)="freezeQuestion(element)"><i color ='green' class="far fa-pause-circle"></i></button>
-        <button *ngIf="admin && element.hiddenResults" type="button" class="btn btn-light float-right" title="Odkryj wyniki" (click)="hideResults(element)"><i color ='green' class="fas fa-eye-slash"></i></button>
-        <button *ngIf="admin && !element.hiddenResults" type="button" class="btn btn-light float-right" title="Ukryj wyniki" (click)="hideResults(element)"><i class="fas fa-eye-slash"></i></button>
-        <a type="button" class="btn btn-light float-right" (click)="hideQuestion(element)" href="{{'#chart-' + element.id}}" title="Rozwiń"><i id={{element.id}} class="fas fa-angle-down"></i></a>
+        <button *ngIf="admin" type="button" class="btn btn-light float-right" (click)="deleteQuestion(element)" title="{{'pollroom.admin.delete' | translate}}"><i color= "red" class="fas fa-times-circle" ></i></button>
+        <button *ngIf="admin && element.active" type="button" class="btn btn-light float-right" title="{{'pollroom.admin.freeze' | translate}}" (click)="freezeQuestion(element)"><i class="far fa-pause-circle"></i></button>
+        <button *ngIf="admin && !element.active" type="button" class="btn btn-light float-right" title="{{'pollroom.admin.enable' | translate}}" (click)="freezeQuestion(element)"><i color ='green' class="far fa-pause-circle"></i></button>
+        <button *ngIf="admin && element.hiddenResults" type="button" class="btn btn-light float-right" title="{{'pollroom.admin.expose' | translate}}" (click)="hideResults(element)"><i color ='green' class="fas fa-eye-slash"></i></button>
+        <button *ngIf="admin && !element.hiddenResults" type="button" class="btn btn-light float-right" title="{{'pollroom.admin.hide' | translate}}" (click)="hideResults(element)"><i class="fas fa-eye-slash"></i></button>
+        <a type="button" class="btn btn-light float-right" (click)="hideQuestion(element)" href="{{'#chart-' + element.id}}" title="{{'pollroom.admin.show' | translate}}"><i id={{element.id}} class="fas fa-angle-down"></i></a>
     </div>
 
     <div *ngIf="element.hidden && element.type != 'rate'" [@inOutAnimationDetails] class="card-body">
@@ -138,18 +138,18 @@
             </form>
         </div>
         <br>
-        <span *ngIf="element.hiddenResults" class="float-right">Głosów: {{element.numberOfVotes[0]}} <i class="far fa-user"></i></span>
-        <button *ngIf="element.active" (click)="sendAnswer(element)" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Wyślij odpowiedź!</button>
-        <button *ngIf="!element.active" disabled="true" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Pytanie nieaktywne</button>
+        <span *ngIf="element.hiddenResults" class="float-right">{{'pollroom.votes' | translate}}: {{element.numberOfVotes[0]}} <i class="far fa-user"></i></span>
+        <button *ngIf="element.active" (click)="sendAnswer(element)" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> {{'pollroom.ans-butt' | translate}}</button>
+        <button *ngIf="!element.active" disabled="true" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> {{'pollroom.errors.inactive' | translate}}</button>
         <app-chart id="{{'chart-' + element.id}}" *ngIf="!element.hiddenResults" [question]=element [chartTrigger]="chartTrigger"> </app-chart>
     </div>
 
     <div *ngIf="element.hidden && element.type == 'rate'" [@inOutAnimationDetails] class="card-body">
-        <p>Twoja odpowiedź: {{element.selected[0]}}</p>
+        <p>{{'pollroom.yourAns' | translate}}: {{element.selected[0]}}</p>
         <input type="range" min="{{element.answers[0]}}" max="{{element.answers[element.answers.length-1]}}" [(ngModel)]="element.selected[0]" class="slider">
-        <span *ngIf="element.hiddenResults" class="float-right">Głosów: {{element.numberOfVotes[0]}} <i class="far fa-user"></i></span>
-        <button *ngIf="element.active" (click)="sendAnswer(element)" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Wyślij odpowiedź!</button>
-        <button *ngIf="!element.active" disabled="true" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Pytanie nieaktywne</button>
+        <span *ngIf="element.hiddenResults" class="float-right">{{'pollroom.votes' | translate}}: {{element.numberOfVotes[0]}} <i class="far fa-user"></i></span>
+        <button *ngIf="element.active" (click)="sendAnswer(element)" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> {{'pollroom.ans-butt' | translate}}</button>
+        <button *ngIf="!element.active" disabled="true" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> {{'pollroom.errors.inactive' | translate}}</button>
         <app-chart id="{{'chart-' + element.id}}" *ngIf="!element.hiddenResults" [question]=element [chartTrigger]="chartTrigger"> </app-chart>
     </div>
 
