@@ -9,4 +9,5 @@ export class Question {
     hidden: boolean;
     hiddenResults: boolean;
     active: boolean;
+    toPDF: boolean;
 }

@@ -15,6 +15,9 @@ import { NavbarTitleService } from "../navbar-title.service";
 import { isNgTemplate } from '@angular/compiler';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { TranslateService } from '@ngx-translate/core';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
     selector: 'app-pollroom',
@@ -72,7 +75,8 @@ export class PollroomComponent implements OnInit, OnDestroy {
     private answers = [];
     private from = 0;
     private to = 10;
-
+    private openedPDFPanel = false;
+    private allToGenerate = false;
 
     constructor(private backendService: BackendConnectionService,
         private router: Router, private route: ActivatedRoute,
@@ -143,7 +147,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
         this.translate.get('image-dialog.title').subscribe(res => { title = res; });
         this.translate.get('image-dialog.close-message').subscribe(res => { message = res; });
         this.translate.get('image-dialog.yes-button').subscribe(res => { yesButton = res; });
-        this.translate.get('image-dialog.no-button').subscribe(res => { noButton = res; });
+        this.translate.get('pollroom.admin.generatePDF').subscribe(res => { noButton = res; });
         this.confirmationDialogService.confirm(title, message, yesButton, noButton)
             .then((confirmed) => {
                 if (confirmed) {
@@ -152,6 +156,8 @@ export class PollroomComponent implements OnInit, OnDestroy {
                         this.webSocketAPI.disconnect();
                         this.router.navigate(['rooms']);
                     });
+                } else {
+                    this.openedPDFPanel = true;
                 }
             }).catch(() => { });
     }
@@ -187,7 +193,10 @@ export class PollroomComponent implements OnInit, OnDestroy {
                     .then((confirmed) => {
                         if (confirmed && this.type == 1) {
                             var question = (<HTMLInputElement>document.getElementById("question")).value;
-                            this.webSocketAPI.addQuestion("yesNo", question, []);
+                            var yesNo = [];
+                            this.translate.get("pollroom.yes").subscribe(ele => yesNo.push(ele));
+                            this.translate.get("pollroom.no").subscribe(ele => yesNo.push(ele));
+                            this.webSocketAPI.addQuestion("yesNo", question, yesNo);
                             (<HTMLInputElement>document.getElementById("question")).value = "";
                         } else if (confirmed && this.type == 2) {
                             var question = (<HTMLInputElement>document.getElementById("question")).value;
@@ -408,5 +417,94 @@ export class PollroomComponent implements OnInit, OnDestroy {
         } else {
             this.emptyAnswer = true;
         }
+    }
+
+    generatePDF() {
+        this.openedPDFPanel = !this.openedPDFPanel;
+    }
+
+    openPDF() {
+        let docDefinition = {
+            footer: {
+                text: "Instant Polls App.",
+                link: "http://instant-polls.herokuapp.com/#/",
+                color: 'blue',
+                decoration: 'underline',
+                alignment: 'center',
+                margin: [0, 0, 0, 20]
+            },
+            info: {
+              title: this.room.roomName
+            },
+            styles: {
+                question: {
+                  fontSize: 18,
+                  bold: true,
+                  margin: [0, 20, 0, 10]
+                }
+            },
+            content: [
+                {
+                    text: this.room.roomName,
+                    bold: true,
+                    fontSize: 20,
+                    alignment: 'center',
+                    margin: [0, 0, 0, 20],
+                },
+                this.getQuestionFormatForPDF()
+            ],
+        }
+        pdfMake.createPdf(docDefinition).open();
+    }
+
+    getQuestionFormatForPDF() {
+        var questionsJSON = [];
+        this.questions.forEach(element => {
+            if(element.toPDF) {
+                    var questionHeader = {text: element.question, style: "question"};
+                    var questionTable = {table: {headerRows: 1,widths: [ '*', '*' ],
+                    body: this.getTableFormat(element) 
+                }};
+            questionsJSON.push(questionHeader);
+            questionsJSON.push(questionTable);
+            }
+        });
+        return questionsJSON;
+    }
+
+    getTableFormat(question: Question) {
+        var sum = 0;
+        var votes = 0;
+        var table = [[]];
+        this.translate.get('pollroom.pdf.answer').subscribe(element => table[0].push(element));
+        this.translate.get('pollroom.pdf.numberOfVotes').subscribe(element => table[0].push(element));
+        for(let i = 0; i < question.answers.length; i++) {
+            table.push([question.answers[i],question.numberOfVotes[i].toString()]);
+            votes += question.numberOfVotes[i];
+            if(question.type === 'rate') {
+                sum += parseInt(question.answers[i])*question.numberOfVotes[i];
+            }
+        }
+        if(question.type === 'rate') {
+            table.push([]);
+            this.translate.get('pollroom.pdf.average').subscribe(element => table[table.length-1].push(element));
+            table[table.length-1].push((sum/votes).toString());
+        }
+        table.push(["",""]);
+        table.push([]);
+        this.translate.get('pollroom.pdf.totalNumber').subscribe(element => table[table.length-1].push(element));
+        table[table.length-1].push(votes.toString());
+        return table;
+    }
+
+    selectQuestionToPDF(question: Question) {
+        question.toPDF = !question.toPDF;
+    }
+
+    checkAll() {
+        this.allToGenerate = !this.allToGenerate;
+        this.questions.forEach(que => {
+            que.toPDF = this.allToGenerate;
+        });
     }
 }

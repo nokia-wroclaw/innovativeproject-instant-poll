@@ -63,13 +63,17 @@
             "create": "Utwórz pytanie",
             "share": "Udostęnij",
             "close": "Zamknij pokój",
+            "generatePDF": "Utwórz PDF",
             "freeze": "Wstrzymaj możliwość odpowiadania",
             "enable": "Odblokuj możliwość odpowiadania",
             "hide": "Ukryj wyniki",
             "expose": "Odkryj wyniki",
             "delete": "Usuń pytanie",
             "show": "Rozwiń",
-            "hideTab": "Zwiń"
+            "hideTab": "Zwiń",
+            "chooseQuestions": "Wybierz pytania do generowanego PDF'a",
+            "checkAll": "Zazncza wszystkie",
+            "generate": "Wygeneruj PDF"
         },
         "noquestion": "Nie ma jeszcze żadnych pytań...",
         "questions": {
@@ -88,11 +92,19 @@
             "range": "Niepoprawny zakres!",
             "inactive": "Pytanie nieaktywne"
         },
+        "pdf": {
+            "answer": "Odpowiedź",
+            "numberOfVotes": "Liczba głosów",
+            "totalNumber": "Łączna liczba głosów",
+            "average": "Średnia"
+        },
         "ans": "Odpowiedzi",
         "placeHolder": "Odpowiedź",
         "votes": "Głosów",
         "ans-butt": "Wyślij odpowiedź",
-        "yourAns": "Twoja odpowiedź"
+        "yourAns": "Twoja odpowiedź",
+        "yes": "Tak",
+        "no": "Nie"
 
     },
 

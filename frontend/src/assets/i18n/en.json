@@ -64,13 +64,17 @@
             "create": "Create question",
             "share": "Share",
             "close": "Close the room",
+            "generatePDF": "Generate PDF",
             "freeze": "Disable question",
             "enable": "Enable question",
             "hide": "Hide results",
             "expose": "Expose results",
             "delete": "Delete question",
             "show": "Open",
-            "hideTab": "Hide"
+            "hideTab": "Hide",
+            "chooseQuestions": "Choose questions for the generated PDF",
+            "checkAll": "Check all",
+            "generate": "Generate PDF"
         },
         "noquestion": "There are no questions yet...",
         "questions": {
@@ -89,11 +93,19 @@
             "range": "Invalid range!",
             "inactive": "Question disabled"
         },
+        "pdf": {
+            "answer": "Answer",
+            "numberOfVotes": "Number of votes",
+            "totalNumber": "Total number of votes",
+            "average": "Average"
+        },
         "ans": "Answers",
         "placeHolder": "Answer",
         "votes": "Votes",
         "ans-butt": "Send your answer",
-        "yourAns": "Your answer"
+        "yourAns": "Your answer",
+        "yes": "Yes",
+        "no": "No"
 
     },
 
