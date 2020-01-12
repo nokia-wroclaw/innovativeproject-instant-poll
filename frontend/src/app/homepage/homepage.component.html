@@ -1,22 +1,21 @@
 <div class="row py-3" id="info">
     <div class="col-md-8">
-        <h2 class="h1-responsive font-weight-bold">Twórz ankiety w czasie rzeczywistym! </h2>
+        <h2 class="h1-responsive font-weight-bold">{{ 'main-page.title' | translate }}</h2>
         <hr>
-        <h6 class="mb-4">Koniec ze żmudnym drukowaniem kartek czy liczeniem rąk w górze. Nadszedł czas na Instant Polls. Instant Polls jest świetnym rozwiązaniem na zebraniu lub wykładzie. Korzystaj wszędzie tam gdzie łatwość i szybkość zbierania opinii jest bardzo ważna.</h6>
+        <h6 class="mb-4">{{ 'main-page.description' | translate }}</h6>
     </div>
 </div>
-
 <div class="row py-3">
     <div class="col-sm-4">
-        <button type=" button " [routerLink]="['/rooms']" class="btn btn-outline-light text-light btn-lg ">Stwórz nowy pokój</button>
-        <h6>Stwórz swój własny pokój z ankietą, udostęnij go za pomocą short linka lub QR kodu i na żywo obserwuj jak zmieniają się wyniki.</h6>
+        <button type=" button " [routerLink]="['/rooms']" class="btn btn-outline-light text-light btn-lg ">{{ 'main-page.create-butt' | translate }}</button>
+        <h6>{{ 'main-page.create-desc' | translate }}</h6>
     </div>
 </div>
 
 <div class="row py-3 ">
     <div class="col-sm-4">
-        <button type="button " [routerLink]="['/join']" class="btn btn-outline-light text-light btn-lg ">Dołącz do pokoju</button>
-        <h6>Dołącz za pomocą short linka do już stworzonego pokoju z ankietą.</h6>
+        <button type="button " [routerLink]="['/join']" class="btn btn-outline-light text-light btn-lg ">{{ 'main-page.join-butt' | translate }}</button>
+        <h6>{{ 'main-page.join-desc' | translate }}</h6>
     </div>
 </div>
 

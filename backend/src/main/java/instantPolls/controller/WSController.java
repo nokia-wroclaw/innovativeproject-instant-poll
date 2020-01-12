@@ -104,7 +104,7 @@ public class WSController {
 		Question question = null;
 		
 		if(questionType.equals("yesNo")) { //convert to enum when more types of questions
-			question = new YesNoQuestion(message.getQuestion());
+			question = new YesNoQuestion(message.getQuestion(),message.getAnswers());
 			QuestionMessage messageToSend = QuestionMessage.builder()
 					.type(question.getType())
 					.question(question.getQuestion())

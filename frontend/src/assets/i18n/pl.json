@@ -1,0 +1,117 @@
+{
+    "main-page": {
+        "title": "Twórz ankiety w czasie rzeczywistym! ",
+        "description": "Koniec ze żmudnym drukowaniem kartek czy liczeniem rąk w górze. Nadszedł czas na Instant Polls. Instant Polls jest świetnym rozwiązaniem na zebraniu lub wykładzie. Korzystaj wszędzie tam gdzie łatwość i szybkość zbierania opinii jest bardzo ważna.",
+        "create-butt": "Stwórz nowy pokój",
+        "create-desc": "Stwórz swój własny pokój z ankietą, udostęnij go za pomocą short linka lub QR kodu i na żywo obserwuj jak zmieniają się wyniki.",
+        "join-butt": "Dołącz do pokoju",
+        "join-desc": "Dołącz za pomocą short linka do już stworzonego pokoju z ankietą."
+    },
+
+    "navbar": {
+        "rooms": "Stworzone pokoje",
+        "join": "Dołącz do pokoju"
+    },
+
+    "join-room": {
+        "title": "Dołącz do pokoju",
+        "join-butt": "Dołącz",
+        "join-desc": "Podaj kod pokoju z końca shortlinka:",
+        "error": {
+            "empty": "Pusty kod",
+            "notFound": "Pokój nie istnieje"
+        },
+        "last": "Ostatnio odwiedzone pokoje",
+        "go": "Wejdź do pokoju"
+    },
+
+    "create-room": {
+        "title": "Stwórz pokój",
+        "create-butt": "Utwórz pokój",
+        "enter-butt": "Wejdź do pokoju",
+        "close-butt": "Zamknij pokój",
+        "rooms-title": "Twoje pokoje",
+        "room": {
+            "label": "Nazwa pokoju",
+            "placeholder": "Podaj nazwę"
+        },
+        "errors": {
+            "nameRequired": "Nazwa jest wymagana",
+            "datePassed": "Wybrana data już minęła"
+        },
+        "date": {
+            "label": "Data wygaśnięcia"
+        }
+    },
+
+    "image-dialog": {
+        "title": "Potwierdzenie",
+        "close-message": "Czy na pewno chcesz zamknąć pokój? Stracisz wszystkie niezapisane dane i nie będziesz mógł wrócić  do pokoju.",
+        "yes-button": "Zamknij pokój",
+        "no-button": "Cofnij",
+        "ask": "Zadaj",
+        "ask-message": "Czy na pewno chcesz zadać to pytanie?",
+        "delete-message": "Czy na pewno chcesz usnuąć to pytanie?",
+        "delete": "Usuń",
+        "deleteAns": "Usuń odpowiedź",
+        "ans-message": "Czy na pewno chcesz usnuąć tą odpowiedź?"
+    },
+
+    "pollroom": {
+        "admin": {
+            "butt": "Admin",
+            "create": "Utwórz pytanie",
+            "share": "Udostęnij",
+            "close": "Zamknij pokój",
+            "generatePDF": "Utwórz PDF",
+            "freeze": "Wstrzymaj możliwość odpowiadania",
+            "enable": "Odblokuj możliwość odpowiadania",
+            "hide": "Ukryj wyniki",
+            "expose": "Odkryj wyniki",
+            "delete": "Usuń pytanie",
+            "show": "Rozwiń",
+            "hideTab": "Zwiń",
+            "chooseQuestions": "Wybierz pytania do generowanego PDF'a",
+            "checkAll": "Zazncza wszystkie",
+            "generate": "Wygeneruj PDF"
+        },
+        "noquestion": "Nie ma jeszcze żadnych pytań...",
+        "questions": {
+            "yesNo": "Tak/Nie",
+            "multi": "Kilka odpowiedzi",
+            "rate": "Ocena",
+            "multiAns": "Wielokrotny wybór",
+            "placeHolder": "Twoje pytanie",
+            "min": "Minimalna wartość",
+            "max": "Maksymalna wartość",
+            "butt": "Zadaj pytanie"
+        },
+        "errors": {
+            "empty": "Puste pytanie!",
+            "min2": "Musisz dodać co najmniej dwie odpowiedzi!",
+            "range": "Niepoprawny zakres!",
+            "inactive": "Pytanie nieaktywne"
+        },
+        "pdf": {
+            "answer": "Odpowiedź",
+            "numberOfVotes": "Liczba głosów",
+            "totalNumber": "Łączna liczba głosów",
+            "average": "Średnia"
+        },
+        "ans": "Odpowiedzi",
+        "placeHolder": "Odpowiedź",
+        "votes": "Głosów",
+        "ans-butt": "Wyślij odpowiedź",
+        "yourAns": "Twoja odpowiedź",
+        "yes": "Tak",
+        "no": "Nie"
+
+    },
+
+    "chart": {
+        "button": "Zmień typ wykresu",
+        "voters": "Liczba głosujących"
+    }
+
+
+}

@@ -1,0 +1,116 @@
+{
+    "main-page": {
+        "title": "Create instant live polls! ",
+        "description": "No more tedious printing of ballots or counting raised hands. It's time for Instant Polls. Instant Polls is a great solution for a meeting or lecture. Use wherever the ease and speed of collecting opinions is very important.",
+        "create-butt": "Create room",
+        "create-desc": "Create your own room with poll, share it with QR code or shortlink and relish live view of incoming answers and poll question results",
+        "join-butt": "Join room",
+        "join-desc": "Join already created room via code from shortlink"
+    },
+
+    "navbar": {
+        "rooms": "Created rooms",
+        "join": "Join room"
+    },
+
+    "join-room": {
+        "title": "Join room",
+        "join-butt": "Join",
+        "join-desc": "Enter the room code from the end of shortlink:",
+        "error": {
+            "empty": "Empty code",
+            "notFound": "Room dosen't exist"
+        },
+        "last": "Recently visited rooms",
+        "go": "Enter the room"
+    },
+
+    "create-room": {
+        "title": "Create room",
+        "create-butt": "Create",
+        "enter-butt": "Enter the room",
+        "close-butt": "Close the room",
+        "rooms-title": "Your rooms",
+        "room": {
+            "label": "Name of the room",
+            "placeholder": "Enter name"
+        },
+        "errors": {
+            "nameRequired": "Name is required",
+            "datePassed": "Invalid date"
+        },
+        "date": {
+            "label": "Expiration date"
+        }
+
+    },
+
+    "image-dialog": {
+        "title": "Confirmation",
+        "close-message": "Are you sure you want to close the room? You will lose all unsaved data and you will not be able to retrieve the room.",
+        "yes-button": "Close the room",
+        "no-button": "Cancel",
+        "ask": "Ask",
+        "ask-message": "Are you sure you want to ask this question?",
+        "delete-message": "Are you sure you want to delete this question?",
+        "delete": "Delete",
+        "deleteAns": "Delete answer",
+        "ans-message": "Are you sure you want to delete this answer?"
+    },
+
+    "pollroom": {
+        "admin": {
+            "butt": "Host",
+            "create": "Create question",
+            "share": "Share",
+            "close": "Close the room",
+            "generatePDF": "Generate PDF",
+            "freeze": "Disable question",
+            "enable": "Enable question",
+            "hide": "Hide results",
+            "expose": "Expose results",
+            "delete": "Delete question",
+            "show": "Open",
+            "hideTab": "Hide",
+            "chooseQuestions": "Choose questions for the generated PDF",
+            "checkAll": "Check all",
+            "generate": "Generate PDF"
+        },
+        "noquestion": "There are no questions yet...",
+        "questions": {
+            "yesNo": "Yes/No",
+            "multi": "Multiple answer",
+            "rate": "Rate",
+            "multiAns": "Allow respondents to select more than one answer",
+            "placeHolder": "Question",
+            "min": "Minimal value",
+            "max": "Maximal value",
+            "butt": "Ask the question"
+        },
+        "errors": {
+            "empty": "Empty question!",
+            "min2": "At least 2 answers required!",
+            "range": "Invalid range!",
+            "inactive": "Question disabled"
+        },
+        "pdf": {
+            "answer": "Answer",
+            "numberOfVotes": "Number of votes",
+            "totalNumber": "Total number of votes",
+            "average": "Average"
+        },
+        "ans": "Answers",
+        "placeHolder": "Answer",
+        "votes": "Votes",
+        "ans-butt": "Send your answer",
+        "yourAns": "Your answer",
+        "yes": "Yes",
+        "no": "No"
+
+    },
+
+    "chart": {
+        "button": "Change type of chart",
+        "voters": "Number of voters"
+    }
+}

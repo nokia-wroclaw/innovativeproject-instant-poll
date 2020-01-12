@@ -13,11 +13,12 @@ public class YesNoQuestion implements Question {
 	private boolean active;
 	private boolean hiddenResults;
 	
-	public YesNoQuestion(String question) {
+	public YesNoQuestion(String question, List<String> answers) {
 		this.question = question;
 		this.listOfAnswers = new ArrayList<>();
-		this.listOfAnswers.add(new Answer("Tak"));
-		this.listOfAnswers.add(new Answer("Nie"));
+		answers.forEach(answer -> {
+			listOfAnswers.add(new Answer(answer));
+		});
 		this.type = "yesNo";
 		this.active = true;
 		this.hiddenResults = false;

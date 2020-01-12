@@ -1,7 +1,8 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import {ChartDataSets, ChartOptions, ChartType} from 'chart.js';
-import {Label} from 'ng2-charts';
-import {Question} from '../question';
+import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
+import { Label } from 'ng2-charts';
+import { Question } from '../question';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-chart',
@@ -25,31 +26,50 @@ export class ChartComponent implements OnInit, OnChanges {
   private chartLegend = true;
   private chartPlugins = [];
   private chartData: ChartDataSets[] = [
-    { data: []},
-    ];
+    { data: [] },
+  ];
 
   private chartLabels: Label[] = [];
 
   // bar chart needs data in another format to work as I wanted
   private barChartData: ChartDataSets[] = [];
 
-  private barChartLabels: Label[] = ['Odpowiedzi'];
+  private barChartLabels: Label[] = [''];
+  
   private setBarChartData() {
-    if(this.question.type === 'rate') {
+    if (this.question.type === 'rate') {
       var average = this.computeAverage();
-      this.barChartData = [{data:[average],label:"Średnia"}];
-      this.chartOptions.scales = {
-        yAxes: [{
-          ticks: {
-            min: parseInt(this.question.answers[0]),
-            max: parseInt(this.question.answers[this.question.answers.length-1])
-          }
-        }]
-      };
+      this.barChartData = [{ data: [average], label: "" }];
+      this.translate.get('pollroom.pdf.average').subscribe(ele => {this.barChartData[0].label = ele});
+      var maxRate = parseInt(this.question.answers[0]);
+      var minRate = parseInt(this.question.answers[this.question.answers.length - 1]);
+
+      if (this.detectMobile()) {
+        this.chartOptions.scales = {
+          yAxes: [{
+            ticks: {
+              min: minRate,
+              max: maxRate,
+              maxTicksLimit: 3
+            }
+          }]
+        };
+      } else {
+        this.chartOptions.scales = {
+          yAxes: [{
+            ticks: {
+              min: minRate,
+              max: maxRate,
+              stepSize: Math.round((maxRate - minRate) / this.question.answers.length)
+            }
+          }]
+        };
+      }
+
     } else {
       this.barChartData = [];
       for (let i = 0; i < this.question.answers.length; i++) {
-        var data = {data:[this.question.numberOfVotes[i]], label: this.question.answers[i]};
+        var data = { data: [this.question.numberOfVotes[i]], label: this.question.answers[i] };
         this.barChartData.push(data);
       }
     }
@@ -58,20 +78,21 @@ export class ChartComponent implements OnInit, OnChanges {
   private computeAverage() {
     var sum = 0;
     var votes = 0;
-    for(let i = 0; i < this.question.answers.length; i++) {
+    for (let i = 0; i < this.question.answers.length; i++) {
 
       sum += parseInt(this.question.answers[i]) * this.question.numberOfVotes[i];
       votes += this.question.numberOfVotes[i];
     }
-    if(votes === 0) {
+    if (votes === 0) {
       return 0;
     } else {
       return sum / votes;
     }
   }
+
   private computeNumberOfVoters() {
     var votes = 0;
-    for(let i = 0; i < this.question.answers.length; i++) {
+    for (let i = 0; i < this.question.answers.length; i++) {
       votes += this.question.numberOfVotes[i];
     }
     return votes;
@@ -84,12 +105,12 @@ export class ChartComponent implements OnInit, OnChanges {
     this.updateChart();
   }
 
-  constructor() { }
+  constructor(private translate: TranslateService) { }
 
   ngOnInit() {
     this.chartData[0].label = this.question.question;
     this.chartOptions.title.text = this.question.question;
-    if(this.question.type === 'rate') {
+    if (this.question.type === 'rate') {
       this.chartType = "bar";
     }
     this.chartData[0].data = this.question.numberOfVotes;
@@ -100,13 +121,25 @@ export class ChartComponent implements OnInit, OnChanges {
   private updateChart() {
     // scaling from zero
     if (this.chartType === 'bar' || this.chartType === 'line') {
-      this.chartOptions.scales = {
-        yAxes: [{
-          ticks: {
-            min: 0
-          }
-        }]
-      };
+      if (this.detectMobile()) {
+        this.chartOptions.scales = {
+          yAxes: [{
+            ticks: {
+              min: 0,
+              maxTicksLimit: 3
+            }
+          }]
+        };
+      } else {
+        this.chartOptions.scales = {
+          yAxes: [{
+            ticks: {
+              min: 0
+            }
+          }]
+        };
+      }
+
     } else {
       this.chartOptions.scales = {};
     }
@@ -120,6 +153,13 @@ export class ChartComponent implements OnInit, OnChanges {
     }
   }
 
+  private detectMobile() {
+    if (window.innerWidth <= 800 && window.innerHeight <= 600) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   ngOnChanges(changes: SimpleChanges) {
     this.updateChart();
   }

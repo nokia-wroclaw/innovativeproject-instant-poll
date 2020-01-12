@@ -25,6 +25,9 @@ import {NavbarTitleService} from "./navbar-title.service";
 import { ChartComponent } from './chart/chart.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {HttpClient} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -52,10 +55,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       { path: 'pollroom/:id', component: PollroomComponent },
       { path: 'rooms', component: RoomsComponent },
       { path: 'join', component: JoinRoomComponent}
-    ])
+    ]),
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+  })
   ],
   providers: [ConfirmationDialogService,ImageDialogService,NavbarTitleService,BackendConnectionService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
   entryComponents: [ ConfirmationDialogComponent, ImageDialogComponent ]
 })
 export class AppModule { }
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
