@@ -3,6 +3,7 @@
     <a id="back" *ngIf="numberOfUsers !== '0'" class="navbar-text ml-0" href="/#/rooms "><i class="fas fa-arrow-alt-circle-left " ></i></a>
     <a id="room-name" class="navbar-text mx-auto ">{{roomName}}</a>
     <a id="room-users" class="navbar-text ">{{numberOfUsers}}<i class="fas fa-user-circle " ></i> </a>
+    
 
     <button class="navbar-toggler " type="button " (click)="toggleNavbar() ">
     <span class="navbar-toggler-icon "></span>
@@ -26,6 +27,7 @@
 </nav>
 
 <ng-template #outsideRoom>
+    
     <nav class="navbar navbar-dark navbar-expand-md " style="background-color: #000000; ">
         <a class="navbar-brand " href="/ ">Instant Polls</a>
 

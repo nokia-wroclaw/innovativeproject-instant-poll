@@ -82,7 +82,6 @@ public class MultipleAnswersQuestion implements Question {
 		ArrayList<Integer> votes = new ArrayList<>();
 		if(hiddenResults) {
 			votes = new ArrayList<Integer>(Collections.nCopies(listOfAnswers.size(), 0));
-			int numberOfVoters = 0;
 			Set<String> uniqueUsersVoted = new HashSet<>();
 			for(Answer a : listOfAnswers)
 				uniqueUsersVoted.addAll(a.getUsersVoted());
@@ -93,6 +92,14 @@ public class MultipleAnswersQuestion implements Question {
 				votes.add(a.getUsersVoted().size());
 		
 		return votes;
+	}
+	
+	@Override
+	public int getTotalVotes() {
+		Set<String> uniqueUsersVoted = new HashSet<>();
+		for(Answer a : listOfAnswers)
+			uniqueUsersVoted.addAll(a.getUsersVoted());
+		return uniqueUsersVoted.size();
 	}
 
 	@Override

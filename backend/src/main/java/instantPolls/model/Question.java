@@ -16,4 +16,5 @@ public interface Question {
 	void setActive(boolean active);
 	boolean isHiddenResults();
 	void setHiddenResults(boolean active);
+	int getTotalVotes();
 }
