@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -29,8 +31,10 @@ import instantPolls.storage.Storage;
 
 @CrossOrigin(origins = "*")
 @Controller
-public class RestControllerImpl {
+public class RestControllerImpl implements ErrorController {
 	
+    private static final String PATH = "/error";
+    
 	@Autowired
 	Storage roomStorage;
 	
@@ -93,5 +97,16 @@ public class RestControllerImpl {
 	public String redirectToRoom(@PathVariable String shortLink) {
 		String room_id = roomStorage.getFullId(shortLink);
 		return "redirect:/#/pollroom/" + room_id;
+	}
+	
+
+    @RequestMapping(value = PATH)
+    public String error() {
+        return "redirect:/#/404/";
+    }
+    
+	@Override
+	public String getErrorPath() {
+		return PATH;
 	}
 }

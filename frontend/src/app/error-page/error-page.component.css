@@ -1,0 +1,24 @@
+h1,
+h6,
+p {
+    color: white;
+    width: 100%;
+    text-align: center
+}
+
+h1 {
+    margin-bottom: 3vh;
+}
+
+.middle {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    top: 20vh;
+    position: relative;
+    margin-right: 0 !important;
+}
+
+button {
+    color: black;
+}

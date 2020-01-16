@@ -53,6 +53,7 @@ public class Room {
 			list.add(questionJson);
 			questionJson.put("hiddenResults", element.isHiddenResults());
 			questionJson.put("active", element.isActive());
+			questionJson.put("totalNumberOfVotes",element.getTotalVotes());
 		});
 		return list;
 	}

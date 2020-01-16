@@ -5,9 +5,10 @@ export class Question {
     action: string;
     answers: Array<string>;
     numberOfVotes: Array<number>;
+    totalNumberOfVotes: number;
     selected: Array<number> = [];
-    hidden: boolean;
+    hidden = true;
     hiddenResults: boolean;
     active: boolean;
-    toPDF: boolean;
+    toArchive: boolean;
 }

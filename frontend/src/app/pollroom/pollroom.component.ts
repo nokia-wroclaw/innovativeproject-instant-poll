@@ -147,7 +147,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
         this.translate.get('image-dialog.title').subscribe(res => { title = res; });
         this.translate.get('image-dialog.close-message').subscribe(res => { message = res; });
         this.translate.get('image-dialog.yes-button').subscribe(res => { yesButton = res; });
-        this.translate.get('pollroom.admin.generatePDF').subscribe(res => { noButton = res; });
+        this.translate.get('pollroom.admin.archive').subscribe(res => { noButton = res; });
         this.confirmationDialogService.confirm(title, message, yesButton, noButton)
             .then((confirmed) => {
                 if (confirmed) {
@@ -268,6 +268,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
                 return question.id !== item.id;
             });
         } else {
+            question.hidden = true;
             question.active = true;
             question.hiddenResults = false;
             this.questions.push(question);
@@ -276,15 +277,22 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     hideQuestion(question: Question) {
-        question.hidden = !question.hidden;
+        if(question.hidden == null || question.hidden)
+            question.hidden = false;
+        else
+            question.hidden = true;
+
         var element = document.getElementById(question.id + "");
 
-        if (question.hidden) {
+        if (!question.hidden) {
             element.classList.replace("fa-angle-down", "fa-angle-up");
         } else {
             element.classList.replace("fa-angle-up", "fa-angle-down");
         }
 
+        if(!question.hidden) {
+            document.getElementById('chart-'+question.id).scrollIntoView({behavior:"smooth"});
+        }
     }
 
     deleteQuestion(question: Question) {
@@ -331,6 +339,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
         this.questions.forEach(element => {
             if (element.id == answer.question_id) {
                 element.numberOfVotes = answer.numberOfVotes;
+                element.totalNumberOfVotes = answer.totalVotes;
                 return;
             }
         });
@@ -419,15 +428,16 @@ export class PollroomComponent implements OnInit, OnDestroy {
         }
     }
 
-    generatePDF() {
+    archive() {
         this.openedPDFPanel = !this.openedPDFPanel;
     }
 
     openPDF() {
+        var regex = new RegExp("/#/pollroom\/.*$", "i");
         let docDefinition = {
             footer: {
                 text: "Instant Polls App.",
-                link: "http://instant-polls.herokuapp.com/#/",
+                link: window.location.href.replace(regex, ""),
                 color: 'blue',
                 decoration: 'underline',
                 alignment: 'center',
@@ -457,10 +467,55 @@ export class PollroomComponent implements OnInit, OnDestroy {
         pdfMake.createPdf(docDefinition).open();
     }
 
+    openCSV() {
+        var csvContent = this.getQuestionFormatForCSV();
+        var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        var url = window.URL.createObjectURL(blob);
+        if(navigator.msSaveOrOpenBlob) {
+            navigator.msSaveBlob(blob, this.room.roomName+'.csv');
+        } else {
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = this.room.roomName+'.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+        window.URL.revokeObjectURL(url);
+    }
+
+    getQuestionFormatForCSV() {
+        var sum = 0;
+        var content = "";
+        this.questions.forEach(question => {
+            if(question.toArchive) {
+                content += question.question;
+                content += "\t\n";
+                this.translate.get('pollroom.pdf.answer').subscribe(element => content += element + ";");
+                this.translate.get('pollroom.pdf.numberOfVotes').subscribe(element => content += element + "\n");
+                for(let i = 0; i < question.answers.length; i++) {
+                    content += question.answers[i] + ";";
+                    content += question.numberOfVotes[i] + "\n";
+                    if(question.type === 'rate') {
+                        sum += parseInt(question.answers[i])*question.numberOfVotes[i];
+                    }
+                }
+                if(question.type === 'rate' && question.totalNumberOfVotes != 0) {
+                    this.translate.get('pollroom.pdf.average').subscribe(element => content += element + ";");
+                    content += (sum/question.totalNumberOfVotes).toString().replace(".",",") + "\n";
+                }
+                this.translate.get('pollroom.pdf.totalNumber').subscribe(element => content += element + ";");
+                content += (question.totalNumberOfVotes).toString() + "\n\n";
+                sum = 0;
+            }
+        });
+        return content;
+    }
+
     getQuestionFormatForPDF() {
         var questionsJSON = [];
         this.questions.forEach(element => {
-            if(element.toPDF) {
+            if(element.toArchive) {
                     var questionHeader = {text: element.question, style: "question"};
                     var questionTable = {table: {headerRows: 1,widths: [ '*', '*' ],
                     body: this.getTableFormat(element) 
@@ -474,37 +529,35 @@ export class PollroomComponent implements OnInit, OnDestroy {
 
     getTableFormat(question: Question) {
         var sum = 0;
-        var votes = 0;
         var table = [[]];
         this.translate.get('pollroom.pdf.answer').subscribe(element => table[0].push(element));
         this.translate.get('pollroom.pdf.numberOfVotes').subscribe(element => table[0].push(element));
         for(let i = 0; i < question.answers.length; i++) {
             table.push([question.answers[i],question.numberOfVotes[i].toString()]);
-            votes += question.numberOfVotes[i];
             if(question.type === 'rate') {
                 sum += parseInt(question.answers[i])*question.numberOfVotes[i];
             }
         }
-        if(question.type === 'rate') {
+        if(question.type === 'rate' && question.totalNumberOfVotes != 0) {
             table.push([]);
             this.translate.get('pollroom.pdf.average').subscribe(element => table[table.length-1].push(element));
-            table[table.length-1].push((sum/votes).toString());
+            table[table.length-1].push((sum/question.totalNumberOfVotes).toString());
         }
         table.push(["",""]);
         table.push([]);
         this.translate.get('pollroom.pdf.totalNumber').subscribe(element => table[table.length-1].push(element));
-        table[table.length-1].push(votes.toString());
+        table[table.length-1].push(question.totalNumberOfVotes.toString());
         return table;
     }
 
-    selectQuestionToPDF(question: Question) {
-        question.toPDF = !question.toPDF;
+    selectQuestionToDocument(question: Question) {
+        question.toArchive = !question.toArchive;
     }
 
     checkAll() {
         this.allToGenerate = !this.allToGenerate;
         this.questions.forEach(que => {
-            que.toPDF = this.allToGenerate;
+            que.toArchive = this.allToGenerate;
         });
     }
 }

@@ -1,11 +1,11 @@
 {
     "main-page": {
         "title": "Twórz ankiety w czasie rzeczywistym! ",
-        "description": "Koniec ze żmudnym drukowaniem kartek czy liczeniem rąk w górze. Nadszedł czas na Instant Polls. Instant Polls jest świetnym rozwiązaniem na zebraniu lub wykładzie. Korzystaj wszędzie tam gdzie łatwość i szybkość zbierania opinii jest bardzo ważna.",
+        "description": "Koniec ze żmudnym drukowaniem kartek czy liczeniem rąk w górze. Nadszedł czas na Instant Polls. Instant Polls jest świetnym rozwiązaniem na zebraniu lub wykładzie. Korzystaj wszędzie tam, gdzie łatwość i szybkość zbierania opinii jest bardzo ważna.",
         "create-butt": "Stwórz nowy pokój",
-        "create-desc": "Stwórz swój własny pokój z ankietą, udostęnij go za pomocą short linka lub QR kodu i na żywo obserwuj jak zmieniają się wyniki.",
+        "create-desc": "Stwórz swój własny pokój z ankietą, udostępnij go za pomocą short link'a lub QR kodu i na żywo obserwuj jak zmieniają się wyniki.",
         "join-butt": "Dołącz do pokoju",
-        "join-desc": "Dołącz za pomocą short linka do już stworzonego pokoju z ankietą."
+        "join-desc": "Dołącz za pomocą short link'a do już stworzonego pokoju z ankietą."
     },
 
     "navbar": {
@@ -16,7 +16,7 @@
     "join-room": {
         "title": "Dołącz do pokoju",
         "join-butt": "Dołącz",
-        "join-desc": "Podaj kod pokoju z końca shortlinka:",
+        "join-desc": "Podaj kod pokoju z końca short link'a:",
         "error": {
             "empty": "Pusty kod",
             "notFound": "Pokój nie istnieje"
@@ -51,19 +51,18 @@
         "no-button": "Cofnij",
         "ask": "Zadaj",
         "ask-message": "Czy na pewno chcesz zadać to pytanie?",
-        "delete-message": "Czy na pewno chcesz usnuąć to pytanie?",
+        "delete-message": "Czy na pewno chcesz usunąć to pytanie?",
         "delete": "Usuń",
         "deleteAns": "Usuń odpowiedź",
-        "ans-message": "Czy na pewno chcesz usnuąć tą odpowiedź?"
+        "ans-message": "Czy na pewno chcesz usunąć tą odpowiedź?"
     },
 
     "pollroom": {
         "admin": {
             "butt": "Admin",
             "create": "Utwórz pytanie",
-            "share": "Udostęnij",
+            "share": "Udostępnij",
             "close": "Zamknij pokój",
-            "generatePDF": "Utwórz PDF",
             "freeze": "Wstrzymaj możliwość odpowiadania",
             "enable": "Odblokuj możliwość odpowiadania",
             "hide": "Ukryj wyniki",
@@ -71,9 +70,11 @@
             "delete": "Usuń pytanie",
             "show": "Rozwiń",
             "hideTab": "Zwiń",
-            "chooseQuestions": "Wybierz pytania do generowanego PDF'a",
-            "checkAll": "Zazncza wszystkie",
-            "generate": "Wygeneruj PDF"
+            "chooseQuestions": "Wybierz pytania do generowanego dokumentu",
+            "checkAll": "Zaznacz wszystkie",
+            "generatePDF": "Generuj PDF",
+            "generateCSV": "Generuj CSV",
+            "archive": "Archiwizuj wyniki"
         },
         "noquestion": "Nie ma jeszcze żadnych pytań...",
         "questions": {
@@ -111,7 +112,13 @@
     "chart": {
         "button": "Zmień typ wykresu",
         "voters": "Liczba głosujących"
-    }
+    },
 
+    "404": {
+        "title": "Mayday, straciliśmy łączność!",
+        "code": "404 - STRONA NIE ZNALEZIONA",
+        "desc": "Strona której szukasz mogła zostać usunięta, jej nazwa mogła zostać zmieniona lub jest tymczasowo niedostępna.",
+        "butt": "WROĆ DO STRONY GŁÓWNEJ"
+    }
 
 }

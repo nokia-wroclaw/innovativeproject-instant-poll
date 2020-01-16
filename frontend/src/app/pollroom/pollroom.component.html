@@ -8,7 +8,7 @@
             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                 <a class="dropdown-item" *ngIf="!ifConnecting" (click)="questionPanel()"><i class="fas fa-list-ul"></i> {{'pollroom.admin.create' | translate}}</a>
                 <a class="dropdown-item" (click)="showQr()"><i class="fas fa-qrcode"></i> {{'pollroom.admin.share' | translate}}</a>
-                <a class="dropdown-item" *ngIf="!ifConnecting" (click)="generatePDF()"><i class="far fa-file-pdf"></i> {{'pollroom.admin.generatePDF' | translate}}</a>
+                <a class="dropdown-item" *ngIf="!ifConnecting" (click)="archive()"><i class="far fa-file-pdf"></i> {{'pollroom.admin.archive' | translate}}</a>
                 <a class="dropdown-item" *ngIf="!ifConnecting" (click)="closeRoom()"><i class="fas fa-times-circle"></i> {{'pollroom.admin.close' | translate}}</a>
                 <p class="dropdown-item" *ngIf="!ifConnecting"><i class="far fa-calendar-times"></i> {{room.expirationDate}}</p>
             </div>
@@ -51,16 +51,17 @@
         <h3>{{'pollroom.admin.chooseQuestions' | translate}}</h3>
     </div>
     <div class="card-body">
-        <button class="btn btn-info" (click)="checkAll()">{{'pollroom.admin.checkAll' | translate}}</button>
-        <div *ngFor="let que of questions; let i = index" class="form-check" (click)="selectQuestionToPDF(que)">
+        <button class="btn btn-secondary btn-sm" (click)="checkAll()">{{'pollroom.admin.checkAll' | translate}}</button>
+        <div *ngFor="let que of questions; let i = index" class="form-check" (click)="selectQuestionToDocument(que)">
             <form>
-                <label><input class="form-radio" type="radio" [checked]="que.toPDF" name="radiogroup" [value]="i">{{que.question}}</label>
+                <label><input class="form-radio" type="radio" [checked]="que.toArchive" name="radiogroup" [value]="i">{{que.question}}</label>
             </form>
         </div>
     </div>
     <div class="card-footer">
-        <button type="button" class="btn btn-success" (click)="openPDF()"><i class="fas fa-check-circle"></i> {{'pollroom.admin.generate' | translate}}</button>
-        <button type="button" class="btn btn-light float-right" (click)="generatePDF()"><i class="fas fa-times-circle" ></i></button>
+        <button type="button" class="btn btn-success" (click)="openPDF()"><i class="fas fa-check-circle"></i> {{'pollroom.admin.generatePDF' | translate}}</button>&nbsp;&nbsp;
+        <button type="button" class="btn btn-success" (click)="openCSV()"><i class="fas fa-check-circle"></i> {{'pollroom.admin.generateCSV' | translate}}</button>
+        <button type="button" class="btn btn-light float-right" (click)="archive()"><i class="fas fa-times-circle" ></i></button>
     </div>
 </div>
 
@@ -148,10 +149,10 @@
         <button *ngIf="admin && !element.active" type="button" class="btn btn-light float-right" title="{{'pollroom.admin.enable' | translate}}" (click)="freezeQuestion(element)"><i color ='green' class="far fa-pause-circle"></i></button>
         <button *ngIf="admin && element.hiddenResults" type="button" class="btn btn-light float-right" title="{{'pollroom.admin.expose' | translate}}" (click)="hideResults(element)"><i color ='green' class="fas fa-eye-slash"></i></button>
         <button *ngIf="admin && !element.hiddenResults" type="button" class="btn btn-light float-right" title="{{'pollroom.admin.hide' | translate}}" (click)="hideResults(element)"><i class="fas fa-eye-slash"></i></button>
-        <a type="button" class="btn btn-light float-right" (click)="hideQuestion(element)" href="{{'#chart-' + element.id}}" title="{{'pollroom.admin.show' | translate}}"><i id={{element.id}} class="fas fa-angle-down"></i></a>
+        <button type="button" class="btn btn-light float-right" (click)="hideQuestion(element)"><i id={{element.id}} class="fas fa-angle-down"></i></button>
     </div>
 
-    <div *ngIf="element.hidden && element.type != 'rate'" [@inOutAnimationDetails] class="card-body">
+    <div *ngIf="element.type != 'rate'" [hidden]="element.hidden || element.hidden == null" [@inOutAnimationDetails] class="card-body">
         <div *ngFor="let ans of element.answers; let i = index" class="form-check" (click)="selectAnswer(element,i)">
             <form>
                 <label><input class="form-radio" type="radio" [checked]="element.selected.includes(i)" name="radiogroup" [value]="i">{{ans}}</label>
@@ -164,7 +165,7 @@
         <app-chart id="{{'chart-' + element.id}}" *ngIf="!element.hiddenResults" [question]=element [chartTrigger]="chartTrigger"> </app-chart>
     </div>
 
-    <div *ngIf="element.hidden && element.type == 'rate'" [@inOutAnimationDetails] class="card-body">
+    <div *ngIf="element.type == 'rate'" [hidden]="element.hidden || element.hidden == null" [@inOutAnimationDetails] class="card-body">
         <p>{{'pollroom.yourAns' | translate}}: {{element.selected[0]}}</p>
         <input type="range" min="{{element.answers[0]}}" max="{{element.answers[element.answers.length-1]}}" [(ngModel)]="element.selected[0]" class="slider">
         <span *ngIf="element.hiddenResults" class="float-right">{{'pollroom.votes' | translate}}: {{element.numberOfVotes[0]}} <i class="far fa-user"></i></span>

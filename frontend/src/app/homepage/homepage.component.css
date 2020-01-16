@@ -1,4 +1,5 @@
-h2, h6 {
+h2,
+h6 {
     color: white;
 }
 
@@ -16,5 +17,5 @@ hr {
 }
 
 #info {
-    margin-top: 5%;
+    margin-top: 2%;
 }
