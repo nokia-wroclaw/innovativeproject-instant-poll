@@ -268,6 +268,7 @@ export class PollroomComponent implements OnInit, OnDestroy {
                 return question.id !== item.id;
             });
         } else {
+            question.hidden = true;
             question.active = true;
             question.hiddenResults = false;
             this.questions.push(question);
@@ -276,15 +277,22 @@ export class PollroomComponent implements OnInit, OnDestroy {
     }
 
     hideQuestion(question: Question) {
-        question.hidden = !question.hidden;
+        if(question.hidden == null || question.hidden)
+            question.hidden = false;
+        else
+            question.hidden = true;
+
         var element = document.getElementById(question.id + "");
 
-        if (question.hidden) {
+        if (!question.hidden) {
             element.classList.replace("fa-angle-down", "fa-angle-up");
         } else {
             element.classList.replace("fa-angle-up", "fa-angle-down");
         }
 
+        if(!question.hidden) {
+            document.getElementById('chart-'+question.id).scrollIntoView({behavior:"smooth"});
+        }
     }
 
     deleteQuestion(question: Question) {

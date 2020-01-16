@@ -6,7 +6,7 @@ export class Question {
     answers: Array<string>;
     numberOfVotes: Array<number>;
     selected: Array<number> = [];
-    hidden: boolean;
+    hidden = true;
     hiddenResults: boolean;
     active: boolean;
     toPDF: boolean;

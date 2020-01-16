@@ -61,7 +61,7 @@
         "admin": {
             "butt": "Admin",
             "create": "Utwórz pytanie",
-            "share": "Udostęnij",
+            "share": "Udostępnij",
             "close": "Zamknij pokój",
             "generatePDF": "Utwórz PDF",
             "freeze": "Wstrzymaj możliwość odpowiadania",
@@ -111,7 +111,13 @@
     "chart": {
         "button": "Zmień typ wykresu",
         "voters": "Liczba głosujących"
-    }
+    },
 
+    "404": {
+        "title": "Mayday, straciliśmy łączność",
+        "code": "404 - STRONA NIE ZNALEZIONA",
+        "desc": "Strona której szukasz mogła zostać usunięta, jej nazwa mogła zostać zmieniona lub jest tymczasowo niedostępna.",
+        "butt": "WROĆ DO STRONY GŁÓWNEJ"
+    }
 
 }

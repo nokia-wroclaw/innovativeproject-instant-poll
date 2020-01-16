@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { BackendConnectionService } from "../app/backend-connection.service";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,7 +27,8 @@ import { ChartComponent } from './chart/chart.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {HttpClient} from '@angular/common/http';
+import { ErrorPageComponent } from './error-page/error-page.component';
+
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import {HttpClient} from '@angular/common/http';
     JoinRoomComponent,
     ImageDialogComponent,
     ChartComponent,
+    ErrorPageComponent,
   ],
   imports: [
     NgbModule,
@@ -54,7 +56,9 @@ import {HttpClient} from '@angular/common/http';
       { path: '', component: HomepageComponent },
       { path: 'pollroom/:id', component: PollroomComponent },
       { path: 'rooms', component: RoomsComponent },
-      { path: 'join', component: JoinRoomComponent}
+      { path: 'join', component: JoinRoomComponent },
+      { path: '404', component: ErrorPageComponent },
+      { path: '**', component: ErrorPageComponent }
     ]),
     TranslateModule.forRoot({
       loader: {

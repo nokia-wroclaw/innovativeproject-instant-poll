@@ -112,5 +112,12 @@
     "chart": {
         "button": "Change type of chart",
         "voters": "Number of voters"
+    },
+
+    "404": {
+        "title": "Mayday, we're lost!",
+        "code": "404 - PAGE NOT FOUND",
+        "desc": "The page you are looking for might have been removed, had its name changed or is temporarly unavailable",
+        "butt": "GO TO HOMEPAGE"
     }
 }

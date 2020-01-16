@@ -1,0 +1,6 @@
+.lang {
+    display: flex;
+    justify-content: flex-end;
+    align-content: space-around;
+    padding-bottom: 1vh;
+}
