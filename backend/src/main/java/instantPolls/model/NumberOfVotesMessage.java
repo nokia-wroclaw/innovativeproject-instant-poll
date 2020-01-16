@@ -7,10 +7,12 @@ public class NumberOfVotesMessage {
 	
 	private int question_id;
 	private ArrayList<Integer> numberOfVotes;
+	private int totalVotes;
 	
-	public NumberOfVotesMessage(int question_id, ArrayList<Integer> numberOfVotes) {
+	public NumberOfVotesMessage(int question_id, ArrayList<Integer> numberOfVotes, int totalVotes) {
 		this.question_id = question_id;
 		this.numberOfVotes = numberOfVotes;
+		this.totalVotes = totalVotes;
 	}
 	
 	public int getQuestion_id() {
@@ -24,5 +26,13 @@ public class NumberOfVotesMessage {
 	}
 	public void setNumberOfVotes(ArrayList<Integer> numberOfVotes) {
 		this.numberOfVotes = numberOfVotes;
+	}
+
+	public int getTotalVotes() {
+		return totalVotes;
+	}
+
+	public void setTotalVotes(int totalVotes) {
+		this.totalVotes = totalVotes;
 	}
 }

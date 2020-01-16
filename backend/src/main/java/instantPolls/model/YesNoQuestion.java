@@ -49,6 +49,14 @@ public class YesNoQuestion implements Question {
 		return votes;
 	}
 	
+	@Override
+	public int getTotalVotes() {
+		int numberOfVoters = 0;
+		for(Answer a : listOfAnswers)
+			numberOfVoters += a.getUsersVoted().size();
+		return numberOfVoters;
+	}
+	
 	public ArrayList<String> getOptions() {
 		ArrayList<String> answers = new ArrayList<>();
 		for(Answer a: listOfAnswers) {
