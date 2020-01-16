@@ -154,7 +154,7 @@ export class ChartComponent implements OnInit, OnChanges {
   }
 
   private detectMobile() {
-    if (window.innerWidth <= 800 && window.innerHeight <= 600) {
+    if (window.innerWidth <= 1200) {
       return true;
     } else {
       return false;
