@@ -8,7 +8,7 @@
             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                 <a class="dropdown-item" *ngIf="!ifConnecting" (click)="questionPanel()"><i class="fas fa-list-ul"></i> {{'pollroom.admin.create' | translate}}</a>
                 <a class="dropdown-item" (click)="showQr()"><i class="fas fa-qrcode"></i> {{'pollroom.admin.share' | translate}}</a>
-                <a class="dropdown-item" *ngIf="!ifConnecting" (click)="generatePDF()"><i class="far fa-file-pdf"></i> {{'pollroom.admin.generatePDF' | translate}}</a>
+                <a class="dropdown-item" *ngIf="!ifConnecting" (click)="archive()"><i class="far fa-file-pdf"></i> {{'pollroom.admin.archive' | translate}}</a>
                 <a class="dropdown-item" *ngIf="!ifConnecting" (click)="closeRoom()"><i class="fas fa-times-circle"></i> {{'pollroom.admin.close' | translate}}</a>
                 <p class="dropdown-item" *ngIf="!ifConnecting"><i class="far fa-calendar-times"></i> {{room.expirationDate}}</p>
             </div>
@@ -52,15 +52,16 @@
     </div>
     <div class="card-body">
         <button class="btn btn-info" (click)="checkAll()">{{'pollroom.admin.checkAll' | translate}}</button>
-        <div *ngFor="let que of questions; let i = index" class="form-check" (click)="selectQuestionToPDF(que)">
+        <div *ngFor="let que of questions; let i = index" class="form-check" (click)="selectQuestionToDocument(que)">
             <form>
-                <label><input class="form-radio" type="radio" [checked]="que.toPDF" name="radiogroup" [value]="i">{{que.question}}</label>
+                <label><input class="form-radio" type="radio" [checked]="que.toArchive" name="radiogroup" [value]="i">{{que.question}}</label>
             </form>
         </div>
     </div>
     <div class="card-footer">
-        <button type="button" class="btn btn-success" (click)="openPDF()"><i class="fas fa-check-circle"></i> {{'pollroom.admin.generate' | translate}}</button>
-        <button type="button" class="btn btn-light float-right" (click)="generatePDF()"><i class="fas fa-times-circle" ></i></button>
+        <button type="button" class="btn btn-success" (click)="openPDF()"><i class="fas fa-check-circle"></i> {{'pollroom.admin.generatePDF' | translate}}</button>&nbsp;&nbsp;
+        <button type="button" class="btn btn-success" (click)="openCSV()"><i class="fas fa-check-circle"></i> {{'pollroom.admin.generateCSV' | translate}}</button>
+        <button type="button" class="btn btn-light float-right" (click)="archive()"><i class="fas fa-times-circle" ></i></button>
     </div>
 </div>
 

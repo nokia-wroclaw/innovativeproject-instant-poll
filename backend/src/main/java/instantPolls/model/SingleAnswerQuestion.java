@@ -87,6 +87,14 @@ public class SingleAnswerQuestion implements Question {
 		
 		return votes;
 	}
+	
+	@Override
+	public int getTotalVotes() {
+		int numberOfVoters = 0;
+		for(Answer a : listOfAnswers)
+			numberOfVoters += a.getUsersVoted().size();
+		return numberOfVoters;
+	}
 
 	@Override
 	public String getType() {

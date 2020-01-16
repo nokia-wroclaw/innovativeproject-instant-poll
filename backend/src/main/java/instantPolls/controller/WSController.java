@@ -109,6 +109,7 @@ public class WSController {
 					.type(question.getType())
 					.question(question.getQuestion())
 					.answers(question.getOptions())
+					.totalNumberOfVotes(0)
 					.numberOfVotes(question.getNumberOfVotes())
 					.selected(new ArrayList<Integer>())
 					.build();
@@ -123,6 +124,7 @@ public class WSController {
 					.type(question.getType())
 					.question(question.getQuestion())
 					.answers(question.getOptions())
+					.totalNumberOfVotes(0)
 					.numberOfVotes(question.getNumberOfVotes())
 					.selected(new ArrayList<Integer>())
 					.build();
@@ -137,6 +139,7 @@ public class WSController {
 					.type(question.getType())
 					.question(question.getQuestion())
 					.answers(question.getOptions())
+					.totalNumberOfVotes(0)
 					.numberOfVotes(question.getNumberOfVotes())
 					.selected(new ArrayList<Integer>())
 					.build();
@@ -152,6 +155,7 @@ public class WSController {
 					.type(que.getType())
 					.question(que.getQuestion())
 					.answers(que.getOptions())
+					.totalNumberOfVotes(0)
 					.numberOfVotes(que.getNumberOfVotes())
 					.selected(selected)
 					.build();
@@ -172,7 +176,7 @@ public class WSController {
 		if(question.isActive())
 			question.addAnswer(message.getAnswer(), message.getQuestion_id(), message.getUser_id());
 		
-		return new NumberOfVotesMessage(question.getId(),question.getNumberOfVotes());
+		return new NumberOfVotesMessage(question.getId(),question.getNumberOfVotes(),question.getTotalVotes());
 	}
 	
 	@MessageMapping("/poll/{roomId}/{token}/deleteQuestion")

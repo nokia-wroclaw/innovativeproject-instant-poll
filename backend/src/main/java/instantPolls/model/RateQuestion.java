@@ -2,7 +2,9 @@ package instantPolls.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class RateQuestion implements Question{
 	private int id;
@@ -50,6 +52,14 @@ public class RateQuestion implements Question{
 				votes.add(a.getUsersVoted().size());
 		
 		return votes;
+	}
+	
+	@Override
+	public int getTotalVotes() {
+		int numberOfVoters = 0;
+		for(Answer a : listOfAnswers)
+			numberOfVoters += a.getUsersVoted().size();
+		return numberOfVoters;
 	}
 	
 	public ArrayList<String> getOptions() {

@@ -7,6 +7,7 @@ public class QuestionMessage {
 	private String type;
 	private String question;
 	private String action; // question add or remove
+	private int totalNumberOfVotes;
 	private ArrayList<String> answers;
 	private ArrayList<Integer> numberOfVotes;
 	private ArrayList<Integer> selected;
@@ -18,6 +19,7 @@ public class QuestionMessage {
 		private String type;
 		private String question;
 		private String action; // question add or remove
+		private int totalNumberOfVotes;
 		private ArrayList<String> answers;
 		private ArrayList<Integer> numberOfVotes;
 		private ArrayList<Integer> selected;
@@ -56,6 +58,11 @@ public class QuestionMessage {
 			this.selected = selected;
 			return this;
 		}
+
+		public Builder totalNumberOfVotes(int totalNumberOfVotes) {
+			this.totalNumberOfVotes = totalNumberOfVotes;
+			return this;
+		}
 		
 		public QuestionMessage build() {
 			QuestionMessage questionMessage = new QuestionMessage();
@@ -66,6 +73,7 @@ public class QuestionMessage {
 			questionMessage.answers = this.answers;
 			questionMessage.numberOfVotes = this.numberOfVotes;
 			questionMessage.selected = this.selected;
+			questionMessage.totalNumberOfVotes =this.totalNumberOfVotes;
 		
 			return questionMessage;
 		}
@@ -157,6 +165,14 @@ public class QuestionMessage {
 
 	public void setHiddenResults(boolean hiddenResults) {
 		this.hiddenResults = hiddenResults;
+	}
+
+	public int getTotalNumberOfVotes() {
+		return totalNumberOfVotes;
+	}
+
+	public void setTotalNumberOfVotes(int totalNumberOfVotes) {
+		this.totalNumberOfVotes = totalNumberOfVotes;
 	}
 	
 }
