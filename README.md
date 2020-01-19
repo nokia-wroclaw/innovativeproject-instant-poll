@@ -4,7 +4,7 @@
 
 Originally developed by [Jan Kulbiński](https://github.com/JanKulbinski), [Adam Malinowski](https://github.com/unaceeds), [Piotr Szalski](https://github.com/PiotrSzalski) and [Jakub Wujec](https://github.com/JakubWujec) within Nokia Innovative Project.
 
-![Main page](doc/screen1.jpg)
+![Main page](doc/screen1.PNG)
 
 ## Table of contents
 
@@ -32,7 +32,7 @@ All the use cases according to the UML diagram and the application itself are sh
 
 ### Main page
 
-![Main page](doc/screen3.jpg)
+![Main page](doc/screen3.PNG)
 
 The main page provides the following options for both of the user groups:
 * creating a poll room (with giving it a name and expiration date)
@@ -42,7 +42,7 @@ The main page provides the following options for both of the user groups:
 
 ### Room page
 
-![Room page](doc/screen2.jpg)
+![Room page](doc/screen2.PNG)
 
 However moving on to the actual room page makes the differences more visible between the user groups.
 * for non-host user (the standard one)
