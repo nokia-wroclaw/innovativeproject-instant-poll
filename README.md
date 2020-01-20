@@ -81,5 +81,5 @@ npm install
 ng build
 cd ../backend
 mvn build
-java -jar
+java -jar target/InstantPoll-0.0.1-SNAPSHOT.jar
 ```
