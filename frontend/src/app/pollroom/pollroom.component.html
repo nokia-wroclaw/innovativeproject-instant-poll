@@ -159,7 +159,7 @@
             </form>
         </div>
         <br>
-        <span *ngIf="element.hiddenResults" class="float-right">{{'pollroom.votes' | translate}}: {{element.numberOfVotes[0]}} <i class="far fa-user"></i></span>
+        <span *ngIf="element.hiddenResults" class="float-right">{{'pollroom.votes' | translate}}: {{element.totalNumberOfVotes}} <i class="far fa-user"></i></span>
         <button *ngIf="element.active" (click)="sendAnswer(element)" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> {{'pollroom.ans-butt' | translate}}</button>
         <button *ngIf="!element.active" disabled="true" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> {{'pollroom.errors.inactive' | translate}}</button>
         <app-chart id="{{'chart-' + element.id}}" *ngIf="!element.hiddenResults" [question]=element [chartTrigger]="chartTrigger"> </app-chart>
@@ -168,7 +168,7 @@
     <div *ngIf="element.type == 'rate'" [hidden]="element.hidden || element.hidden == null" [@inOutAnimationDetails] class="card-body">
         <p>{{'pollroom.yourAns' | translate}}: {{element.selected[0]}}</p>
         <input type="range" min="{{element.answers[0]}}" max="{{element.answers[element.answers.length-1]}}" [(ngModel)]="element.selected[0]" class="slider">
-        <span *ngIf="element.hiddenResults" class="float-right">{{'pollroom.votes' | translate}}: {{element.numberOfVotes[0]}} <i class="far fa-user"></i></span>
+        <span *ngIf="element.hiddenResults" class="float-right">{{'pollroom.votes' | translate}}: {{element.totalNumberOfVotes}} <i class="far fa-user"></i></span>
         <button *ngIf="element.active" (click)="sendAnswer(element)" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> {{'pollroom.ans-butt' | translate}}</button>
         <button *ngIf="!element.active" disabled="true" type="button" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> {{'pollroom.errors.inactive' | translate}}</button>
         <app-chart id="{{'chart-' + element.id}}" *ngIf="!element.hiddenResults" [question]=element [chartTrigger]="chartTrigger"> </app-chart>
