@@ -1,6 +1,10 @@
 # Instant Polls (innovativeproject-instant-poll)[![Build Status](https://travis-ci.com/nokia-wroclaw/innovativeproject-instant-poll.png?branch=master)](https://travis-ci.com/nokia-wroclaw/innovativeproject-instant-poll)
 
+
 >Solution to gather ad-hoc feedback to any question from live audience.
+
+
+Web app is served here: [http://instantpoll.live](http://instantpoll.live) and here [https://instant-polls.herokuapp.com/](https://instant-polls.herokuapp.com). First server works better and is recommend 
 
 Originally developed by [Jan Kulbiński](https://github.com/JanKulbinski), [Adam Malinowski](https://github.com/unaceeds), [Piotr Szalski](https://github.com/PiotrSzalski) and [Jakub Wujec](https://github.com/JakubWujec) within Nokia Innovative Project.
 
