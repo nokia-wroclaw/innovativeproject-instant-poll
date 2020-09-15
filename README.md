@@ -68,9 +68,7 @@ However moving on to the actual room page makes the differences more visible bet
 
 ### Deployment
 
-In our case the application is fully deployed on cloud application platform called Heroku. Although its performance possibilities are quite limited, that way the Instant Poll App has been made available for users all over the world without the need for hosting it on some kind of private server.
-
-[Instant Live Polls](http://instant-polls.herokuapp.com)
+[Instant Live Polls](https://instantpoll.live/)
 
 The continuous integration between consecutive commits is provided by the Travis CI. It makes the development management more pleasant and easy to have control of.
 
